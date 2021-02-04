@@ -3,7 +3,7 @@
 ## Getting Started
 
 ```bash
-git clone ____
+git clone git@github.com:onflow/fcl-dev-wallet.git
 cd fcl-dev-wallet
 cp .env.example .env.local
 
