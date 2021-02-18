@@ -1,8 +1,12 @@
+import "../../flow/config"
+
 export default (req, res) => {
   res.status(200).json([
-    {type: "ACCOUNT", address: "0x01"},
-    {type: "ACCOUNT", address: "0x02"},
-    {type: "ACCOUNT", address: "0x03"},
-    {type: "ACCOUNT", address: "0x04"},
+    {
+      type: "ACCOUNT",
+      address: process.env.FLOW_ACCOUNT_ADDRESS,
+      keyId: process.env.FLOW_ACCOUNT_KEY_ID,
+      label: "Service Account",
+    },
   ])
 }
