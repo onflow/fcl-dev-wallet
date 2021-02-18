@@ -1,0 +1,36 @@
+.bad {
+  background: tomato;
+  padding: 13px;
+  border-radius: 3px;
+}
+
+.root {
+  background: var(--bg);
+  color: var(--fg);
+  position: fixed;
+  top: 13px;
+  right: 13px;
+  left: 13px;
+  bottom: 13px;
+  padding: 13px;
+  border-radius: 3px;
+}
+
+.root hr {
+  border: none;
+  height: 3px;
+  border-radius: 3px;
+  background: currentColor;
+}
+
+.root button {
+  border: 3px solid currentColor;
+  color: currentColor;
+  background: transparent;
+  font-size: 13px;
+  line-height: 34px;
+  padding: 0 21px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}

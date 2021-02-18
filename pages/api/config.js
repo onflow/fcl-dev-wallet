@@ -1,3 +1,5 @@
+import "../../flow/config"
+
 export default (req, res) => {
   res.status(200).json({
     address: process.env.FLOW_ACCOUNT_ADDRESS,

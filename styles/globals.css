@@ -1,3 +1,8 @@
+:root {
+  --fg: white;
+  --bg: #6600ff;
+}
+
 html,
 body {
   padding: 0;
