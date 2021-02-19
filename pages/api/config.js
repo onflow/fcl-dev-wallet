@@ -1,4 +1,4 @@
-import "../../flow/config"
+import "../../src/config"
 
 export default (req, res) => {
   res.status(200).json({
