@@ -1,4 +1,4 @@
-import swr from "swr"
+import swr, {mutate} from "swr"
 import css from "../../styles/base.module.css"
 
 const reply = (type, msg = {}) => e => {
@@ -19,7 +19,15 @@ function safe(dx) {
   return Array.isArray(dx) ? dx : []
 }
 
-function createAccount() {}
+async function createAccount() {
+  await fetch("/api/account/new", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  mutate("/api/accounts")
+}
 
 function Account(props) {
   const {address, keyId} = props
@@ -68,8 +76,19 @@ function Account(props) {
   )
 }
 
+const initAccounts = async () => {
+  await fetch("/api/init", {
+    method: "POST",
+  })
+  mutate("/api/accounts")
+  mutate("/api/is-init")
+}
+
 export default function Authn() {
-  const {data: accounts, error: aError} = swr(`/api/accounts`)
+  const isInit = swr("/api/is-init")
+  const accounts = swr("/api/accounts")
+
+  if (isInit.data == null) return <div className={css.root}>...</div>
 
   return (
     <div className={css.root}>
@@ -78,10 +97,16 @@ export default function Authn() {
         Close Authn Frame
       </button>
       <hr />
-      <Err error={aError} />
-      <h3>Use Accounts</h3>
-      <ul>{safe(accounts).map(Account)}</ul>
-      <button onClick={createAccount}>Create New Account</button>
+      <Err error={accounts.error} />
+      <h3>Use Account</h3>
+      <ul>{safe(accounts?.data).map(Account)}</ul>
+      {isInit.data ? (
+        <button onClick={createAccount}>Create New Account</button>
+      ) : (
+        <button onClick={initAccounts}>
+          Initialize Dev Wallet for more Accounts
+        </button>
+      )}
     </div>
   )
 }
