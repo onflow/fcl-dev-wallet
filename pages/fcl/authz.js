@@ -2,6 +2,7 @@ import {useEffect, useState} from "react"
 import * as fcl from "@onflow/fcl"
 import swr from "swr"
 import css from "../../styles/base.module.css"
+import {Header} from "../../src/comps/header.comp.js"
 
 const reply = (type, msg = {}) => e => {
   window.parent.postMessage({...msg, type}, "*")
@@ -69,35 +70,50 @@ export default function Authz() {
 
   return (
     <div className={css.root}>
-      <h3>FCL Dev Wallet</h3>
-      <button onClick={reply("FCL:FRAME:CLOSE")}>Close Authz Frame</button>
-      <hr />
-      <h4>Actions</h4>
-      <div>
-        <button onClick={reply("FCL:FRAME:CLOSE")}>Decline</button>
-        <span> </span>
-        <button onClick={sign}>Approve</button>
-      </div>
-      <h4>
-        {fcl.withPrefix(signable?.addr)} | {signable?.keyId}
-      </h4>
-      <ul>
-        {Object.keys(signable?.roles ?? {}).map(key => {
-          return (
-            <li key={key}>
-              {key}: {bool(signable?.roles?.[key])}
-            </li>
-          )
-        })}
-      </ul>
-      <h4>Cadence</h4>
-      <pre>{signable?.cadence}</pre>
-      <h4>Args</h4>
-      <pre>{JSON.stringify(signable?.args, null, 2)}</pre>
-      <h4>Message</h4>
-      <pre>{signable?.message}</pre>
-      <h4>Raw</h4>
-      <pre>{JSON.stringify({signable, params}, null, 2)}</pre>
+      <Header
+        onClose={reply("FCL:FRAME:CLOSE")}
+        subHeader="Authorize Transaction"
+      />
+      <table>
+        <thead>
+          <tr>
+            <th>Address</th>
+            <th>Key Id</th>
+            <th>Proposer</th>
+            <th>Payer</th>
+            <th>Authorizer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className={css.bold}>{fcl.withPrefix(signable?.addr)}</td>
+            <td>{signable?.keyId}</td>
+            <td>{bool(signable?.roles?.proposer)}</td>
+            <td>{bool(signable?.roles?.payer)}</td>
+            <td>{bool(signable?.roles?.authorizer)}</td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <pre>{JSON.stringify(signable?.args, null, 2)}</pre>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <pre>{signable?.cadence}</pre>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">
+              <button onClick={reply("FCL:FRAME:CLOSE")}>Decline</button>
+            </td>
+            <td colspan="3">
+              <button onClick={sign}>Approve</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
   )
 }
