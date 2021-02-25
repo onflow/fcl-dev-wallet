@@ -107,7 +107,7 @@ export default function Authn() {
         <tbody>{safe(accounts?.data).map(AccountRow)}</tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colSpan="4">
               {isInit.data ? (
                 <button onClick={createAccount}>Create New Account</button>
               ) : (

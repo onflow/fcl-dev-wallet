@@ -93,22 +93,22 @@ export default function Authz() {
             <td>{bool(signable?.roles?.authorizer)}</td>
           </tr>
           <tr>
-            <td colspan="5">
+            <td colSpan="5">
               <pre>{JSON.stringify(signable?.args, null, 2)}</pre>
             </td>
           </tr>
           <tr>
-            <td colspan="5">
+            <td colSpan="5">
               <pre>{signable?.cadence}</pre>
             </td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="2">
+            <td colSpan="2">
               <button onClick={reply("FCL:FRAME:CLOSE")}>Decline</button>
             </td>
-            <td colspan="3">
+            <td colSpan="3">
               <button onClick={sign}>Approve</button>
             </td>
           </tr>
