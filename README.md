@@ -4,10 +4,10 @@
 
 ```
 The FCL Dev Wallet is currently in active development and
-it's current state should be considered as a priview.
+it's current state should be considered as a preview.
 
 If you encounter any problems please make sure you are
-using an up to date copy and if the issue persists please
+using an up-to-date copy and if the issue persists please
 let us know by creating an issue.
 
 This project, while it does implement an FCL compatible
