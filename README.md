@@ -15,7 +15,7 @@ interface, it should not be used as a reference for
 building a production grade wallet, especially the way it
 handles account creation and private keys.
 
-This project should only be used in aide of local
+This project should only be used in aid of local
 development against a locally run instance of the Flow
 Blockchain like the emulator, and should never be used in
 conjunction with Flow Mainnet, Testnet, Canarynet or any
