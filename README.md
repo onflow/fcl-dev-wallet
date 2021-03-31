@@ -37,3 +37,19 @@ npm run dev
 ```
 
 > **NOTE:** you can change the port the dev wallet runs on with `npm run dev -- -p 9999`
+
+## Configuring Your Application
+
+The FCL Dev Wallet was designed to be used with FCL with a version of `0.0.68` or higher.
+Currently `fcl@0.0.68` is in alpha an can be installed with: `npm install @onflow/fcl@alpha` or `yarn add @onflow/fcl@alpha`.
+
+```javascript
+import * as fcl from "@onflow/fcl"
+
+// prettier-ignore
+fcl.config()
+  // Point App at Emulator
+  .put("accessNode.api", "http://localhost:8080")
+  // Point FCL Wallet Discovuer at Dev Wallet
+  .put("discovery.wallet", "http://localhost:3000/fcl/authn") // with default port configuration
+```
