@@ -61,7 +61,7 @@ function chooseAccount(props, scopes) {
         f_vsn: "1.0.0",
         type: "authn",
         uid: "fcl-dev-wallet#authn",
-        endpoint: "http://localhost:3000/fcl/authn",
+        endpoint: `${location.origin}/fcl/authn`,
         id: address,
         identity: {
           address: address,
@@ -78,7 +78,7 @@ function chooseAccount(props, scopes) {
         f_vsn: "1.0.0",
         type: "authz",
         uid: "fcl-dev-wallet#authz",
-        endpoint: "http://localhost:3000/fcl/authz",
+        endpoint: `${location.origin}/fcl/authz`,
         method: "IFRAME/RPC",
         identity: {
           address: address,
