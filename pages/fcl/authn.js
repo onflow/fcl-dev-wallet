@@ -36,6 +36,15 @@ const intersection = (a, b) => new Set([...a].filter(x => b.has(x)))
 const entries = (arr = []) => Object.fromEntries(arr.filter(Boolean))
 const entry = (scopes, key, value) => scopes.has(key) && [key, value]
 
+function authnResponse(data) {
+  return e => {
+    console.log("AuthnResponse", data)
+    reply("FCL:FRAME:RESPONSE", data)(e)
+    /* backwards compatibility with fcl@0.0.67 */
+    reply("FCL::CHALLENGE::RESPONSE", data)(e)
+  }
+}
+
 function chooseAccount(props, scopes) {
   const {address, keyId} = props
   scopes = Object.entries(scopes).reduce((acc, [scope, include]) => {
@@ -43,7 +52,8 @@ function chooseAccount(props, scopes) {
     return acc
   }, new Set([]))
 
-  return reply("FCL:FRAME:RESPONSE", {
+  // return reply("FCL:FRAME:RESPONSE", {
+  return authnResponse({
     addr: address,
     services: [
       {
@@ -201,8 +211,9 @@ export default function Authn() {
     }
   }, [])
 
-  if (isInit.data == null) return <div className={css.root}>...</div>
-  if (config == null) return <div className={css.root}>...</div>
+  if (isInit.data == null)
+    return <div className={css.root}>... Null Data ...</div>
+  // if (config == null) return <div className={css.root}>... Null Config ...</div>
 
   const scopes = config?.services?.["OpenID.scopes"]?.trim()?.split(/\s+/) ?? []
 
