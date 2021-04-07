@@ -17,7 +17,7 @@ handles account creation and private keys.
 
 This project should only be used in aid of local
 development against a locally run instance of the Flow
-Blockchain like the emulator, and should never be used in
+blockchain like the emulator, and should never be used in
 conjunction with Flow Mainnet, Testnet, Canarynet or any
 other instances of Flow you are not in complete control
 of and have isolated from the rest of the internet.
@@ -53,3 +53,53 @@ fcl.config()
   // Point FCL Wallet Discovuer at Dev Wallet
   .put("discovery.wallet", "http://localhost:3000/fcl/authn") // with default port configuration
 ```
+
+## Development
+
+### Emulator
+
+The Flow Emulator simulates the real Flow network
+for development purposes. 
+
+Start the emulator by running the following command in this directory:
+
+```sh
+flow emulator start
+```
+
+Keep the emulator running; you'll need it!
+
+### Harness
+
+It's easy to use this FCL harness app as a barebones 
+app to interact with the dev wallet during development: 
+https://github.com/orodio/harness
+
+```sh
+git clone https://github.com/orodio/harness.git
+
+cd hardness
+npm install
+PORT=3001 npm run start
+```
+
+Keep the harness running, too!
+
+### Dev wallet
+
+Once the harness is running, 
+clone this repository and start the dev wallet:
+
+```sh
+git clone https://github.com/onflow/fcl-dev-wallet.git
+
+cd fcl-dev-wallet
+cp .env.example .env.local
+
+npm install
+npm run dev
+```
+
+### Use the wallet from the harness
+
+You can now visit http://localhost:3001 to try out the dev wallet.
