@@ -89,4 +89,4 @@ npm run dev
 
 ### Use the wallet from the harness
 
-You can now visit http://localhost:3001 to try out the dev wallet!
+You can now visit http://localhost:3001 to try out the dev wallet.
