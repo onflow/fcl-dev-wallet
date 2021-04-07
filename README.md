@@ -56,6 +56,19 @@ fcl.config()
 
 ## Development
 
+### Emulator
+
+The Flow Emulator simulates the real Flow network
+for development purposes. 
+
+Start the emulator by running the following command in this directory:
+
+```sh
+flow emulator start
+```
+
+Keep the emulator running; you'll need it!
+
 ### Harness
 
 It's easy to use this FCL harness app as a barebones 
@@ -70,7 +83,7 @@ npm install
 PORT=3001 npm run start
 ```
 
-Keep the harness running!
+Keep the harness running, too!
 
 ### Dev wallet
 
