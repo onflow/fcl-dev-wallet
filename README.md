@@ -56,6 +56,10 @@ fcl.config()
 
 ## Development
 
+```sh
+git clone https://github.com/onflow/fcl-dev-wallet.git
+```
+
 ### Emulator
 
 The Flow Emulator simulates the real Flow network
@@ -68,6 +72,22 @@ flow emulator start
 ```
 
 Keep the emulator running; you'll need it!
+
+
+### Dev wallet
+
+Once the harness is running, 
+clone this repository and start the dev wallet:
+
+```sh
+cd fcl-dev-wallet
+cp .env.example .env.local
+
+npm install
+npm run dev
+```
+
+Keep the wallet running, too!
 
 ### Harness
 
@@ -82,24 +102,5 @@ cd hardness
 npm install
 PORT=3001 npm run start
 ```
-
-Keep the harness running, too!
-
-### Dev wallet
-
-Once the harness is running, 
-clone this repository and start the dev wallet:
-
-```sh
-git clone https://github.com/onflow/fcl-dev-wallet.git
-
-cd fcl-dev-wallet
-cp .env.example .env.local
-
-npm install
-npm run dev
-```
-
-### Use the wallet from the harness
 
 You can now visit http://localhost:3001 to try out the dev wallet.
