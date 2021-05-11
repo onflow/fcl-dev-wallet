@@ -26,7 +26,7 @@ of and have isolated from the rest of the internet.
 ## Getting Started
 
 ```bash
-git clone git@github.com:onflow/fcl-dev-wallet.git
+git clone https://github.com/onflow/fcl-dev-wallet.git
 cd fcl-dev-wallet
 cp .env.example .env.local
 
@@ -52,12 +52,6 @@ fcl.config()
   .put("accessNode.api", "http://localhost:8080")
   // Point FCL Wallet Discovuer at Dev Wallet
   .put("discovery.wallet", "http://localhost:3000/fcl/authn") // with default port configuration
-```
-
-## Development
-
-```sh
-git clone https://github.com/onflow/fcl-dev-wallet.git
 ```
 
 ### Emulator
