@@ -13,7 +13,7 @@ export async function authz(account) {
     // there is stuff in the account that is passed in
     // you need to make sure its part of what is returned
     ...account,
-    // the tempId here in a very special and specific case.
+    // the tempId here is a very special and specific case.
     // what you are usually looking for in a tempId value is a unique string for the address and keyId as a pair
     // if you have no idea what this is doing, or what it does, or are getting an error in your own
     // implementation of an authorization function it is recommended that you use a string with the address and keyId in it.
