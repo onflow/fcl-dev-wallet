@@ -10,7 +10,7 @@ export async function authz(account) {
     // implementation of an authorization function it is recommended that you use a string with the address and keyId in it.
     // something like... tempId: `${address}-${keyId}`
     tempId: "SERVICE_ACCOUNT",
-    addr: fcl.sansPrefix(process.env.FLOW_ACCOUNT_ADDRESS),
+    addr: fcl.sansPrefix(process.env.FLOW_ACCOUNT_ADDRESS), // eventually it wont matter if this address has a prefix or not, sadly :'( currently it does matter.
     keyId: Number(process.env.FLOW_ACCOUNT_KEY_ID),
     signingFunction: data => ({
       addr: fcl.withPrefix(process.env.FLOW_ACCOUNT_ADDRESS),
