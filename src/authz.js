@@ -4,7 +4,12 @@ import * as fcl from "@onflow/fcl"
 export async function authz(account) {
   return {
     ...account,
-    tempId: "SERVICE_ACCOUNT", // this is a special case, when in doubt you probably want something like tempId: `${address}-${keyId}`
+    // the tempId here in a very special and specific case.
+    // what you are usually looking for in a tempId value is a unique string for the address and keyId as a pair
+    // if you have no idea what this is doing, or what it does, or are getting an error in your own
+    // implementation of an authorization function it is recommended that you use a string with the address and keyId in it.
+    // something like... tempId: `${address}-${keyId}`
+    tempId: "SERVICE_ACCOUNT",
     addr: fcl.sansPrefix(process.env.FLOW_ACCOUNT_ADDRESS),
     keyId: Number(process.env.FLOW_ACCOUNT_KEY_ID),
     signingFunction: data => ({
