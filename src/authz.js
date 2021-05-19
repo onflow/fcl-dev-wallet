@@ -11,11 +11,13 @@ export async function authz(account) {
     // something like... tempId: `${address}-${keyId}`
     tempId: "SERVICE_ACCOUNT",
     addr: fcl.sansPrefix(process.env.FLOW_ACCOUNT_ADDRESS), // eventually it wont matter if this address has a prefix or not, sadly :'( currently it does matter.
-    keyId: Number(process.env.FLOW_ACCOUNT_KEY_ID),
-    signingFunction: data => ({
-      addr: fcl.withPrefix(process.env.FLOW_ACCOUNT_ADDRESS),
-      keyId: Number(process.env.FLOW_ACCOUNT_KEY_ID),
-      signature: sign(process.env.FLOW_ACCOUNT_PRIVATE_KEY, data.message),
+    keyId: Number(process.env.FLOW_ACCOUNT_KEY_ID), // must be a number
+    signingFunction: signable => ({
+      addr: fcl.withPrefix(process.env.FLOW_ACCOUNT_ADDRESS), // must match the address that requested the signature
+      keyId: Number(process.env.FLOW_ACCOUNT_KEY_ID), // must match the keyId in the account that requested the signature
+      signature: sign(process.env.FLOW_ACCOUNT_PRIVATE_KEY, signable.message), // signable.message |> hexToBinArray |> hash |> sign |> binArrayToHex
+      // if you arent in control of the transaction that is being signed we recommend constructing the 
+      // message from signable.voucher using the @onflow/encode module
     }),
   }
 }
