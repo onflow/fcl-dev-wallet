@@ -1,8 +1,17 @@
 import {sign} from "./crypto"
 import * as fcl from "@onflow/fcl"
 
+// alias Hex = String
+// type signable = { message: Hex, voucher: voucher }
+// type compositeSignature = { addr: String, keyId: Number, signature: Hex }
+// signingFunction :: signable -> compositeSignature
+// type account = { tempId: String, addr: String, keyId: Number, signingFunction: signingFunction }
+// authz :: account -> account
+
 export async function authz(account) {
   return {
+    // there is stuff in the account that is passed in
+    // you need to make sure its part of what is returned
     ...account,
     // the tempId here in a very special and specific case.
     // what you are usually looking for in a tempId value is a unique string for the address and keyId as a pair
