@@ -10,10 +10,6 @@ const reply =
     window.parent.postMessage({ ...msg, type }, '*')
   }
 
-const bool = d => {
-  return d ? 'Yes' : 'No'
-}
-
 export default function UserSign() {
   const [signable, setSignable] = useState(null)
   const [params, setParams] = useState(null)
@@ -25,7 +21,6 @@ export default function UserSign() {
       if (data.jsonrpc != '2.0') return
       if (data.method != 'fcl:sign') return
       const [signable, params] = data.params
-      delete signable.interaction
       setId(data.id)
       setSignable(signable)
       setParams(params)
@@ -46,29 +41,34 @@ export default function UserSign() {
     })
       .then(d => d.json())
       .then(({ addr, keyId, signature }) => {
-        window.parent.postMessage(
-          {
-            jsonrpc: '2.0',
-            id: id,
-            result: {
-              f_type: 'PollingResponse',
-              f_vsn: '1.0.0',
-              status: 'APPROVED',
-              reason: null,
-              data: {
-                f_type: 'CompositeSignature',
-                f_vsn: '1.0.0',
-                addr: fcl.withPrefix(addr),
-                keyId: Number(keyId),
-                signature: signature,
-              },
-            },
+        reply('FCL:FRAME:RESPONSE', {
+          f_type: 'PollingResponse',
+          f_vsn: '1.0.0',
+          status: 'APPROVED',
+          reason: null,
+          data: {
+            f_type: 'CompositeSignature',
+            f_vsn: '1.0.0',
+            addr: fcl.withPrefix(addr),
+            keyId: Number(keyId),
+            signature: signature,
           },
-          '*'
-        )
-        return signature
+        })()
       })
       .catch(d => console.error('FCL-DEV-WALLET FAILED TO SIGN', d))
+  }
+
+  const declineSign = () => {
+    reply('FCL:FRAME:RESPONSE', {
+      f_type: 'PollingResponse',
+      f_vsn: '1.0.0',
+      status: 'DECLINED',
+      reason: null,
+    })()
+  }
+
+  const decoded = () => {
+    return signable?.message && new Buffer(signable?.message, 'hex').toString()
   }
 
   return (
@@ -90,13 +90,13 @@ export default function UserSign() {
           <tr>
             <td className={css.bold}>{fcl.withPrefix(signable?.data.addr)}</td>
             <td>{signable?.data.keyId}</td>
-            <td>{signable?.message}</td>
+            <td>{decoded()}</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <td colSpan='1'>
-              <button onClick={reply('FCL:FRAME:CLOSE')}>Decline</button>
+              <button onClick={declineSign}>Decline</button>
             </td>
             <td colSpan='1'></td>
             <td colSpan='1'>
