@@ -67,9 +67,6 @@ export default function UserSign() {
     })()
   }
 
-  const decoded = () => {
-    return signable?.message && new Buffer(signable?.message, 'hex').toString()
-  }
 
   return (
     <div className={css.root}>
@@ -90,7 +87,7 @@ export default function UserSign() {
           <tr>
             <td className={css.bold}>{fcl.withPrefix(signable?.data.addr)}</td>
             <td>{signable?.data.keyId}</td>
-            <td>{decoded()}</td>
+            <td>{signable?.message}</td>
           </tr>
         </tbody>
         <tfoot>
