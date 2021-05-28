@@ -1,22 +1,22 @@
-import '../../src/config'
-import { sign } from '../../src/crypto'
+import "../../src/config"
+import {sign} from "../../src/crypto"
 
 export default async (req, res) => {
   const {
     message,
-    data: { addr, keyId },
+    data: {addr, keyId},
   } = req.body
 
   // UserDomainTag is the prefix of all signed user space payloads.
   //
   // A domain tag is encoded as UTF-8 bytes, right padded to a total length of 32 bytes.
   const rightPaddedHexBuffer = (value, pad) =>
-    Buffer.from(value.padEnd(pad * 2, 0), 'hex')
+    Buffer.from(value.padEnd(pad * 2, 0), "hex")
 
   const USER_DOMAIN_TAG = rightPaddedHexBuffer(
-    Buffer.from('FLOW-V0.0-user').toString('hex'),
+    Buffer.from("FLOW-V0.0-user").toString("hex"),
     32
-  ).toString('hex')
+  ).toString("hex")
 
   const prependUserDomainTag = msg => USER_DOMAIN_TAG + msg
 
