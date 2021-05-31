@@ -9,7 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@onflow/fcl": "^0.0.67",
+    "@onflow/fcl": "^0.0.70",
     "@onflow/types": "^0.0.4",
     "@onflow/util-encode-key": "^0.0.2",
     "elliptic": "^6.5.4",

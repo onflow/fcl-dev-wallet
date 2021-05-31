@@ -38,7 +38,6 @@ const entry = (scopes, key, value) => scopes.has(key) && [key, value]
 
 function authnResponse(data) {
   return e => {
-    console.log("AuthnResponse", data)
     reply("FCL:FRAME:RESPONSE", data)(e)
     /* backwards compatibility with fcl@0.0.67 */
     reply("FCL::CHALLENGE::RESPONSE", data)(e)
@@ -84,6 +83,17 @@ function chooseAccount(props, scopes) {
           address: address,
           keyId: Number(keyId),
         },
+      },
+      {
+        f_type: "Service",
+        f_vsn: "1.0.0",
+        type: "user-signature",
+        uid: "fcl-dev-wallet#user-sig",
+        endpoint: `${location.origin}/fcl/user-sig`,
+        method: "IFRAME/RPC",
+        id: address,
+        data: {addr: address, keyId: Number(keyId)},
+        params: {},
       },
 
       !!scopes.size && {

@@ -92,7 +92,7 @@ https://github.com/orodio/harness
 ```sh
 git clone https://github.com/orodio/harness.git
 
-cd hardness
+cd harness
 npm install
 PORT=3001 npm run start
 ```
