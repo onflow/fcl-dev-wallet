@@ -57,7 +57,7 @@ fcl.config()
 ### Emulator
 
 The Flow Emulator simulates the real Flow network
-for development purposes. 
+for development purposes.
 
 Start the emulator by running the following command in this directory:
 
@@ -67,10 +67,9 @@ flow emulator start
 
 Keep the emulator running; you'll need it!
 
-
 ### Dev wallet
 
-Once the harness is running, 
+Once the harness is running,
 clone this repository and start the dev wallet:
 
 ```sh
@@ -85,8 +84,8 @@ Keep the wallet running, too!
 
 ### Harness
 
-It's easy to use this FCL harness app as a barebones 
-app to interact with the dev wallet during development: 
+It's easy to use this FCL harness app as a barebones
+app to interact with the dev wallet during development:
 https://github.com/orodio/harness
 
 ```sh

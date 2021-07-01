@@ -1,5 +1,15 @@
-import "../../src/config"
 import * as fcl from "@onflow/fcl"
+import {NextApiRequest, NextApiResponse} from "next"
+import "src/fclConfig"
+
+export type Account = {
+  type: "ACCOUNT"
+  address: string
+  keyId?: string
+  label?: string
+}
+
+export type AccountsResponse = Account[]
 
 const SERVICE_ACCOUNT = {
   type: "ACCOUNT",
@@ -16,9 +26,9 @@ pub fun main(): [FCL.Account] {
 }
 `.trim()
 
-export default async (req, res) => {
+export default async (_req: NextApiRequest, res: NextApiResponse) => {
   try {
-    var accounts = await fcl.send([fcl.script(CODE)]).then(fcl.decode)
+    const accounts = await fcl.send([fcl.script(CODE)]).then(fcl.decode)
     res.status(200).json([SERVICE_ACCOUNT, ...accounts])
   } catch (_error) {
     res.status(200).json([SERVICE_ACCOUNT])

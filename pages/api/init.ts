@@ -1,8 +1,9 @@
-import "../../src/config"
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
-import {authz} from "../../src/authz"
-import {FLOW_ENCODED_SERVICE_KEY} from "../../src/crypto"
+import {NextApiRequest, NextApiResponse} from "next"
+import {authz} from "src/authz"
+import {FLOW_ENCODED_SERVICE_KEY} from "src/crypto"
+import "src/fclConfig"
 
 const CONTRACT = `
 pub contract FCL {
@@ -87,19 +88,25 @@ const init = async () => {
       fcl.authorizations([authz]),
       fcl.limit(90),
     ]).then(fcl.decode)
+    // eslint-disable-next-line no-console
     console.log("TX", txId)
     const txStatus = await fcl.tx(txId).onceSealed()
+    // eslint-disable-next-line no-console
     console.log("TX:SEALED", txStatus)
 
     fcl
       .account(process.env.FLOW_ACCOUNT_ADDRESS)
-      .then(d => console.log("ACCOUNT", Object.keys(d.contracts)))
+      .then((d: {contracts: Record<string, unknown>}) => {
+        // eslint-disable-next-line no-console
+        console.log("ACCOUNT", Object.keys(d.contracts))
+      })
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("TX:ERROR", error)
   }
 }
 
-export default async (req, res) => {
+export default async (_req: NextApiRequest, res: NextApiResponse) => {
   await init()
 
   res.status(200).json({

@@ -1,7 +1,14 @@
-import css from "../../styles/base.module.css"
-import {Err} from "./err.comp.js"
+import {Err, StackError} from "src/comps/err.comp"
+import css from "styles/base.module.css"
 
-export function Header({children, onClose, subHeader, error}) {
+type Props = {
+  onClose: (e: React.MouseEvent<HTMLButtonElement>) => void
+  subHeader: React.ReactNode
+  error?: StackError
+  children?: React.ReactNode
+}
+
+export function Header({onClose, subHeader, error, children}: Props) {
   return (
     <>
       {typeof onClose === "function" && (
@@ -29,7 +36,7 @@ export function Header({children, onClose, subHeader, error}) {
           <small>alpha</small>
         </sup>
       </h1>
-      <Err error={error} />
+      {!!error && <Err error={error} />}
       {children}
       {subHeader && (
         <div>
