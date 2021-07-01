@@ -1,18 +1,34 @@
-import {useEffect, useState} from "react"
 import * as fcl from "@onflow/fcl"
-import swr from "swr"
-import css from "../../styles/base.module.css"
-import {Header} from "../../src/comps/header.comp.js"
+import {useEffect, useState} from "react"
+import {Header} from "src/comps/header.comp"
+import css from "styles/base.module.css"
 
-const reply = (type, msg = {}) => e => {
-  window.parent.postMessage({...msg, type}, "*")
+type AuthReadyResponseSignable = {
+  data: {
+    addr: string
+    keyId: string
+  }
+  message: string
 }
 
+type AuthReadyResponseData = {
+  type: string
+  body: AuthReadyResponseSignable
+}
+
+const reply =
+  (type: string, msg = {}) =>
+  () => {
+    window.parent.postMessage({...msg, type}, "*")
+  }
+
 export default function UserSign() {
-  const [signable, setSignable] = useState(null)
+  const [signable, setSignable] = useState<AuthReadyResponseSignable | null>(
+    null
+  )
 
   useEffect(() => {
-    function callback({data}) {
+    function callback({data}: {data: AuthReadyResponseData}) {
       if (data === null) return
       if (typeof data !== "object") return
       if (data.type === "FCL:FRAME:READY:RESPONSE") {
@@ -28,7 +44,7 @@ export default function UserSign() {
   }, [])
 
   async function signUserMessage() {
-    const signature = await fetch("/api/user-sig", {
+    await fetch("/api/user-sig", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(signable),
@@ -49,7 +65,10 @@ export default function UserSign() {
           },
         })()
       })
-      .catch(d => console.error("FCL-DEV-WALLET FAILED TO SIGN", d))
+      .catch(d => {
+        // eslint-disable-next-line no-console
+        console.error("FCL-DEV-WALLET FAILED TO SIGN", d)
+      })
   }
 
   const declineSign = () => {
@@ -85,11 +104,11 @@ export default function UserSign() {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan="1">
+            <td colSpan={1}>
               <button onClick={declineSign}>Decline</button>
             </td>
-            <td colSpan="1"></td>
-            <td colSpan="1">
+            <td colSpan={1}></td>
+            <td colSpan={1}>
               <button onClick={signUserMessage}>Approve</button>
             </td>
           </tr>

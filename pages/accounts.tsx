@@ -1,11 +1,12 @@
-import {useState, useEffect} from "react"
 import swr from "swr"
+import {AccountsResponse} from "./api/accounts"
+import {ConfigResponse} from "./api/config"
 
 function Config() {
-  const {data: config, error} = swr(`/api/config`)
+  const {data: config, error} = swr<ConfigResponse>(`/api/config`)
 
   if (!config) return <div>Loading...</div>
-  if (error) return <div>Couldn't fetch Config Data</div>
+  if (error) return <div>Couldn&apos;t fetch Config Data</div>
 
   return (
     <div>
@@ -22,15 +23,13 @@ function Config() {
       </ul>
     </div>
   )
-
-  return <pre>{JSON.stringify(config, null, 2)}</pre>
 }
 
 function Accounts() {
-  const {data: accounts, error} = swr(`/api/accounts`)
+  const {data: accounts, error} = swr<AccountsResponse>(`/api/accounts`)
 
   if (!accounts) return <div>Loading...</div>
-  if (error) return <div>Couldn't fetch Accounts Data</div>
+  if (error) return <div>Couldn&apos;t fetch Accounts Data</div>
 
   return (
     <div>

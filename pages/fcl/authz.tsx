@@ -1,32 +1,67 @@
-import {useEffect, useState} from "react"
 import * as fcl from "@onflow/fcl"
-import swr from "swr"
-import css from "../../styles/base.module.css"
-import {Header} from "../../src/comps/header.comp.js"
+import {useEffect, useState} from "react"
+import {Header} from "src/comps/header.comp"
+import css from "styles/base.module.css"
 
-const reply = (type, msg = {}) => e => {
-  window.parent.postMessage({...msg, type}, "*")
+type AuthReadyData = {
+  jsonrpc: string
+  method: string
+  params: AuthParams
+  signable: unknown
+  id: string
 }
 
-const bool = d => {
+type AuthParams = [AuthSignable, unknown]
+
+type AuthSignable = {
+  addr: string
+  args: string[]
+  cadence: string
+  f_type: "Signable"
+  f_vsn: string
+  keyId: number
+  message: string
+  roles: Record<string, boolean>
+  interaction: unknown
+  voucher: {
+    arguments: string[]
+    authorizers: string[]
+    cadence: string
+    computeLimit: number
+    payer: string
+    payloadSigs: string[]
+    proposalKey: {
+      address: string
+      keyId: number
+      sequenceNum: number
+    }
+    refBlock: string
+  }
+}
+
+const reply =
+  (type: string, msg = {}) =>
+  () => {
+    window.parent.postMessage({...msg, type}, "*")
+  }
+
+const boolString = (d: boolean) => {
   return d ? "Yes" : "No"
 }
 
 export default function Authz() {
-  const [signable, setSignable] = useState(null)
-  const [params, setParams] = useState(null)
-  const [id, setId] = useState(null)
+  const [signable, setSignable] = useState<AuthSignable | null>(null)
+  const [id, setId] = useState<string | null>(null)
 
   useEffect(() => {
-    function callback({data}) {
+    function callback({data}: {data: AuthReadyData}) {
       if (data == null) return
       if (data.jsonrpc != "2.0") return
       if (data.method != "fcl:sign") return
-      const [signable, params] = data.params
+      const [signable] = data.params
       delete signable.interaction
       setId(data.id)
       setSignable(signable)
-      setParams(params)
     }
 
     window.addEventListener("message", callback)
@@ -37,7 +72,7 @@ export default function Authz() {
   }, [])
 
   async function sign() {
-    const signature = await fetch("/api/sign", {
+    await fetch("/api/sign", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({message: signable?.message}),
@@ -56,8 +91,8 @@ export default function Authz() {
               data: {
                 f_type: "CompositeSignature",
                 f_vsn: "1.0.0",
-                addr: fcl.sansPrefix(signable.addr),
-                keyId: Number(signable.keyId),
+                addr: fcl.sansPrefix(signable?.addr),
+                keyId: Number(signable?.keyId),
                 signature: signature,
               },
             },
@@ -65,7 +100,10 @@ export default function Authz() {
           "*"
         )
       })
-      .catch(d => console.error("FCL-DEV-WALLET FAILED TO SIGN", d))
+      .catch(d => {
+        // eslint-disable-next-line no-console
+        console.error("FCL-DEV-WALLET FAILED TO SIGN", d)
+      })
   }
 
   return (
@@ -88,27 +126,27 @@ export default function Authz() {
           <tr>
             <td className={css.bold}>{fcl.withPrefix(signable?.addr)}</td>
             <td>{signable?.keyId}</td>
-            <td>{bool(signable?.roles?.proposer)}</td>
-            <td>{bool(signable?.roles?.payer)}</td>
-            <td>{bool(signable?.roles?.authorizer)}</td>
+            <td>{boolString(!!signable?.roles?.proposer)}</td>
+            <td>{boolString(!!signable?.roles?.payer)}</td>
+            <td>{boolString(!!signable?.roles?.authorizer)}</td>
           </tr>
           <tr>
-            <td colSpan="5">
+            <td colSpan={5}>
               <pre>{JSON.stringify(signable?.args, null, 2)}</pre>
             </td>
           </tr>
           <tr>
-            <td colSpan="5">
+            <td colSpan={5}>
               <pre>{signable?.cadence}</pre>
             </td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan="2">
+            <td colSpan={2}>
               <button onClick={reply("FCL:FRAME:CLOSE")}>Decline</button>
             </td>
-            <td colSpan="3">
+            <td colSpan={3}>
               <button onClick={sign}>Approve</button>
             </td>
           </tr>

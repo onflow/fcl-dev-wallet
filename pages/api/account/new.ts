@@ -1,6 +1,7 @@
-import "../../../src/config"
 import * as fcl from "@onflow/fcl"
-import {authz} from "../../../src/authz"
+import {NextApiRequest, NextApiResponse} from "next"
+import {authz} from "src/authz"
+import "src/fclConfig"
 
 const CODE = `
 import FCL from 0xSERVICE
@@ -12,10 +13,11 @@ transaction {
 }
 `.trim()
 
-export default async (req, res) => {
+export default async (_req: NextApiRequest, res: NextApiResponse) => {
   try {
+    // eslint-disable-next-line no-console
     console.log("Creating Account")
-    var txId = await fcl
+    const txId = await fcl
       .send([
         fcl.transaction(CODE),
         fcl.proposer(authz),
@@ -27,6 +29,7 @@ export default async (req, res) => {
     await fcl.tx(txId).onceSealed()
     res.status(200).json(true)
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("ISSUE CREATING ACCOUNT", error)
   }
 }
