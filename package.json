@@ -4,16 +4,16 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 8701",
     "build": "next build",
-    "start": "next start"
+    "start": "next start --port 8701"
   },
   "dependencies": {
     "@onflow/fcl": "^0.0.70",
     "@onflow/types": "^0.0.4",
     "@onflow/util-encode-key": "^0.0.2",
     "elliptic": "^6.5.4",
-    "next": "10.0.6",
+    "next": "^11.0.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "sha3": "^2.1.4",
