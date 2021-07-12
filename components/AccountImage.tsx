@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 import useAppConfig from "hooks/useConnectedAppConfig"
-import {avataaar} from "src/avataaar"
+import {avatar} from "src/avatar"
 import {ThemeUICSSObject} from "theme-ui"
 
 interface Props {
@@ -14,7 +14,7 @@ export default function AccountImage({address, styles}: Props) {
   return (
     <div sx={styles}>
       {connectedAppConfig && (
-        <img src={avataaar(`${address}-${connectedAppConfig?.app?.title}`)} />
+        <img src={avatar(`${address}-${connectedAppConfig?.app?.title}`)} />
       )}
     </div>
   )

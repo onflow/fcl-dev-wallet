@@ -1,12 +1,12 @@
 export type PublicConfig = {
-  avataaarUrl: string
+  avatarUrl: string
 }
 
-const avataaarUrl = process.env.NEXT_PUBLIC_AVATAAAR_URL
-if (!avataaarUrl) throw "Missing NEXT_PUBLIC_AVATAAAR_URL"
+const avatarUrl = process.env.NEXT_PUBLIC_AVATAR_URL
+if (!avatarUrl) throw "Missing NEXT_PUBLIC_AVATAR_URL"
 
 const publicConfig: PublicConfig = {
-  avataaarUrl,
+  avatarUrl,
 }
 
 export default publicConfig
