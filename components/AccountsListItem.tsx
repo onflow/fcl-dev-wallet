@@ -91,7 +91,7 @@ export default function AccountsListItem({
           >
             <AccountImage
               address={account.address}
-              styles={styles.accountImage}
+              sxStyles={styles.accountImage}
             />
             <div sx={styles.chooseAccountButtonText}>
               {account.label || account.address}

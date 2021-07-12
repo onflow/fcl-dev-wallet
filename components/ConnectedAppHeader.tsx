@@ -109,7 +109,7 @@ export default function ConnectedAppHeader({
           {account ? (
             <AccountImage
               address={account.address}
-              styles={styles.accountImage}
+              sxStyles={styles.accountImage}
             />
           ) : (
             <img src={icon} sx={styles.image} />

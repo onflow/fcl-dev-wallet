@@ -5,14 +5,21 @@ import {ThemeUICSSObject} from "theme-ui"
 
 interface Props {
   address: string
-  styles?: ThemeUICSSObject
+  sxStyles?: ThemeUICSSObject
 }
 
-export default function AccountImage({address, styles}: Props) {
+const styles = {
+  border: "1px solid",
+  borderColor: "gray.200",
+  display: "flex",
+  alignItems: "center",
+}
+
+export default function AccountImage({address, sxStyles = {}}: Props) {
   const {connectedAppConfig} = useAppConfig()
 
   return (
-    <div sx={styles}>
+    <div sx={{...styles, ...sxStyles}}>
       {connectedAppConfig && (
         <img src={avatar(`${address}-${connectedAppConfig?.app?.title}`)} />
       )}
