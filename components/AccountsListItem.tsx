@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
+import AccountImage from "components/AccountImage"
 import AccountListItemScopes from "components/AccountListItemScopes"
-import Avatar from "components/Avatar"
 import Button from "components/Button"
 import CaretIcon from "components/CaretIcon"
 import useAppContext from "hooks/useAppContext"
@@ -21,7 +21,7 @@ const styles: SXStyles = {
     alignItems: "center",
     justifyContent: "space-between",
   },
-  avatar: {
+  accountImage: {
     width: 40,
     borderRadius: 40,
     overflow: "hidden",
@@ -89,7 +89,10 @@ export default function AccountsListItem({
             sx={styles.chooseAccountButton}
             onClick={e => chooseAccount(account, scopesObj)(e)}
           >
-            <Avatar address={account.address} styles={styles.avatar} />
+            <AccountImage
+              address={account.address}
+              styles={styles.accountImage}
+            />
             <div sx={styles.chooseAccountButtonText}>
               {account.label || account.address}
               <div sx={styles.chooseAccountAddress}>{account.address}</div>

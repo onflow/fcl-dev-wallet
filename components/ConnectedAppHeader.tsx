@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import Avatar from "components/Avatar"
+import AccountImage from "components/AccountImage"
 import InfoIcon from "components/InfoIcon"
 import useAppContext from "hooks/useAppContext"
 import {Account} from "pages/api/accounts"
@@ -34,7 +34,7 @@ const styles: SXStyles = {
     marginTop: 3,
     marginBottom: 2,
   },
-  avatar: {
+  accountImage: {
     width: 65,
     borderRadius: 65,
     overflow: "hidden",
@@ -60,12 +60,12 @@ export default function ConnectedAppHeader({
   title,
   description,
   info = true,
-  avatar,
+  account,
 }: {
   title?: string
   description?: string
   info?: boolean
-  avatar?: Account
+  account?: Account
 }) {
   const [showInfo, setShowInfo] = useState(false)
   const {
@@ -106,8 +106,11 @@ export default function ConnectedAppHeader({
           </Button>
         )}
         <div sx={styles.imageContainer}>
-          {avatar ? (
-            <Avatar address={avatar.address} styles={styles.avatar} />
+          {account ? (
+            <AccountImage
+              address={account.address}
+              styles={styles.accountImage}
+            />
           ) : (
             <img src={icon} sx={styles.image} />
           )}

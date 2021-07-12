@@ -30,7 +30,7 @@ export default function AccountEdit({
       <Box mb={4}>
         <ConnectedAppHeader
           info={false}
-          avatar={account}
+          account={account}
           title="Manage Account"
           description={account.address}
         />

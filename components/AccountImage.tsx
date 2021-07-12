@@ -8,16 +8,13 @@ interface Props {
   styles?: ThemeUICSSObject
 }
 
-export default function Avatar({address, styles}: Props) {
+export default function AccountImage({address, styles}: Props) {
   const {connectedAppConfig} = useAppConfig()
 
   return (
     <div sx={styles}>
       {connectedAppConfig && (
-        <img
-          className="avatar"
-          src={avataaar(`${address}-${connectedAppConfig?.app?.title}`)}
-        />
+        <img src={avataaar(`${address}-${connectedAppConfig?.app?.title}`)} />
       )}
     </div>
   )
