@@ -86,7 +86,7 @@ const init = async () => {
       fcl.proposer(authz),
       fcl.payer(authz),
       fcl.authorizations([authz]),
-      fcl.limit(90),
+      fcl.limit(200),
     ]).then(fcl.decode)
     // eslint-disable-next-line no-console
     console.log("TX", txId)
