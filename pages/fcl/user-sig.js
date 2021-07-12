@@ -40,13 +40,15 @@ export default function UserSign() {
           f_vsn: "1.0.0",
           status: "APPROVED",
           reason: null,
-          data: {
-            f_type: "CompositeSignature",
-            f_vsn: "1.0.0",
-            addr: fcl.withPrefix(addr),
-            keyId: Number(keyId),
-            signature: signature,
-          },
+          data: [
+            {
+              f_type: "CompositeSignature",
+              f_vsn: "1.0.0",
+              addr: fcl.withPrefix(addr),
+              keyId: Number(keyId),
+              signature: signature,
+            }
+          ],
         })()
       })
       .catch(d => console.error("FCL-DEV-WALLET FAILED TO SIGN", d))
