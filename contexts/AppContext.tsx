@@ -23,7 +23,6 @@ export function AppContextProvider({children}: {children: React.ReactNode}) {
 
   if (isInit.data == null) return <div>... Null Data ...</div>
   if (!connectedAppConfig) return <div>... Null Config ...</div>
-
   const value = {connectedAppConfig, scopes, isInit: isInit.data}
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

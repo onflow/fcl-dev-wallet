@@ -14,7 +14,6 @@ const styles: SXStyles = {
   accountListItem: {
     marginX: -3,
     paddingX: 3,
-    paddingBottom: 3,
   },
   accountButtonContainer: {
     display: "flex",
@@ -92,7 +91,7 @@ export default function AccountsListItem({
           >
             <Avatar address={account.address} styles={styles.avatar} />
             <div sx={styles.chooseAccountButtonText}>
-              {account.label}
+              {account.label || account.address}
               <div sx={styles.chooseAccountAddress}>{account.address}</div>
             </div>
           </Button>

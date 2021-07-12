@@ -10,6 +10,15 @@ interface Props {
 
 export default function Avatar({address, styles}: Props) {
   const {connectedAppConfig} = useAppConfig()
-  const hash = encodeURI(`${address}-${connectedAppConfig?.app?.title}`)
-  return <img className="avatar" src={avataaar(hash)} sx={styles} />
+
+  return (
+    <div sx={styles}>
+      {connectedAppConfig && (
+        <img
+          className="avatar"
+          src={avataaar(`${address}-${connectedAppConfig?.app?.title}`)}
+        />
+      )}
+    </div>
+  )
 }

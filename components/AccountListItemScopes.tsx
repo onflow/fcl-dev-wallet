@@ -7,11 +7,6 @@ import {Label, Themed} from "theme-ui"
 import {SXStyles} from "types"
 
 const styles: SXStyles = {
-  accountListItem: {
-    marginX: -3,
-    paddingX: 3,
-    paddingBottom: 3,
-  },
   headingContainer: {
     display: "flex",
     alignItems: "center",
@@ -31,6 +26,7 @@ const styles: SXStyles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    paddingBottom: 3,
   },
 }
 
