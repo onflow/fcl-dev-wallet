@@ -12,16 +12,19 @@
     "check": "npm run lint && npm run tsc"
   },
   "dependencies": {
+    "@headlessui/react": "^1.3.0",
     "@onflow/fcl": "^0.0.70",
     "@onflow/types": "^0.0.4",
     "@onflow/util-encode-key": "^0.0.2",
+    "@theme-ui/match-media": "^0.10.1",
     "elliptic": "^6.5.4",
     "next": "^11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "sha3": "^2.1.4",
     "styled-components": "^5.2.1",
-    "swr": "^0.4.1"
+    "swr": "^0.5.6",
+    "theme-ui": "^0.10.0"
   },
   "devDependencies": {
     "@types/elliptic": "^6.4.12",

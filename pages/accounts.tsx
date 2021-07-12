@@ -1,9 +1,10 @@
+import {paths} from "src/constants"
 import swr from "swr"
 import {AccountsResponse} from "./api/accounts"
 import {ConfigResponse} from "./api/config"
 
 function Config() {
-  const {data: config, error} = swr<ConfigResponse>(`/api/config`)
+  const {data: config, error} = swr<ConfigResponse>(paths.apiConfig)
 
   if (!config) return <div>Loading...</div>
   if (error) return <div>Couldn&apos;t fetch Config Data</div>
@@ -26,7 +27,7 @@ function Config() {
 }
 
 function Accounts() {
-  const {data: accounts, error} = swr<AccountsResponse>(`/api/accounts`)
+  const {data: accounts, error} = swr<AccountsResponse>(paths.apiAccounts)
 
   if (!accounts) return <div>Loading...</div>
   if (error) return <div>Couldn&apos;t fetch Accounts Data</div>

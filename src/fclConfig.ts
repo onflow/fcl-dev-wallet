@@ -1,5 +1,6 @@
-import {config} from "@onflow/fcl"
+import {config as fclConfig} from "@onflow/fcl"
+import config from "./config"
 
-config()
-  .put("accessNode.api", process.env.FLOW_ACCESS_NODE)
-  .put("0xSERVICE", process.env.FLOW_ACCOUNT_ADDRESS)
+fclConfig()
+  .put("accessNode.api", config.flowAccessNode)
+  .put("0xSERVICE", config.flowAccountAddress)

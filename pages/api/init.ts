@@ -2,6 +2,7 @@ import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import {NextApiRequest, NextApiResponse} from "next"
 import {authz} from "src/authz"
+import config from "src/config"
 import {FLOW_ENCODED_SERVICE_KEY} from "src/crypto"
 import "src/fclConfig"
 
@@ -95,7 +96,7 @@ const init = async () => {
     console.log("TX:SEALED", txStatus)
 
     fcl
-      .account(process.env.FLOW_ACCOUNT_ADDRESS)
+      .account(config.flowAccountAddress)
       .then((d: {contracts: Record<string, unknown>}) => {
         // eslint-disable-next-line no-console
         console.log("ACCOUNT", Object.keys(d.contracts))

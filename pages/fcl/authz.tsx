@@ -1,7 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import {useEffect, useState} from "react"
 import {Header} from "src/comps/header.comp"
-import css from "styles/base.module.css"
+import {paths} from "src/constants"
 
 type AuthReadyData = {
   jsonrpc: string
@@ -72,7 +72,7 @@ export default function Authz() {
   }, [])
 
   async function sign() {
-    await fetch("/api/sign", {
+    await fetch(paths.apiSign, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({message: signable?.message}),
@@ -107,11 +107,8 @@ export default function Authz() {
   }
 
   return (
-    <div className={css.root}>
-      <Header
-        onClose={reply("FCL:FRAME:CLOSE")}
-        subHeader="Authorize Transaction"
-      />
+    <div>
+      <Header subHeader="Authorize Transaction" />
       <table>
         <thead>
           <tr>
@@ -124,7 +121,7 @@ export default function Authz() {
         </thead>
         <tbody>
           <tr>
-            <td className={css.bold}>{fcl.withPrefix(signable?.addr)}</td>
+            <td>{fcl.withPrefix(signable?.addr)}</td>
             <td>{signable?.keyId}</td>
             <td>{boolString(!!signable?.roles?.proposer)}</td>
             <td>{boolString(!!signable?.roles?.payer)}</td>

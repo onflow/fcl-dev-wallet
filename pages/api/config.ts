@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next"
+import config from "src/config"
 import "src/fclConfig"
 
 export type ConfigResponse = {
@@ -10,10 +11,10 @@ export type ConfigResponse = {
 
 export default (_req: NextApiRequest, res: NextApiResponse) => {
   const response: ConfigResponse = {
-    address: process.env.FLOW_ACCOUNT_ADDRESS,
-    keyId: process.env.FLOW_ACCOUNT_KEY_ID,
-    privateKey: process.env.FLOW_ACCOUNT_PRIVATE_KEY,
-    accessNode: process.env.FLOW_ACCESS_NODE,
+    address: config.flowAccountAddress,
+    keyId: config.flowAccountKeyId,
+    privateKey: config.flowAccountPrivateKey,
+    accessNode: config.flowAccessNode,
   }
   res.status(200).json(response)
 }
