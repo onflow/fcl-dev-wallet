@@ -85,7 +85,7 @@ const init = async () => {
       fcl.proposer(authz),
       fcl.payer(authz),
       fcl.authorizations([authz]),
-      fcl.limit(90),
+      fcl.limit(200),
     ]).then(fcl.decode)
     console.log("TX", txId)
     const txStatus = await fcl.tx(txId).onceSealed()
