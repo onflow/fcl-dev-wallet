@@ -1,7 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import {useEffect, useState} from "react"
 import {Header} from "src/comps/header.comp"
-import css from "styles/base.module.css"
+import {paths} from "src/constants"
 
 type AuthReadyResponseSignable = {
   data: {
@@ -44,7 +44,7 @@ export default function UserSign() {
   }, [])
 
   async function signUserMessage() {
-    await fetch("/api/user-sig", {
+    await fetch(paths.userSig, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(signable),
@@ -81,11 +81,8 @@ export default function UserSign() {
   }
 
   return (
-    <div className={css.root}>
-      <Header
-        onClose={reply("FCL:FRAME:CLOSE")}
-        subHeader="Sign message to prove you have access to this wallet."
-      />
+    <div>
+      <Header subHeader="Sign message to prove you have access to this wallet." />
       <h4>This won’t cost you any Flow.</h4>
       <table>
         <thead>
@@ -97,7 +94,7 @@ export default function UserSign() {
         </thead>
         <tbody>
           <tr>
-            <td className={css.bold}>{fcl.withPrefix(signable?.data.addr)}</td>
+            <td>{fcl.withPrefix(signable?.data.addr)}</td>
             <td>{signable?.data.keyId}</td>
             <td>{signable?.message}</td>
           </tr>

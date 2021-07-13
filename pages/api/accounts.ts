@@ -1,11 +1,12 @@
 import * as fcl from "@onflow/fcl"
 import {NextApiRequest, NextApiResponse} from "next"
+import config from "src/config"
 import "src/fclConfig"
 
 export type Account = {
   type: "ACCOUNT"
   address: string
-  keyId?: string
+  keyId?: number
   label?: string
 }
 
@@ -13,8 +14,8 @@ export type AccountsResponse = Account[]
 
 const SERVICE_ACCOUNT = {
   type: "ACCOUNT",
-  address: process.env.FLOW_ACCOUNT_ADDRESS,
-  keyId: process.env.FLOW_ACCOUNT_KEY_ID,
+  address: config.flowAccountAddress,
+  keyId: config.flowAccountKeyId,
   label: "Service Account",
 }
 
