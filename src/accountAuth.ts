@@ -7,8 +7,6 @@ const PROFILE_SCOPES = new Set(
 )
 const EMAIL_SCOPES = new Set("email email_verified".trim().split(/\s+/))
 
-export type ScopesObj = Record<string, boolean>
-
 type AuthResponseService = {
   f_type: string
   f_vsn: string
@@ -67,16 +65,8 @@ function authnResponse(data: AuthResponseData) {
   }
 }
 
-export function chooseAccount(account: Account, scopesObj: ScopesObj) {
+export function chooseAccount(account: Account, scopes: Set<string>) {
   const {address, keyId} = account
-  const scopes = Object.entries(scopesObj).reduce(
-    (acc: Set<string>, [scope, include]) => {
-      if (include) acc.add(scope)
-      return acc
-    },
-    new Set([])
-  )
-
   const services: AuthResponseService[] = [
     {
       f_type: "Service",

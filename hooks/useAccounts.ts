@@ -4,7 +4,6 @@ import useSWR from "swr"
 
 export default function useAccounts() {
   const {data, error} = useSWR<Account[]>(paths.apiAccounts)
-
   return {
     data,
     error: error,

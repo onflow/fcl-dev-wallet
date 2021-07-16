@@ -3,10 +3,9 @@ import AccountImage from "components/AccountImage"
 import AccountListItemScopes from "components/AccountListItemScopes"
 import Button from "components/Button"
 import CaretIcon from "components/CaretIcon"
-import useAppContext from "hooks/useAppContext"
-import {Account} from "pages/api/accounts"
-import React, {SetStateAction, useState} from "react"
-import {chooseAccount, ScopesObj} from "src/accountAuth"
+import {Account, NewAccount} from "pages/api/accounts"
+import {useEffect, useState} from "react"
+import {chooseAccount} from "src/accountAuth"
 import {Themed} from "theme-ui"
 import {SXStyles} from "types"
 
@@ -23,6 +22,7 @@ const styles: SXStyles = {
   },
   accountImage: {
     width: 40,
+    height: 40,
     borderRadius: 40,
     overflow: "hidden",
     marginRight: 2,
@@ -41,6 +41,7 @@ const styles: SXStyles = {
     marginRight: 10,
     textTransform: "initial",
     fontWeight: 600,
+    lineHeight: "1.3rem",
   },
   chooseAccountAddress: {
     fontSize: 1,
@@ -51,29 +52,42 @@ const styles: SXStyles = {
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   toggleScopesButton: {
     height: 40,
     marginRight: -3,
+  },
+  isNew: {
+    textTransform: "uppercase",
+    backgroundColor: "green",
+    fontSize: 11,
+    fontWeight: "bold",
+    borderRadius: 14,
+    position: "relative",
+    top: "-2px",
+    py: "1px",
+    px: "7px",
+    ml: 2,
   },
 }
 
 export default function AccountsListItem({
   account,
   onEditAccount,
+  isNew,
 }: {
   account: Account
-  onEditAccount: React.Dispatch<SetStateAction<Account | null>>
+  onEditAccount: (account: Account | NewAccount) => void
+  isNew: boolean
 }) {
-  const {scopes} = useAppContext()
   const [showScopes, setShowScopes] = useState(false)
-  const [scopesObj, setScopesObj] = useState<ScopesObj>(
-    scopes
-      ?.filter(Boolean)
-      ?.reduce((acc, scope) => ({...acc, [scope]: false}), {})
-  )
+  const [scopes, setScopes] = useState<Set<string>>(new Set(account.scopes))
   const toggleShowScopes = () => setShowScopes(prev => !prev)
+
+  useEffect(() => {
+    setScopes(new Set(account.scopes))
+  }, [account.scopes])
 
   return (
     <>
@@ -87,15 +101,18 @@ export default function AccountsListItem({
           <Button
             variant="unstyled"
             sx={styles.chooseAccountButton}
-            onClick={e => chooseAccount(account, scopesObj)(e)}
+            onClick={e => chooseAccount(account, scopes)(e)}
           >
             <AccountImage
               address={account.address}
               sxStyles={styles.accountImage}
             />
             <div sx={styles.chooseAccountButtonText}>
-              {account.label || account.address}
-              <div sx={styles.chooseAccountAddress}>{account.address}</div>
+              <div>
+                {account.label || account.address}
+                {isNew && <span sx={styles.isNew}>New</span>}
+              </div>
+              <code sx={styles.chooseAccountAddress}>{account.address}</code>
             </div>
           </Button>
           <Button
@@ -110,8 +127,8 @@ export default function AccountsListItem({
         </div>
         {showScopes && (
           <AccountListItemScopes
-            scopesObj={scopesObj}
-            setScopesObj={setScopesObj}
+            scopes={scopes}
+            setScopes={setScopes}
             onEditAccount={() => onEditAccount(account)}
           />
         )}
