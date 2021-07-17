@@ -6,7 +6,8 @@ import PlusButton from "components/PlusButton"
 import useAppContext from "hooks/useAppContext"
 import {Account, NewAccount} from "pages/api/accounts"
 import {useState} from "react"
-import {NEW_ACCOUNT, paths} from "src/constants"
+import accountGenerator from "src/accountGenerator"
+import {paths} from "src/constants"
 import {mutate} from "swr"
 import {Box, Link, Themed} from "theme-ui"
 import {SXStyles} from "types"
@@ -80,7 +81,7 @@ export default function AccountsList({
       <Box mb={4}>
         {isInit ? (
           <PlusButton
-            onClick={() => onEditAccount(NEW_ACCOUNT)}
+            onClick={() => onEditAccount(accountGenerator(accounts.length - 1))}
             disabled={isLoading}
           >
             Create New Account

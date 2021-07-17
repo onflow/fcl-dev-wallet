@@ -66,14 +66,14 @@ pub contract FCL {
       .update(address: address, label: label, scopes: scopes)
   }
 
-  init (key: String, initAccountsNo: Int) {
+  init (key: String, initAccountsLabels: [String]) {
     self.storagePath = /storage/FCL_DEV_WALLET
     self.account.save(<- create Root(key), to: self.storagePath)
 
     self.new(label: "Service Account", scopes: [], address: self.account.address)
     var acctInitIndex = 0
-    while acctInitIndex < initAccountsNo {
-      self.new(label: "", scopes: [], address: nil)
+    while acctInitIndex < initAccountsLabels.length {
+      self.new(label: initAccountsLabels[acctInitIndex], scopes: [], address: nil)
       acctInitIndex = acctInitIndex + 1
     }
   }

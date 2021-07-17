@@ -1,6 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import {NextApiRequest, NextApiResponse} from "next"
+import {accountLabelGenerator} from "src/accountGenerator"
 import {authz} from "src/authz"
 import config from "src/config"
 import {FLOW_ENCODED_SERVICE_KEY} from "src/crypto"
@@ -9,6 +10,9 @@ import FCLContract from "../../cadence/contracts/FCL.cdc"
 import initTransaction from "../../cadence/transactions/init.cdc"
 
 const init = async () => {
+  const initAccountsLabels = [...Array(config.flowInitAccountsNo)].map(
+    (_n, i) => accountLabelGenerator(i)
+  )
   try {
     const txId = await fcl
       .send([
@@ -16,7 +20,7 @@ const init = async () => {
         fcl.args([
           fcl.arg(Buffer.from(FCLContract, "utf8").toString("hex"), t.String),
           fcl.arg(FLOW_ENCODED_SERVICE_KEY, t.String),
-          fcl.arg(config.flowInitAccountsNo, t.Int),
+          fcl.arg(initAccountsLabels, t.Array(t.String)),
         ]),
         fcl.proposer(authz),
         fcl.payer(authz),

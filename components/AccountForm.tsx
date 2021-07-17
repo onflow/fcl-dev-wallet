@@ -62,7 +62,7 @@ export default function AccountForm({
               })
             })
             .catch(e => {
-              setErrors(e.message)
+              setErrors([e.message])
               setSubmitting(false)
             })
         }}

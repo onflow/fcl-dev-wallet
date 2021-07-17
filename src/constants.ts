@@ -1,5 +1,3 @@
-import {NewAccount} from "pages/api/accounts"
-
 export const paths = {
   root: "/",
   apiInit: "/api/init",
@@ -11,12 +9,6 @@ export const paths = {
   apiConfig: "/api/config",
   apiSign: "/api/sign",
   userSig: "/api/user-sig",
-}
-
-export const NEW_ACCOUNT: NewAccount = {
-  type: "ACCOUNT",
-  label: "",
-  scopes: [],
 }
 
 export const FLOW_EVENT_TYPES = {
