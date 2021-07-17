@@ -1,28 +1,46 @@
 import useConnectedAppConfig, {
   ConnectedAppConfig,
 } from "hooks/useConnectedAppConfig"
-import React, {createContext} from "react"
+import React, {createContext, useEffect, useState} from "react"
 import {paths} from "src/constants"
-import useSwr from "swr"
+import useSwr, {mutate} from "swr"
 
 type AppContextType = {
   connectedAppConfig: ConnectedAppConfig
   appScopes: string[]
-  isInit: boolean
+  initError: string | null
 }
 
 export const AppContext = createContext<AppContextType>({
   connectedAppConfig: {} as ConnectedAppConfig,
   appScopes: [],
-  isInit: false,
+  initError: null,
 })
 
 export function AppContextProvider({children}: {children: React.ReactNode}) {
   const isInit = useSwr<boolean>(paths.apiIsInit)
   const {connectedAppConfig, appScopes} = useConnectedAppConfig()
+  const [error, setError] = useState<string | null>(null)
 
-  if (isInit.data == null) return <div>... Null Data ...</div>
-  if (!connectedAppConfig) return <div>... Null Config ...</div>
-  const value = {connectedAppConfig, appScopes, isInit: isInit.data}
+  const initializeWallet = () => {
+    setError(null)
+    fetch(paths.apiInit, {
+      method: "POST",
+    })
+      .then(() => {
+        mutate(paths.apiIsInit)
+      })
+      .catch(() => {
+        setError("Dev Wallet initialization failed.")
+      })
+  }
+
+  useEffect(() => {
+    if (isInit.data === false) initializeWallet()
+  }, [isInit])
+
+  if (!isInit.data || !connectedAppConfig) return null
+  const value = {connectedAppConfig, appScopes, initError: error}
+
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }
