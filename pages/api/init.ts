@@ -16,6 +16,7 @@ const init = async () => {
         fcl.args([
           fcl.arg(Buffer.from(FCLContract, "utf8").toString("hex"), t.String),
           fcl.arg(FLOW_ENCODED_SERVICE_KEY, t.String),
+          fcl.arg(config.flowInitAccountsNo, t.Int),
         ]),
         fcl.proposer(authz),
         fcl.payer(authz),
