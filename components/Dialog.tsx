@@ -1,8 +1,12 @@
 /** @jsxImportSource theme-ui */
 import {Dialog as HUIDialog} from "@headlessui/react"
-import {Button} from "theme-ui"
+import useAuthzContext from "hooks/useAuthzContext"
+import reply from "src/reply"
+import {Box, Button} from "theme-ui"
+import {SXStyles} from "types"
+import ExpandCollapseButton from "./ExpandCollapseButton"
 
-const styles = {
+const styles: SXStyles = {
   dialog: {
     width: ["100%", 500],
     minHeight: 400,
@@ -11,8 +15,9 @@ const styles = {
     boxShadow: "0px 4px 74px 0px #00000026",
     borderRadius: 8,
   },
-  "@media screen and (max-width: 500px)": {
-    width: "100%",
+  dialogExpanded: {
+    width: ["100%", "100%", "100%", 950],
+    minHeight: "auto",
   },
   header: {
     display: "flex",
@@ -47,39 +52,50 @@ const styles = {
     opacity: 0.5,
   },
   body: {
-    paddingLeft: 30,
-    paddingRight: 30,
-    paddingBottom: 10,
+    pl: 30,
+    pr: 30,
+    pb: 10,
   },
 }
 
-export default function Dialog({
-  onClose,
-  children,
-}: {
-  onClose: () => void
-  children: React.ReactNode
-}) {
+export default function Dialog({children}: {children: React.ReactNode}) {
+  const onClose = () => reply("FCL:FRAME:CLOSE")
+  const {isExpanded, setCodePreview} = useAuthzContext()
+
   return (
     // @ts-expect-error The headless-ui dialog raises a "Expression produces a union type that is too complex to represent" error when used with theme-ui sx props
     // See https://github.com/tailwindlabs/headlessui/issues/233, https://github.com/tailwindlabs/headlessui/issues/330
     <HUIDialog
       open={true}
       onClose={onClose}
-      sx={styles.dialog}
+      sx={{...styles.dialog, ...(isExpanded ? styles.dialogExpanded : {})}}
       initialFocus={undefined}
     >
       <HUIDialog.Overlay />
-      <div sx={styles.header}>
+      <div sx={{...styles.header, mb: isExpanded ? 0 : styles.header.mb}}>
         <div sx={styles.logo}>
           <img src="/flow-logo.svg" />
           <span sx={styles.logoText}>FCL Dev Wallet</span>
         </div>
-        <Button variant="unstyled" onClick={onClose} style={styles.closeButton}>
-          <img src="/x-icon.svg" />
-        </Button>
+        {isExpanded ? (
+          <Box mr={2}>
+            <ExpandCollapseButton onClick={() => setCodePreview(null)} />
+          </Box>
+        ) : (
+          <Button variant="unstyled" onClick={onClose} sx={styles.closeButton}>
+            <img src="/x-icon.svg" />
+          </Button>
+        )}
       </div>
-      <div sx={styles.body}>{children}</div>
+      <div
+        sx={{
+          ...styles.body,
+          pt: isExpanded ? 0 : styles.body.pt,
+          pb: isExpanded ? 0 : styles.body.pb,
+        }}
+      >
+        {children}
+      </div>
     </HUIDialog>
   )
 }

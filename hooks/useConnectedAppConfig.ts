@@ -9,23 +9,21 @@ export type ConnectedAppConfig = {
   type: string
 }
 
-export default function useAppConfig() {
+export default function useConnectedAppConfig() {
   const [connectedAppConfig, setConnectedAppConfig] =
     useState<ConnectedAppConfig | null>(null)
 
   useEffect(() => {
-    function callback(e: {data: ConnectedAppConfig}) {
-      if (typeof e.data !== "object") return
-      if (e.data.type !== "FCL:AUTHN:CONFIG") return
-      setConnectedAppConfig(e.data)
+    function callback({data}: {data: ConnectedAppConfig}) {
+      if (typeof data !== "object") return
+      if (data.type !== "FCL:AUTHN:CONFIG") return
+      setConnectedAppConfig(data)
     }
 
     window.addEventListener("message", callback)
     window.parent.postMessage({type: "FCL:FRAME:READY"}, "*")
 
-    return () => {
-      window.removeEventListener("message", callback)
-    }
+    return () => window.removeEventListener("message", callback)
   }, [])
 
   const appScopes =

@@ -42,6 +42,11 @@ type AuthSignable = {
   }
 }
 
+type CodePreview = {
+  title: string
+  value: string
+}
+
 type AuthzContextType = {
   currentUser: Account
   proposer: Account
@@ -55,6 +60,9 @@ type AuthzContextType = {
   refBlock: string
   message: string
   id: string
+  codePreview: CodePreview | null
+  setCodePreview: React.Dispatch<React.SetStateAction<CodePreview | null>>
+  isExpanded: boolean
   appTitle: string
   appIcon: string
 }
@@ -76,6 +84,9 @@ export const AuthzContext = createContext<AuthzContextType>({
   refBlock: "",
   message: "",
   id: "",
+  codePreview: null,
+  setCodePreview: () => null,
+  isExpanded: false,
   appTitle: "",
   appIcon: "",
 })
@@ -83,6 +94,8 @@ export const AuthzContext = createContext<AuthzContextType>({
 export function AuthzContextProvider({children}: {children: React.ReactNode}) {
   const [signable, setSignable] = useState<AuthSignable | null>(null)
   const [id, setId] = useState<string | null>(null)
+  const [codePreview, setCodePreview] = useState<CodePreview | null>(null)
+
   const {data: accountsData} = useAccounts()
 
   useEffect(() => {
@@ -129,6 +142,9 @@ export function AuthzContextProvider({children}: {children: React.ReactNode}) {
     refBlock: voucher.refBlock,
     message,
     id,
+    codePreview,
+    setCodePreview,
+    isExpanded: codePreview !== null,
     appTitle: "Test Harness",
     appIcon: "https://placekitten.com/g/200/200",
   }

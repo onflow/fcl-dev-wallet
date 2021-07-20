@@ -1,11 +1,12 @@
 /** @jsxImportSource theme-ui */
 import useAuthzContext from "hooks/useAuthzContext"
 import {useState} from "react"
-import {Button} from "theme-ui"
+import {Box, Button} from "theme-ui"
 import AuthzDetailsTable, {
   AuthzDetailsAccount,
   AuthzDetailsRow,
 } from "./AuthzDetailsTable"
+import Code from "./Code"
 type TabKey = "transaction" | "details"
 
 const TABS: {key: TabKey; label: string}[] = [
@@ -35,12 +36,19 @@ const styles = {
 }
 
 function AuthzDetails() {
-  const {proposer, payer, authorizers, proposalKey, computeLimit, refBlock} =
-    useAuthzContext()
+  const {
+    proposer,
+    payer,
+    authorizers,
+    proposalKey,
+    computeLimit,
+    refBlock,
+    args,
+    cadence,
+  } = useAuthzContext()
   const [activeTab, setActiveTab] = useState<"transaction" | "details">(
     "transaction"
   )
-
   return (
     <div>
       <div role="tablist" aria-label="Authorization Details" sx={styles.tabs}>
@@ -95,6 +103,10 @@ function AuthzDetails() {
             </td>
           </AuthzDetailsRow>
         </AuthzDetailsTable>
+        <Box mt={3} mb={-20}>
+          <Code title="Arguments" value={JSON.stringify(args, null, 2)} />
+          <Code title="Script Source Code" value={cadence} />
+        </Box>
       </div>
       <div
         tabIndex={0}

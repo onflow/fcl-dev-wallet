@@ -26,3 +26,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+#headlessui-portal-root {
+  width: 100%;
+}
