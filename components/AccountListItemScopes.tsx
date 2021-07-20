@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 import Button from "components/Button"
 import Switch from "components/Switch"
-import useAppContext from "hooks/useAppContext"
+import useAuthnContext from "hooks/useAuthnContext"
 import {Label, Themed} from "theme-ui"
 import {SXStyles} from "types"
 
@@ -40,7 +40,7 @@ export default function AccountsListItemScopes({
   showManageAccount?: boolean
   compact?: boolean
 }) {
-  const {appScopes} = useAppContext()
+  const {appScopes} = useAuthnContext()
 
   const toggleScope = (scope: string) => {
     scopes.has(scope) ? scopes.delete(scope) : scopes.add(scope)

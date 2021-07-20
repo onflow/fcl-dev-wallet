@@ -30,6 +30,7 @@ const Button = ({
   const variants = useVariants([
     `buttons.${disabled ? "disabled" : variant}`,
     `buttons.sizes.${size}`,
+    `${variant === "unstyled" ? "buttons.unstyled" : ""}`,
   ])
 
   const style: ThemeUICSSObject = {
@@ -43,6 +44,7 @@ const Button = ({
     border: 0,
     borderRadius: 4,
     textDecoration: "none",
+    fontFamily: "Bebas Neue",
     "&:hover": {
       opacity: 0.9,
     },

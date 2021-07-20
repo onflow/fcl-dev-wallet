@@ -2,7 +2,7 @@
 import AccountsListItem from "components/AccountsListItem"
 import ConnectedAppHeader from "components/ConnectedAppHeader"
 import PlusButton from "components/PlusButton"
-import useAppContext from "hooks/useAppContext"
+import useAuthnContext from "hooks/useAuthnContext"
 import {Account, NewAccount} from "pages/api/accounts"
 import accountGenerator from "src/accountGenerator"
 import {Box, Link, Themed} from "theme-ui"
@@ -34,7 +34,7 @@ export default function AccountsList({
   onEditAccount: (account: Account | NewAccount) => void
   createdAccountAddress: string | null
 }) {
-  const {initError} = useAppContext()
+  const {initError} = useAuthnContext()
 
   return (
     <div>
@@ -73,7 +73,6 @@ export default function AccountsList({
           </Box>
         </>
       )}
-
       <Box mb={4}>
         <div sx={styles.footer}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
