@@ -70,6 +70,7 @@ export default function Dialog({children}: {children: React.ReactNode}) {
       onClose={onClose}
       sx={{...styles.dialog, ...(isExpanded ? styles.dialogExpanded : {})}}
       initialFocus={undefined}
+      data-test="dev-wallet"
     >
       <HUIDialog.Overlay />
       <div sx={{...styles.header, mb: isExpanded ? 0 : styles.header.mb}}>

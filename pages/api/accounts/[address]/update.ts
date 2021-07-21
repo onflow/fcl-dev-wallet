@@ -1,9 +1,9 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
+import updateAccountTransaction from "cadence/transactions/updateAccount.cdc"
 import {NextApiRequest, NextApiResponse} from "next"
 import {authz} from "src/authz"
 import "src/fclConfig"
-import updateAccountTransaction from "../../../../cadence/transactions/updateAccount.cdc"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {label, scopes} = req.body

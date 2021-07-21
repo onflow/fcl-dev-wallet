@@ -1,10 +1,10 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
+import newAccountTransaction from "cadence/transactions/newAccount.cdc"
 import {NextApiRequest, NextApiResponse} from "next"
 import {authz} from "src/authz"
 import {FLOW_EVENT_TYPES} from "src/constants"
 import "src/fclConfig"
-import newAccountTransaction from "../../../cadence/transactions/newAccount.cdc"
 
 type CreatedAccountResponse = {
   events: CreatedAccountEvent[]

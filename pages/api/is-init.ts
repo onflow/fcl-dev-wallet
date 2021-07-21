@@ -1,7 +1,7 @@
 import * as fcl from "@onflow/fcl"
+import init from "cadence/scripts/init.cdc"
 import {NextApiRequest, NextApiResponse} from "next"
 import "src/fclConfig"
-import init from "../../cadence/scripts/init.cdc"
 
 export default async (_req: NextApiRequest, res: NextApiResponse) => {
   try {

@@ -57,6 +57,7 @@ export default function AccountsListItemScopes({
             size="xs"
             onClick={onEditAccount}
             sx={styles.editAccountButton}
+            data-test="manage-account-button"
           >
             Manage Account
           </Button>
@@ -69,7 +70,7 @@ export default function AccountsListItemScopes({
             <Label htmlFor={`scope-${scope}`} sx={styles.label}>
               {scope}
             </Label>
-            <div sx={{display: "inline-flex"}}>
+            <div sx={{display: "inline-flex"}} data-test="account-scope-switch">
               <Switch
                 size="lg"
                 id={`scope-${scope}`}

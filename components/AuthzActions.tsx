@@ -80,6 +80,7 @@ function AuthzActions() {
           sx={{flex: 1, mx: 10, w: "50%"}}
           onClick={sign}
           disabled={isLoading}
+          data-test="approve-transaction-button"
         >
           Approve
         </Button>

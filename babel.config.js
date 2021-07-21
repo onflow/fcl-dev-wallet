@@ -1,16 +1,15 @@
 module.exports = function (api) {
+  const env = api.env()
   api.assertVersion("^7.12.10")
-  api.cache(false)
+
+  const removeDataTestAttributes =
+    env === "production" && !process.env.PRESERVE_DATA_TEST_ATTRIBUTES
 
   const presets = ["next/babel"]
-  const plugins = [
-    [
-      "babel-plugin-inline-import",
-      {
-        extensions: [".cdc"],
-      },
-    ],
-  ]
+  const plugins = []
+
+  if (removeDataTestAttributes)
+    plugins.push(["react-remove-properties", {properties: ["data-test"]}])
 
   return {
     presets,
