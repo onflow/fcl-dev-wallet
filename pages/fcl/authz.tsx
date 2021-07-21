@@ -24,7 +24,9 @@ export default function Authz() {
   return (
     <AuthzContextProvider>
       <Dialog>
-        <AuthzContent />
+        <div>
+          <AuthzContent />
+        </div>
       </Dialog>
     </AuthzContextProvider>
   )

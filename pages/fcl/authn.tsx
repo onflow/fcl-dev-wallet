@@ -26,6 +26,7 @@ export default function Authn() {
     setEditingAccount(null)
     if (createdAccountAddress) setCreatedAccountAddress(createdAccountAddress)
   }
+  const onCancel = () => setEditingAccount(null)
 
   if (!data && error) return <Err error={error} />
   if (!data || isLoading) return null
@@ -38,6 +39,7 @@ export default function Authn() {
             <AccountForm
               account={editingAccount}
               onSubmitComplete={onSubmitComplete}
+              onCancel={onCancel}
             />
           ) : (
             <AccountsList

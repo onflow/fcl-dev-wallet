@@ -23,9 +23,11 @@ const styles = {
 export default function AccountForm({
   account,
   onSubmitComplete,
+  onCancel,
 }: {
   account: Account | NewAccount
   onSubmitComplete: (createdAccountAddress?: string) => void
+  onCancel: () => void
 }) {
   const [errors, setErrors] = useState<string[]>([])
 
@@ -109,6 +111,18 @@ export default function AccountForm({
                 disabled={isSubmitting || !isValid}
               >
                 {account.address ? "Save" : "Create Account"}
+              </Button>
+            </Box>
+            <Box mb={3}>
+              <Button
+                onClick={onCancel}
+                type="button"
+                variant="ghost"
+                block
+                size="lg"
+                disabled={isSubmitting}
+              >
+                Cancel
               </Button>
             </Box>
 
