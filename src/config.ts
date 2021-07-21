@@ -1,6 +1,5 @@
 type Config = {
   flowAccessNode: string
-  flowAccountAddress: string
   flowAccountKeyId: string
   flowAccountPrivateKey: string
   flowAccountPublicKey: string
@@ -9,9 +8,6 @@ type Config = {
 
 const flowAccessNode = process.env.FLOW_ACCESS_NODE
 if (!flowAccessNode) throw "Missing FLOW_ACCESS_NODE"
-
-const flowAccountAddress = process.env.FLOW_ACCOUNT_ADDRESS
-if (!flowAccountAddress) throw "Missing FLOW_ACCOUNT_ADDRESS"
 
 const flowAccountKeyId = process.env.FLOW_ACCOUNT_KEY_ID
 if (!flowAccountKeyId) throw "Missing FLOW_ACCOUNT_KEY_ID"
@@ -27,7 +23,6 @@ if (!flowInitAccountsNo) throw "Missing FLOW_INIT_ACCOUNTS_NO"
 
 const config: Config = {
   flowAccessNode,
-  flowAccountAddress,
   flowAccountKeyId,
   flowAccountPrivateKey,
   flowAccountPublicKey,
