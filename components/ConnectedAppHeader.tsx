@@ -2,7 +2,7 @@
 import AccountImage from "components/AccountImage"
 import InfoIcon from "components/InfoIcon"
 import useAppContext from "hooks/useAppContext"
-import {Account} from "pages/api/accounts"
+import {Account, NewAccount} from "pages/api/accounts"
 import {useState} from "react"
 import {Button, Themed} from "theme-ui"
 import {SXStyles} from "types"
@@ -65,7 +65,7 @@ export default function ConnectedAppHeader({
   title?: string
   description?: string
   info?: boolean
-  account?: Account
+  account?: Account | NewAccount
 }) {
   const [showInfo, setShowInfo] = useState(false)
   const {
@@ -106,10 +106,10 @@ export default function ConnectedAppHeader({
           </Button>
         )}
         <div sx={styles.imageContainer}>
-          {account ? (
+          {account?.address ? (
             <AccountImage
               address={account.address}
-              styles={styles.accountImage}
+              sxStyles={styles.accountImage}
             />
           ) : (
             <img src={icon} sx={styles.image} />

@@ -7,22 +7,22 @@ import useSwr from "swr"
 
 type AppContextType = {
   connectedAppConfig: ConnectedAppConfig
-  scopes: string[]
+  appScopes: string[]
   isInit: boolean
 }
 
 export const AppContext = createContext<AppContextType>({
   connectedAppConfig: {} as ConnectedAppConfig,
-  scopes: [],
+  appScopes: [],
   isInit: false,
 })
 
 export function AppContextProvider({children}: {children: React.ReactNode}) {
   const isInit = useSwr<boolean>(paths.apiIsInit)
-  const {connectedAppConfig, scopes} = useConnectedAppConfig()
+  const {connectedAppConfig, appScopes} = useConnectedAppConfig()
 
   if (isInit.data == null) return <div>... Null Data ...</div>
   if (!connectedAppConfig) return <div>... Null Config ...</div>
-  const value = {connectedAppConfig, scopes, isInit: isInit.data}
+  const value = {connectedAppConfig, appScopes, isInit: isInit.data}
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

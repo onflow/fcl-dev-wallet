@@ -109,10 +109,13 @@ const theme = makeTheme({
       fontFamily: "inherit",
       border: 0,
       padding: 0,
-      background: "transparent",
+      backgroundColor: "transparent",
       cursor: "pointer",
       "&:hover": {
         opacity: 0.75,
+      },
+      "&:disabled": {
+        backgroundColor: "transparent",
       },
     },
     sizes: {

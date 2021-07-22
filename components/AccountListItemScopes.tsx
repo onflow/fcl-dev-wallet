@@ -1,8 +1,7 @@
 /** @jsxImportSource theme-ui */
 import Button from "components/Button"
 import Switch from "components/Switch"
-import React, {SetStateAction} from "react"
-import {ScopesObj} from "src/accountAuth"
+import useAppContext from "hooks/useAppContext"
 import {Label, Themed} from "theme-ui"
 import {SXStyles} from "types"
 
@@ -11,7 +10,6 @@ const styles: SXStyles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    height: 40,
   },
   heading: {
     textTransform: "uppercase",
@@ -26,27 +24,32 @@ const styles: SXStyles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingBottom: 3,
   },
 }
 
 export default function AccountsListItemScopes({
-  scopesObj,
-  setScopesObj,
+  scopes,
+  setScopes,
   onEditAccount,
   showManageAccount = true,
+  compact = false,
 }: {
-  scopesObj: ScopesObj
-  setScopesObj: React.Dispatch<SetStateAction<ScopesObj>>
+  scopes: Set<string>
+  setScopes: (newScopes: Set<string>) => void
   onEditAccount: () => void
   showManageAccount?: boolean
+  compact?: boolean
 }) {
-  const toggleScope = (scope: string) =>
-    setScopesObj(prev => ({...prev, [scope]: !prev[scope]}))
+  const {appScopes} = useAppContext()
+
+  const toggleScope = (scope: string) => {
+    scopes.has(scope) ? scopes.delete(scope) : scopes.add(scope)
+    setScopes(scopes)
+  }
 
   return (
     <div id="scopes">
-      <div sx={styles.headingContainer}>
+      <div sx={{...styles.headingContainer, height: compact ? 30 : 40}}>
         <div sx={styles.heading}>Scopes</div>
         {showManageAccount && (
           <Button
@@ -59,10 +62,10 @@ export default function AccountsListItemScopes({
           </Button>
         )}
       </div>
-      <Themed.hr sx={{mt: 0, mb: 3}} />
-      {Object.keys(scopesObj).map(scope => (
+      <Themed.hr sx={{mt: 0, mb: compact ? 1 : 3}} />
+      {appScopes.map(scope => (
         <div key={scope}>
-          <div sx={styles.scope}>
+          <div sx={{...styles.scope, paddingBottom: compact ? 1 : 3}}>
             <Label htmlFor={`scope-${scope}`} sx={styles.label}>
               {scope}
             </Label>
@@ -70,7 +73,7 @@ export default function AccountsListItemScopes({
               <Switch
                 size="lg"
                 id={`scope-${scope}`}
-                defaultChecked={scopesObj[scope]}
+                defaultChecked={scopes.has(scope)}
                 onClick={() => toggleScope(scope)}
                 aria-checked="true"
               />

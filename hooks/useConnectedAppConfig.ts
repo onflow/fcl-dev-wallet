@@ -28,8 +28,8 @@ export default function useAppConfig() {
     }
   }, [])
 
-  const scopes =
+  const appScopes =
     connectedAppConfig?.services?.["OpenID.scopes"]?.trim()?.split(/\s+/) ?? []
 
-  return {connectedAppConfig, scopes}
+  return {connectedAppConfig, appScopes}
 }

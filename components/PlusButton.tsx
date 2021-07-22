@@ -9,6 +9,7 @@ const styles: SXStyles = {
     fontWeight: "normal",
     paddingLeft: 0,
     justifyContent: "flex-start",
+    backgroundColor: "transparent",
   },
   icon: {
     backgroundColor: "green",
@@ -26,14 +27,21 @@ const styles: SXStyles = {
 
 export default function AccountsList({
   onClick,
+  disabled,
   children,
 }: {
   onClick?: (event: React.MouseEvent<HTMLElement>) => void
-
+  disabled?: boolean
   children: React.ReactNode
 }) {
   return (
-    <Button variant="unstyled" onClick={onClick} sx={styles.button} block>
+    <Button
+      variant="unstyled"
+      onClick={onClick}
+      sx={styles.button}
+      block
+      disabled={disabled}
+    >
       <div sx={styles.icon}>
         <img src="/plus-icon.svg" />
       </div>
