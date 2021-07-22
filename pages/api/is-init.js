@@ -10,9 +10,16 @@ pub fun main(): Bool {
 `.trim()
 
 export default async (req, res) => {
-  try {
-    await fcl.send([fcl.script(CODE)]).then(fcl.decode)
-    res.status(200).json(true)
+    
+  try{
+
+    var account = await fcl.send([fcl.getAccount(process.env.FLOW_ACCOUNT_ADDRESS)]).then(fcl.decode)
+    if (account['contracts']['FCL']) {
+        res.status(200).json(true)
+    }
+    else{
+        res.status(200).json(true)
+    }
   } catch (error) {
     res.status(200).json(false)
   }
