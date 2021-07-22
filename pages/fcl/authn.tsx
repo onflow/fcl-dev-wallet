@@ -25,7 +25,7 @@ export default function Authn() {
   }
 
   if (!data && error) return <Err error={error} />
-  if (!data || isLoading) return "Loading accounts..."
+  if (!data || isLoading) return null
 
   if (editingAccount) {
     return (

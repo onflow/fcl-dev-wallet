@@ -1,15 +1,13 @@
 /** @jsxImportSource theme-ui */
 import AccountsListItem from "components/AccountsListItem"
 import ConnectedAppHeader from "components/ConnectedAppHeader"
-import FormErrors from "components/FormErrors"
 import PlusButton from "components/PlusButton"
 import useAppContext from "hooks/useAppContext"
 import {Account, NewAccount} from "pages/api/accounts"
-import {useState} from "react"
-import {NEW_ACCOUNT, paths} from "src/constants"
-import {mutate} from "swr"
+import accountGenerator from "src/accountGenerator"
 import {Box, Link, Themed} from "theme-ui"
 import {SXStyles} from "types"
+import FormErrors from "./FormErrors"
 
 const styles: SXStyles = {
   accountCreated: {
@@ -36,25 +34,7 @@ export default function AccountsList({
   onEditAccount: (account: Account | NewAccount) => void
   createdAccountAddress: string | null
 }) {
-  const {isInit} = useAppContext()
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  const initAccounts = async () => {
-    setError(null)
-    setIsLoading(true)
-    try {
-      await fetch(paths.apiInit, {
-        method: "POST",
-      })
-      mutate(paths.apiAccounts)
-      mutate(paths.apiIsInit)
-      setIsLoading(false)
-    } catch {
-      setError("Dev Wallet initialization failed.")
-      setIsLoading(false)
-    }
-  }
+  const {initError} = useAppContext()
 
   return (
     <div>
@@ -67,32 +47,33 @@ export default function AccountsList({
           adipis elit. Curabitur quis gravida.
         </div>
       )}
-      <Box mb={2}>
-        {accounts.map(account => (
-          <AccountsListItem
-            key={account.address}
-            account={account}
-            onEditAccount={onEditAccount}
-            isNew={account.address === createdAccountAddress}
-          />
-        ))}
-      </Box>
-      <Box mb={4}>
-        {isInit ? (
-          <PlusButton
-            onClick={() => onEditAccount(NEW_ACCOUNT)}
-            disabled={isLoading}
-          >
-            Create New Account
-          </PlusButton>
-        ) : (
-          <PlusButton onClick={initAccounts} disabled={isLoading}>
-            Initialize Dev Wallet for more Accounts
-          </PlusButton>
-        )}
-        <Themed.hr sx={{mt: 2, mb: 0}} />
-      </Box>
-      {error && <FormErrors errors={[error]} />}
+      {initError ? (
+        <FormErrors errors={[initError]} />
+      ) : (
+        <>
+          <Box mb={2}>
+            {accounts.map(account => (
+              <AccountsListItem
+                key={account.address}
+                account={account}
+                onEditAccount={onEditAccount}
+                isNew={account.address === createdAccountAddress}
+              />
+            ))}
+          </Box>
+          <Box mb={4}>
+            <PlusButton
+              onClick={() =>
+                onEditAccount(accountGenerator(accounts.length - 1))
+              }
+            >
+              Create New Account
+            </PlusButton>
+            <Themed.hr sx={{mt: 2, mb: 0}} />
+          </Box>
+        </>
+      )}
+
       <Box mb={4}>
         <div sx={styles.footer}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur

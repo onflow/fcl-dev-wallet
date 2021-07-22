@@ -50,24 +50,13 @@ pub contract FCL {
     return self.account.borrow<&Root>(from: self.storagePath)!.key
   }
 
-  pub fun newServiceAccount(): AuthAccount {
+  pub fun new(label: String, scopes: [String], address: Address?): AuthAccount {
     let acct = AuthAccount(payer: self.account)
     acct.addPublicKey(self.getServiceKey())
 
     self.account
       .borrow<&Root>(from: self.storagePath)!
-      .add(Account(address: self.account.address, label: "Service Account", scopes: []))
-
-    return acct
-  }
-
-  pub fun new(label: String, scopes: [String]): AuthAccount {
-    let acct = AuthAccount(payer: self.account)
-    acct.addPublicKey(self.getServiceKey())
-
-    self.account
-      .borrow<&Root>(from: self.storagePath)!
-      .add(Account(address: acct.address, label: label, scopes: scopes))
+      .add(Account(address: address ?? acct.address, label: label, scopes: scopes))
 
     return acct
   }
@@ -77,13 +66,15 @@ pub contract FCL {
       .update(address: address, label: label, scopes: scopes)
   }
 
-  init (key: String) {
+  init (key: String, initAccountsLabels: [String]) {
     self.storagePath = /storage/FCL_DEV_WALLET
     self.account.save(<- create Root(key), to: self.storagePath)
 
-    log(self.newServiceAccount())
-    log(self.new(label: "", scopes: []))
-    log(self.new(label: "", scopes: []))
-    log(self.new(label: "", scopes: []))
+    self.new(label: "Service Account", scopes: [], address: self.account.address)
+    var acctInitIndex = 0
+    while acctInitIndex < initAccountsLabels.length {
+      self.new(label: initAccountsLabels[acctInitIndex], scopes: [], address: nil)
+      acctInitIndex = acctInitIndex + 1
+    }
   }
 }
