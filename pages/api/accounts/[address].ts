@@ -1,8 +1,8 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
+import getAccount from "cadence/scripts/getAccount.cdc"
 import {NextApiRequest, NextApiResponse} from "next"
 import "src/fclConfig"
-import getAccount from "../../cadence/scripts/getAccount.cdc"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {address} = req.query

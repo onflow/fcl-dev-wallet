@@ -120,7 +120,7 @@ export default function AccountForm({
                 variant="ghost"
                 block
                 size="lg"
-                disabled={isSubmitting}
+                sx={{color: "gray.400"}}
               >
                 Cancel
               </Button>

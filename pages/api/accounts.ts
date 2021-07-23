@@ -1,9 +1,9 @@
 import * as fcl from "@onflow/fcl"
+import getAccounts from "cadence/scripts/getAccounts.cdc"
 import {NextApiRequest, NextApiResponse} from "next"
 import "src/fclConfig"
 import publicConfig from "src/publicConfig"
 import {Optional} from "types"
-import getAccounts from "../../cadence/scripts/getAccounts.cdc"
 
 export type Account = {
   type: "ACCOUNT"

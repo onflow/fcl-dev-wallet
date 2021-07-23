@@ -66,6 +66,7 @@ export default function AccountsList({
               onClick={() =>
                 onEditAccount(accountGenerator(accounts.length - 1))
               }
+              data-test="create-account-button"
             >
               Create New Account
             </PlusButton>

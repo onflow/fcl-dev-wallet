@@ -105,6 +105,7 @@ export default function AccountsListItem({
             variant="unstyled"
             sx={styles.chooseAccountButton}
             onClick={e => chooseAccount(account, scopes)(e)}
+            data-test="log-in-button"
           >
             <AccountImage
               address={account.address}
@@ -125,6 +126,7 @@ export default function AccountsListItem({
             onClick={toggleShowScopes}
             aria-controls="scopes"
             aria-expanded={showScopes}
+            data-test="edit-account-button"
           >
             <CaretIcon up={showScopes} active={showScopes} />
           </Button>

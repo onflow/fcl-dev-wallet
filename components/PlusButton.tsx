@@ -42,6 +42,7 @@ export default function AccountsList({
       sx={styles.button}
       block
       disabled={disabled}
+      data-test="plus-button"
     >
       <div sx={styles.icon}>
         <img src="/plus-icon.svg" />
