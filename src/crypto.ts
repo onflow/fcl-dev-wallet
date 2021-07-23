@@ -1,7 +1,7 @@
 import {ECDSA_P256, encodeKey, SHA3_256} from "@onflow/util-encode-key"
 import {ec as EC} from "elliptic"
 import {SHA3} from "sha3"
-import config from "./config"
+import config from "src/config"
 const ec = new EC("p256")
 
 export const FLOW_ENCODED_SERVICE_KEY = encodeKey(

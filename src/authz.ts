@@ -2,6 +2,7 @@ import * as fcl from "@onflow/fcl"
 import {Account} from "pages/api/accounts"
 import config from "./config"
 import {sign} from "./crypto"
+import publicConfig from "./publicConfig"
 
 // alias Hex = String
 // type signable = { message: Hex, voucher: voucher }
@@ -21,10 +22,10 @@ export async function authz(account: Account) {
     // implementation of an authorization function it is recommended that you use a string with the address and keyId in it.
     // something like... tempId: `${address}-${keyId}`
     tempId: "SERVICE_ACCOUNT",
-    addr: fcl.sansPrefix(config.flowAccountAddress), // eventually it wont matter if this address has a prefix or not, sadly :'( currently it does matter.
+    addr: fcl.sansPrefix(publicConfig.flowAccountAddress), // eventually it wont matter if this address has a prefix or not, sadly :'( currently it does matter.
     keyId: Number(config.flowAccountKeyId), // must be a number
     signingFunction: (signable: {message: string}) => ({
-      addr: fcl.withPrefix(config.flowAccountAddress), // must match the address that requested the signature, but with a prefix
+      addr: fcl.withPrefix(publicConfig.flowAccountAddress), // must match the address that requested the signature, but with a prefix
       keyId: Number(config.flowAccountKeyId), // must match the keyId in the account that requested the signature
       signature: sign(config.flowAccountPrivateKey, signable.message), // signable.message |> hexToBinArray |> hash |> sign |> binArrayToHex
       // if you arent in control of the transaction that is being signed we recommend constructing the

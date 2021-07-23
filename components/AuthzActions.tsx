@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import * as fcl from "@onflow/fcl"
 import useAuthzContext from "hooks/useAuthzContext"
+import {useState} from "react"
 import {paths} from "src/constants"
 import reply from "src/reply"
 import {SXStyles} from "types"
@@ -23,8 +24,10 @@ const styles: SXStyles = {
 
 function AuthzActions() {
   const {currentUser, proposalKey, message, id} = useAuthzContext()
+  const [isLoading, setIsLoading] = useState(false)
 
   const sign = () => {
+    setIsLoading(true)
     fetch(paths.apiSign, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -52,10 +55,12 @@ function AuthzActions() {
           },
           "*"
         )
+        setIsLoading(false)
       })
       .catch(d => {
         // eslint-disable-next-line no-console
         console.error("FCL-DEV-WALLET FAILED TO SIGN", d)
+        setIsLoading(false)
       })
   }
 
@@ -70,7 +75,12 @@ function AuthzActions() {
         >
           Decline
         </Button>
-        <Button size="lg" sx={{flex: 1, mx: 10, w: "50%"}} onClick={sign}>
+        <Button
+          size="lg"
+          sx={{flex: 1, mx: 10, w: "50%"}}
+          onClick={sign}
+          disabled={isLoading}
+        >
           Approve
         </Button>
       </div>

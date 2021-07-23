@@ -29,6 +29,7 @@ export function AuthnContextProvider({children}: {children: React.ReactNode}) {
     })
       .then(() => {
         mutate(paths.apiIsInit)
+        mutate(paths.apiAccounts)
       })
       .catch(() => {
         setError("Dev Wallet initialization failed.")

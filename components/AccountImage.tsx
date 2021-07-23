@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import * as fcl from "@onflow/fcl"
 import {avatar} from "src/avatar"
+import publicConfig from "src/publicConfig"
 import {ThemeUICSSObject} from "theme-ui"
 
 interface Props {
@@ -31,6 +32,13 @@ export default function AccountImage({
   lg,
 }: Props) {
   const size = lg ? 60 : 40
+  const prefixedAddress = fcl.withPrefix(address)
+  const isServiceAccount =
+    prefixedAddress === fcl.withPrefix(publicConfig.flowAccountAddress)
+  const defaultSrc = isServiceAccount
+    ? "/settings.svg"
+    : avatar(`${prefixedAddress}-${seed}`)
+
   return (
     <div
       sx={{
@@ -39,9 +47,10 @@ export default function AccountImage({
         width: size,
         height: size,
         borderRadius: size,
+        border: isServiceAccount ? 0 : sxStyles.border || styles.border,
       }}
     >
-      <img src={src || avatar(`${fcl.withPrefix(address)}-${seed}`)} />
+      <img src={src || defaultSrc} />
     </div>
   )
 }

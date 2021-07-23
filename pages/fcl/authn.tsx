@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import AccountForm from "components/AccountForm"
 import AccountsList from "components/AccountsList"
+import Dialog from "components/Dialog"
 import {AuthnContextProvider} from "contexts/AuthnContext"
 import useAccounts from "hooks/useAccounts"
 import {Account, NewAccount} from "pages/api/accounts"
@@ -25,26 +26,30 @@ export default function Authn() {
     setEditingAccount(null)
     if (createdAccountAddress) setCreatedAccountAddress(createdAccountAddress)
   }
+  const onCancel = () => setEditingAccount(null)
 
   if (!data && error) return <Err error={error} />
   if (!data || isLoading) return null
 
   return (
-    <div sx={{px: [0, 3]}}>
-      <AuthnContextProvider>
-        {editingAccount ? (
-          <AccountForm
-            account={editingAccount}
-            onSubmitComplete={onSubmitComplete}
-          />
-        ) : (
-          <AccountsList
-            accounts={data}
-            onEditAccount={onEditAccount}
-            createdAccountAddress={createdAccountAddress}
-          />
-        )}
-      </AuthnContextProvider>
-    </div>
+    <AuthnContextProvider>
+      <Dialog>
+        <div sx={{px: [0, 3]}}>
+          {editingAccount ? (
+            <AccountForm
+              account={editingAccount}
+              onSubmitComplete={onSubmitComplete}
+              onCancel={onCancel}
+            />
+          ) : (
+            <AccountsList
+              accounts={data}
+              onEditAccount={onEditAccount}
+              createdAccountAddress={createdAccountAddress}
+            />
+          )}
+        </div>
+      </Dialog>
+    </AuthnContextProvider>
   )
 }
