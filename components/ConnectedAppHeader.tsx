@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 import AccountImage from "components/AccountImage"
 import InfoIcon from "components/InfoIcon"
-import useAppContext from "hooks/useAppContext"
+import useAuthnContext from "hooks/useAuthnContext"
 import {Account, NewAccount} from "pages/api/accounts"
 import {useState} from "react"
 import {Button, Themed} from "theme-ui"
@@ -33,11 +33,6 @@ const styles: SXStyles = {
   title: {
     marginTop: 3,
     marginBottom: 2,
-  },
-  accountImage: {
-    width: 65,
-    borderRadius: 65,
-    overflow: "hidden",
   },
   image: {
     borderRadius: 65,
@@ -72,7 +67,7 @@ export default function ConnectedAppHeader({
     connectedAppConfig: {
       app: {icon, title: connectedAppTitle},
     },
-  } = useAppContext()
+  } = useAuthnContext()
   const toggleShowInfo = () => setShowInfo(prev => !prev)
 
   return (
@@ -109,7 +104,8 @@ export default function ConnectedAppHeader({
           {account?.address ? (
             <AccountImage
               address={account.address}
-              sxStyles={styles.accountImage}
+              seed={connectedAppTitle}
+              lg={true}
             />
           ) : (
             <img src={icon} sx={styles.image} />

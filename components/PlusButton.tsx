@@ -6,10 +6,10 @@ import {SXStyles} from "types"
 const styles: SXStyles = {
   button: {
     textTransform: "none",
-    fontWeight: "normal",
     paddingLeft: 0,
     justifyContent: "flex-start",
     backgroundColor: "transparent",
+    fontWeight: 600,
   },
   icon: {
     backgroundColor: "green",
@@ -37,6 +37,7 @@ export default function AccountsList({
   return (
     <Button
       variant="unstyled"
+      size="sm"
       onClick={onClick}
       sx={styles.button}
       block

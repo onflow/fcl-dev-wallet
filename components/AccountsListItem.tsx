@@ -3,6 +3,7 @@ import AccountImage from "components/AccountImage"
 import AccountListItemScopes from "components/AccountListItemScopes"
 import Button from "components/Button"
 import CaretIcon from "components/CaretIcon"
+import useAuthnContext from "hooks/useAuthnContext"
 import {Account, NewAccount} from "pages/api/accounts"
 import {useEffect, useState} from "react"
 import {chooseAccount} from "src/accountAuth"
@@ -21,10 +22,6 @@ const styles: SXStyles = {
     justifyContent: "space-between",
   },
   accountImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 40,
-    overflow: "hidden",
     marginRight: 2,
   },
   chooseAccountButton: {
@@ -81,6 +78,12 @@ export default function AccountsListItem({
   onEditAccount: (account: Account | NewAccount) => void
   isNew: boolean
 }) {
+  const {
+    connectedAppConfig: {
+      app: {title},
+    },
+  } = useAuthnContext()
+
   const [showScopes, setShowScopes] = useState(false)
   const [scopes, setScopes] = useState<Set<string>>(new Set(account.scopes))
   const toggleShowScopes = () => setShowScopes(prev => !prev)
@@ -105,6 +108,7 @@ export default function AccountsListItem({
           >
             <AccountImage
               address={account.address}
+              seed={title}
               sxStyles={styles.accountImage}
             />
             <div sx={styles.chooseAccountButtonText}>

@@ -79,6 +79,8 @@ const theme = makeTheme({
     primary: {
       color: "black",
       bg: "primary",
+      border: "1px solid",
+      borderColor: "green",
       outlineColor: "gray.500",
     },
     secondary: {
@@ -89,7 +91,7 @@ const theme = makeTheme({
     ghost: {
       bg: "transparent",
       border: "1px solid",
-      borderColor: "gray.900",
+      borderColor: "gray.300",
       outlineColor: "gray.800",
     },
     disabled: {
@@ -104,6 +106,7 @@ const theme = makeTheme({
       background: 0,
       border: 0,
       textTransform: "none",
+      fontFamily: "sans-serif",
     },
     unstyled: {
       fontFamily: "inherit",
@@ -111,6 +114,8 @@ const theme = makeTheme({
       padding: 0,
       backgroundColor: "transparent",
       cursor: "pointer",
+      borderRadius: 0,
+      letterSpacing: "inherit",
       "&:hover": {
         opacity: 0.75,
       },
@@ -129,18 +134,25 @@ const theme = makeTheme({
       sm: {
         px: 4,
         py: 2,
-        fontSize: 1,
+        fontSize: 2,
+        color: "text",
         fontWeight: 700,
       },
       md: {
-        px: 3,
-        py: 11,
+        fontSize: 3,
+        px: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
         fontWeight: "bold",
+        letterSpacing: 1,
       },
       lg: {
         px: 4,
-        py: 18,
+        fontSize: 3,
+        paddingTop: 16,
+        paddingBottom: 14,
         fontWeight: "bold",
+        letterSpacing: 1,
       },
     },
   },

@@ -16,6 +16,7 @@
     "@onflow/fcl": "^0.0.73",
     "@onflow/types": "^0.0.4",
     "@onflow/util-encode-key": "^0.0.2",
+    "@theme-ui/color": "^0.10.0",
     "@theme-ui/match-media": "^0.10.1",
     "elliptic": "^6.5.4",
     "formik": "^2.2.9",

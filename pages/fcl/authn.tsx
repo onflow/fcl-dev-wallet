@@ -1,5 +1,7 @@
+/** @jsxImportSource theme-ui */
 import AccountForm from "components/AccountForm"
 import AccountsList from "components/AccountsList"
+import {AuthnContextProvider} from "contexts/AuthnContext"
 import useAccounts from "hooks/useAccounts"
 import {Account, NewAccount} from "pages/api/accounts"
 import {useState} from "react"
@@ -27,20 +29,22 @@ export default function Authn() {
   if (!data && error) return <Err error={error} />
   if (!data || isLoading) return null
 
-  if (editingAccount) {
-    return (
-      <AccountForm
-        account={editingAccount}
-        onSubmitComplete={onSubmitComplete}
-      />
-    )
-  }
-
   return (
-    <AccountsList
-      accounts={data}
-      onEditAccount={onEditAccount}
-      createdAccountAddress={createdAccountAddress}
-    />
+    <div sx={{px: [0, 3]}}>
+      <AuthnContextProvider>
+        {editingAccount ? (
+          <AccountForm
+            account={editingAccount}
+            onSubmitComplete={onSubmitComplete}
+          />
+        ) : (
+          <AccountsList
+            accounts={data}
+            onEditAccount={onEditAccount}
+            createdAccountAddress={createdAccountAddress}
+          />
+        )}
+      </AuthnContextProvider>
+    </div>
   )
 }
