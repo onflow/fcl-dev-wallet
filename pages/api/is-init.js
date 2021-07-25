@@ -18,7 +18,7 @@ export default async (req, res) => {
         res.status(200).json(true)
     }
     else{
-        res.status(200).json(true)
+        res.status(200).json(false)
     }
   } catch (error) {
     res.status(200).json(false)
