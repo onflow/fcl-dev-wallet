@@ -12,7 +12,7 @@ const styles: SXStyles = {
   },
   block: {
     backgroundColor: "gray.100",
-    maxHeight: 184,
+    maxHeight: 120,
     overflow: "auto",
     py: 15,
     px: 30,

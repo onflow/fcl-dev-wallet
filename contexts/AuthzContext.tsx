@@ -1,5 +1,6 @@
 import * as fcl from "@onflow/fcl"
 import useAccounts from "hooks/useAccounts"
+import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "pages/api/accounts"
 import React, {createContext, useEffect, useMemo, useState} from "react"
 import reply from "src/reply"
@@ -63,8 +64,7 @@ type AuthzContextType = {
   codePreview: CodePreview | null
   setCodePreview: React.Dispatch<React.SetStateAction<CodePreview | null>>
   isExpanded: boolean
-  appTitle: string
-  appIcon: string
+  connectedAppConfig: ConnectedAppConfig | undefined
 }
 
 export const AuthzContext = createContext<AuthzContextType>({
@@ -87,8 +87,7 @@ export const AuthzContext = createContext<AuthzContextType>({
   codePreview: null,
   setCodePreview: () => null,
   isExpanded: false,
-  appTitle: "",
-  appIcon: "",
+  connectedAppConfig: undefined,
 })
 
 export function AuthzContextProvider({children}: {children: React.ReactNode}) {
@@ -126,7 +125,7 @@ export function AuthzContextProvider({children}: {children: React.ReactNode}) {
   if (!signable || !id || Object.entries(accounts).length === 0) return null
 
   const {addr: currentUserAddress, voucher, roles, message} = signable
-
+  const savedConnectedAppConfig = localStorage.getItem("connectedAppConfig")
   const value = {
     currentUser: accounts[fcl.withPrefix(currentUserAddress)],
     proposer: accounts[fcl.withPrefix(voucher.proposalKey.address)],
@@ -145,6 +144,9 @@ export function AuthzContextProvider({children}: {children: React.ReactNode}) {
     codePreview,
     setCodePreview,
     isExpanded: codePreview !== null,
+    connectedAppConfig: savedConnectedAppConfig
+      ? JSON.parse(savedConnectedAppConfig)
+      : undefined,
     appTitle: "Test Harness",
     appIcon: "https://placekitten.com/g/200/200",
   }
