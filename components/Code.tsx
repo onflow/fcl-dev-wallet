@@ -12,14 +12,16 @@ const styles: SXStyles = {
   },
   block: {
     backgroundColor: "gray.100",
-    maxHeight: 120,
-    overflow: "auto",
+    maxHeight: 108,
+    overflow: "hidden",
+    cursor: "pointer",
     py: 15,
     px: 30,
   },
   blockExpanded: {
     backgroundColor: "white",
     maxHeight: "auto",
+    cursor: "inherit",
     pl: 1,
     py: 0,
     borderBottomRightRadius: 8,
@@ -74,7 +76,38 @@ const styles: SXStyles = {
     textTransform: "uppercase",
     fontSize: 0,
   },
-  headerToggle: {},
+  largeExpandButton: {
+    background: "transparent",
+    border: 0,
+    padding: 0,
+    display: "block",
+    width: "100%",
+    textAlign: "initial",
+  },
+}
+
+function CodeBlock({
+  isExpanded,
+  colorizedSafeHtml,
+}: {
+  isExpanded: boolean
+  colorizedSafeHtml: string
+}) {
+  return (
+    <div
+      sx={{
+        ...styles.block,
+        ...(isExpanded ? styles.blockExpanded : {}),
+      }}
+    >
+      {colorizedSafeHtml.length > 0 && (
+        <code
+          sx={styles.code}
+          dangerouslySetInnerHTML={{__html: colorizedSafeHtml}}
+        />
+      )}
+    </div>
+  )
 }
 
 export default function Code({title, value}: {title: string; value: string}) {
@@ -91,6 +124,8 @@ export default function Code({title, value}: {title: string; value: string}) {
     }
   }, [monaco, value])
 
+  const expand = () => setCodePreview({title, value})
+
   return (
     <div sx={styles.codeContainer}>
       <div
@@ -101,26 +136,25 @@ export default function Code({title, value}: {title: string; value: string}) {
       >
         <div sx={styles.headerTitle}>{title}</div>
         {!isExpanded && (
-          <div sx={styles.headerToggle}>
-            <ExpandCollapseButton
-              onClick={() => setCodePreview({title, value})}
-            />
+          <div>
+            <ExpandCollapseButton onClick={expand} />
           </div>
         )}
       </div>
-      <div
-        sx={{
-          ...styles.block,
-          ...(isExpanded ? styles.blockExpanded : {}),
-        }}
-      >
-        {colorizedSafeHtml.length > 0 && (
-          <code
-            sx={styles.code}
-            dangerouslySetInnerHTML={{__html: colorizedSafeHtml}}
+
+      {isExpanded ? (
+        <CodeBlock
+          isExpanded={isExpanded}
+          colorizedSafeHtml={colorizedSafeHtml}
+        />
+      ) : (
+        <button onClick={expand} sx={styles.largeExpandButton}>
+          <CodeBlock
+            isExpanded={isExpanded}
+            colorizedSafeHtml={colorizedSafeHtml}
           />
-        )}
-      </div>
+        </button>
+      )}
     </div>
   )
 }

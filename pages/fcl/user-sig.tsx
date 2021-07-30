@@ -5,7 +5,7 @@ import AuthzDetailsTable, {AuthzDetailsRow} from "components/AuthzDetailsTable"
 import Dialog from "components/Dialog"
 import {useEffect, useState} from "react"
 import {paths} from "src/constants"
-import {Themed} from "theme-ui"
+import {Box, Themed} from "theme-ui"
 
 type AuthReadyResponseSignable = {
   data: {
@@ -96,20 +96,22 @@ export default function UserSign() {
         <br />
         This won’t cost you any Flow.
       </Themed.p>
-      <AuthzDetailsTable>
-        <AuthzDetailsRow>
-          <td>Address</td>
-          <td>{signable?.data.addr}</td>
-        </AuthzDetailsRow>
-        <AuthzDetailsRow>
-          <td>Key ID</td>
-          <td>{signable?.data.keyId}</td>
-        </AuthzDetailsRow>
-        <AuthzDetailsRow>
-          <td>Message</td>
-          <td>{signable?.message}</td>
-        </AuthzDetailsRow>
-      </AuthzDetailsTable>
+      <Box mb={20}>
+        <AuthzDetailsTable>
+          <AuthzDetailsRow>
+            <td>Address</td>
+            <td>{signable?.data.addr}</td>
+          </AuthzDetailsRow>
+          <AuthzDetailsRow>
+            <td>Key ID</td>
+            <td>{signable?.data.keyId}</td>
+          </AuthzDetailsRow>
+          <AuthzDetailsRow>
+            <td>Message</td>
+            <td>{signable?.message}</td>
+          </AuthzDetailsRow>
+        </AuthzDetailsTable>
+      </Box>
       <AuthzActions
         onApprove={onApprove}
         onDecline={onDecline}

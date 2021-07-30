@@ -247,8 +247,8 @@ const theme = makeTheme({
       alignItems: "center",
       justifyContent: "center",
       overflow: "hidden auto !important",
-      paddingTop: 5,
-      paddingBottom: 5,
+      paddingTop: 2,
+      paddingBottom: 2,
     },
     h1: {
       ...heading,

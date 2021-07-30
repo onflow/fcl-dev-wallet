@@ -6,7 +6,7 @@ const styles: SXStyles = {
   actionsContainer: {
     borderTop: "1px solid",
     borderColor: "gray.200",
-    mt: 20,
+    backgroundColor: "white",
     mx: -30,
     px: 20,
   },
