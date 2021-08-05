@@ -27,7 +27,7 @@ const styles: SXStyles = {
   },
 }
 
-export default function AccountsListItemScopes({
+export default function AccountListItemScopes({
   scopes,
   setScopes,
   onEditAccount,
@@ -50,7 +50,7 @@ export default function AccountsListItemScopes({
   return (
     <div id="scopes">
       <div sx={{...styles.headingContainer, height: compact ? 30 : 40}}>
-        <div sx={styles.heading}>Scopes</div>
+        <div sx={styles.heading}>{appScopes.length > 0 && "Scopes"}</div>
         {showManageAccount && (
           <Button
             variant="link"
@@ -63,25 +63,32 @@ export default function AccountsListItemScopes({
           </Button>
         )}
       </div>
-      <Themed.hr sx={{mt: 0, mb: compact ? 1 : 3}} />
-      {appScopes.map(scope => (
-        <div key={scope}>
-          <div sx={{...styles.scope, paddingBottom: compact ? 1 : 3}}>
-            <Label htmlFor={`scope-${scope}`} sx={styles.label}>
-              {scope}
-            </Label>
-            <div sx={{display: "inline-flex"}} data-test="account-scope-switch">
-              <Switch
-                size="lg"
-                id={`scope-${scope}`}
-                defaultChecked={scopes.has(scope)}
-                onClick={() => toggleScope(scope)}
-                aria-checked="true"
-              />
+      {appScopes.length > 0 && (
+        <>
+          <Themed.hr sx={{mt: 0, mb: compact ? 1 : 3}} />
+          {appScopes.map(scope => (
+            <div key={scope}>
+              <div sx={{...styles.scope, paddingBottom: compact ? 1 : 3}}>
+                <Label htmlFor={`scope-${scope}`} sx={styles.label}>
+                  {scope}
+                </Label>
+                <div
+                  sx={{display: "inline-flex"}}
+                  data-test="account-scope-switch"
+                >
+                  <Switch
+                    size="lg"
+                    id={`scope-${scope}`}
+                    defaultChecked={scopes.has(scope)}
+                    onClick={() => toggleScope(scope)}
+                    aria-checked="true"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      ))}
+          ))}
+        </>
+      )}
     </div>
   )
 }
