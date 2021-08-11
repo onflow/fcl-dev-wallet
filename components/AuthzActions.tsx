@@ -4,15 +4,21 @@ import Button from "./Button"
 
 const styles: SXStyles = {
   actionsContainer: {
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    bottom: 0,
     borderTop: "1px solid",
     borderColor: "gray.200",
     backgroundColor: "white",
-    mx: -30,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
     px: 20,
   },
   actions: {
     display: "flex",
-    pt: 30,
+    flex: 1,
+    pt: 20,
     pb: 20,
   },
 }

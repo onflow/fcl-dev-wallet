@@ -89,7 +89,15 @@ export default function UserSign() {
   }
 
   return (
-    <Dialog>
+    <Dialog
+      footer={
+        <AuthzActions
+          onApprove={onApprove}
+          onDecline={onDecline}
+          isLoading={isLoading}
+        />
+      }
+    >
       <Themed.h1 sx={{textAlign: "center", mb: 0}}>Sign Message</Themed.h1>
       <Themed.p sx={{textAlign: "center", mb: 4}}>
         Please prove you have access to this wallet.
@@ -112,11 +120,6 @@ export default function UserSign() {
           </AuthzDetailsRow>
         </AuthzDetailsTable>
       </Box>
-      <AuthzActions
-        onApprove={onApprove}
-        onDecline={onDecline}
-        isLoading={isLoading}
-      />
     </Dialog>
   )
 }

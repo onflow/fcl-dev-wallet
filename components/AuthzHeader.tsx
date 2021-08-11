@@ -11,6 +11,7 @@ const styles: SXStyles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    pt: 4,
   },
   headerSection: {
     display: "flex",
@@ -38,7 +39,7 @@ const styles: SXStyles = {
   },
   transactionIcon: {
     position: "absolute",
-    top: 14,
+    top: 45,
   },
 }
 

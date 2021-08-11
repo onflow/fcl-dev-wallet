@@ -20,7 +20,7 @@ const styles: SXStyles = {
   },
   blockExpanded: {
     backgroundColor: "white",
-    maxHeight: "auto",
+    maxHeight: "initial",
     cursor: "inherit",
     pl: 1,
     py: 0,
