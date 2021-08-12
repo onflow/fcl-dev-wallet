@@ -12,8 +12,8 @@ import {SXStyles} from "types"
 
 const styles: SXStyles = {
   accountListItem: {
-    marginX: -3,
-    paddingX: 3,
+    marginX: -15,
+    paddingX: 15,
   },
   accountButtonContainer: {
     display: "flex",
@@ -52,9 +52,12 @@ const styles: SXStyles = {
     justifyContent: "center",
   },
   toggleScopesButton: {
-    height: 40,
-    marginRight: -3,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     ml: 2,
+    position: "relative",
+    right: -15,
   },
   isNew: {
     textTransform: "uppercase",

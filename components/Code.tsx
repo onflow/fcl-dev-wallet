@@ -8,7 +8,7 @@ import ExpandCollapseButton from "./ExpandCollapseButton"
 
 const styles: SXStyles = {
   codeContainer: {
-    mx: -30,
+    mx: [-15, -30],
   },
   block: {
     backgroundColor: "gray.100",
@@ -16,7 +16,7 @@ const styles: SXStyles = {
     overflow: "hidden",
     cursor: "pointer",
     py: 15,
-    px: 30,
+    px: [15, 30],
   },
   blockExpanded: {
     backgroundColor: "white",
@@ -63,7 +63,7 @@ const styles: SXStyles = {
   },
   header: {
     height: 30,
-    px: 30,
+    px: [15, 30],
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
