@@ -1,5 +1,4 @@
 /** @jsxImportSource theme-ui */
-import Button from "components/Button"
 import Switch from "components/Switch"
 import useAuthnContext from "hooks/useAuthnContext"
 import {Label, Themed} from "theme-ui"
@@ -18,7 +17,6 @@ const styles: SXStyles = {
     fontSize: 0,
     letterSpacing: "0.05em",
   },
-  editAccountButton: {margin: 0, padding: 0},
   label: {textTransform: "capitalize", margin: 0},
   scope: {
     display: "flex",
@@ -30,14 +28,10 @@ const styles: SXStyles = {
 export default function AccountListItemScopes({
   scopes,
   setScopes,
-  onEditAccount,
-  showManageAccount = true,
   compact = false,
 }: {
   scopes: Set<string>
   setScopes: (newScopes: Set<string>) => void
-  onEditAccount: () => void
-  showManageAccount?: boolean
   compact?: boolean
 }) {
   const {appScopes} = useAuthnContext()
@@ -51,17 +45,6 @@ export default function AccountListItemScopes({
     <div id="scopes">
       <div sx={{...styles.headingContainer, height: compact ? 30 : 40}}>
         <div sx={styles.heading}>{appScopes.length > 0 && "Scopes"}</div>
-        {showManageAccount && (
-          <Button
-            variant="link"
-            size="xs"
-            onClick={onEditAccount}
-            sx={styles.editAccountButton}
-            data-test="manage-account-button"
-          >
-            Manage Account
-          </Button>
-        )}
       </div>
       {appScopes.length > 0 && (
         <>

@@ -7,7 +7,7 @@ import useAuthnContext from "hooks/useAuthnContext"
 import {Account, NewAccount} from "pages/api/accounts"
 import {useEffect, useState} from "react"
 import {chooseAccount} from "src/accountAuth"
-import {Themed} from "theme-ui"
+import {Flex, Themed} from "theme-ui"
 import {SXStyles} from "types"
 
 const styles: SXStyles = {
@@ -54,6 +54,7 @@ const styles: SXStyles = {
   toggleScopesButton: {
     height: 40,
     marginRight: -3,
+    ml: 2,
   },
   isNew: {
     textTransform: "uppercase",
@@ -67,6 +68,12 @@ const styles: SXStyles = {
     px: "7px",
     ml: 2,
   },
+  manageAccountButton: {
+    margin: 0,
+    padding: 0,
+    fontSize: 0,
+    fontWeight: "normal",
+  },
 }
 
 export default function AccountsListItem({
@@ -78,7 +85,7 @@ export default function AccountsListItem({
   onEditAccount: (account: Account | NewAccount) => void
   isNew: boolean
 }) {
-  const {connectedAppConfig} = useAuthnContext()
+  const {connectedAppConfig, appScopes} = useAuthnContext()
   const {
     app: {title},
   } = connectedAppConfig
@@ -86,6 +93,7 @@ export default function AccountsListItem({
   const [showScopes, setShowScopes] = useState(false)
   const [scopes, setScopes] = useState<Set<string>>(new Set(account.scopes))
   const toggleShowScopes = () => setShowScopes(prev => !prev)
+  const hasScopes = appScopes.length > 0
 
   useEffect(() => {
     setScopes(new Set(account.scopes))
@@ -119,23 +127,31 @@ export default function AccountsListItem({
               <code sx={styles.chooseAccountAddress}>{account.address}</code>
             </div>
           </Button>
-          <Button
-            variant="unstyled"
-            sx={styles.toggleScopesButton}
-            onClick={toggleShowScopes}
-            aria-controls="scopes"
-            aria-expanded={showScopes}
-            data-test="edit-account-button"
-          >
-            <CaretIcon up={showScopes} active={showScopes} />
-          </Button>
+          <Flex>
+            <Button
+              variant="link"
+              onClick={() => onEditAccount(account)}
+              sx={styles.manageAccountButton}
+              data-test="manage-account-button"
+            >
+              Manage
+            </Button>
+            {hasScopes && (
+              <Button
+                variant="unstyled"
+                sx={styles.toggleScopesButton}
+                onClick={toggleShowScopes}
+                aria-controls="scopes"
+                aria-expanded={showScopes}
+                data-test="expand-account-button"
+              >
+                <CaretIcon up={showScopes} active={showScopes} />
+              </Button>
+            )}
+          </Flex>
         </div>
-        {showScopes && (
-          <AccountListItemScopes
-            scopes={scopes}
-            setScopes={setScopes}
-            onEditAccount={() => onEditAccount(account)}
-          />
+        {hasScopes && showScopes && (
+          <AccountListItemScopes scopes={scopes} setScopes={setScopes} />
         )}
       </div>
       <Themed.hr sx={{mt: 0, mb: 0}} />
