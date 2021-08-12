@@ -17,4 +17,4 @@ export const FLOW_EVENT_TYPES = {
 
 export const LABEL_MISSING_ERROR = "Label is required."
 export const SERVICE_ACCOUNT_LABEL = "Service Account"
-export const UNTITLED_APP_NAME = "Untitled"
+export const UNTITLED_APP_NAME = "Untitled Dapp"

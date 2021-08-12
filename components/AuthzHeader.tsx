@@ -4,6 +4,7 @@ import {UNTITLED_APP_NAME} from "src/constants"
 import {Label} from "theme-ui"
 import {SXStyles} from "types"
 import AccountImage from "./AccountImage"
+import ConnectedAppIcon from "./ConnectedAppIcon"
 
 const styles: SXStyles = {
   header: {
@@ -60,7 +61,7 @@ function AuthzHeader() {
         </Label>
       </div>
       <div sx={styles.headerSection}>
-        <AccountImage src={icon} seed={title} lg={true} />
+        <ConnectedAppIcon icon={icon} />
         <Label sx={styles.label}>{title}</Label>
       </div>
     </div>
