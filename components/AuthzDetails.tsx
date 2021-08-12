@@ -1,6 +1,5 @@
 /** @jsxImportSource theme-ui */
 import useAuthzContext from "hooks/useAuthzContext"
-import {Box} from "theme-ui"
 import {SXStyles} from "types"
 import AuthzDetailsTable, {
   AuthzDetailsAccount,
@@ -13,13 +12,18 @@ const styles: SXStyles = {
     display: "flex",
     flex: 1,
     height: "100%",
-    mx: -30,
+    mx: [-15, -30],
   },
   wrappedValue: {
     width: [170, 200],
     overflowWrap: "break-word",
     textAlign: "right",
     ml: "auto",
+  },
+  codeContainer: {
+    mt: 3,
+    mb: -20,
+    maxWidth: [332, "100%"],
   },
 }
 
@@ -36,7 +40,9 @@ function AuthzDetails() {
   } = useAuthzContext()
   return (
     <div sx={styles.container}>
-      <div sx={{px: 30, display: "flex", flexDirection: "column", flex: 1}}>
+      <div
+        sx={{px: [15, 30], display: "flex", flexDirection: "column", flex: 1}}
+      >
         <AuthzDetailsTable>
           <AuthzDetailsRow>
             <td>Proposer</td>
@@ -84,10 +90,10 @@ function AuthzDetails() {
             </td>
           </AuthzDetailsRow>
         </AuthzDetailsTable>
-        <Box mt={3} mb={-20}>
+        <div sx={styles.codeContainer}>
           <Code title="Arguments" value={JSON.stringify(args, null, 2)} />
           <Code title="Script Source Code" value={cadence} />
-        </Box>
+        </div>
       </div>
     </div>
   )

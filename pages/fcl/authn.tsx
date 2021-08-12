@@ -34,7 +34,7 @@ export default function Authn() {
   return (
     <AuthnContextProvider>
       <Dialog>
-        <div sx={{px: [0, 3]}}>
+        <div>
           {editingAccount ? (
             <AccountForm
               account={editingAccount}
