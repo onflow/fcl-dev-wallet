@@ -51,13 +51,13 @@ const styles: SXStyles = {
     flexDirection: "column",
     justifyContent: "center",
   },
-  toggleScopesButton: {
+  expandAccountButton: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    ml: 2,
     position: "relative",
     right: -15,
+    px: 15,
   },
   isNew: {
     textTransform: "uppercase",
@@ -142,7 +142,7 @@ export default function AccountsListItem({
             {hasScopes && (
               <Button
                 variant="unstyled"
-                sx={styles.toggleScopesButton}
+                sx={styles.expandAccountButton}
                 onClick={toggleShowScopes}
                 aria-controls="scopes"
                 aria-expanded={showScopes}
