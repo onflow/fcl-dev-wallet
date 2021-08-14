@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import useAuthzContext from "hooks/useAuthzContext"
+import {UNTITLED_APP_NAME} from "src/constants"
 import {Label} from "theme-ui"
 import {SXStyles} from "types"
 import AccountImage from "./AccountImage"
@@ -30,7 +31,7 @@ const styles: SXStyles = {
     position: "absolute",
     mt: "-2px",
     left: -15,
-    backgroundColor: "green",
+    backgroundColor: "primary",
     width: 7,
     height: 7,
     borderRadius: 7,
@@ -42,22 +43,24 @@ const styles: SXStyles = {
 }
 
 function AuthzHeader() {
-  const {currentUser, appTitle, appIcon} = useAuthzContext()
+  const {currentUser, connectedAppConfig} = useAuthzContext()
+  const title = connectedAppConfig?.app?.title || UNTITLED_APP_NAME
+  const icon = connectedAppConfig?.app?.icon
   return (
     <div sx={styles.header}>
       <div sx={styles.transactionIcon}>
         <img src="/transaction.svg" />
       </div>
       <div sx={styles.headerSection}>
-        <AccountImage address={currentUser.address} seed={appTitle} lg={true} />
+        <AccountImage address={currentUser.address} seed={title} lg={true} />
         <Label sx={styles.label}>
           <div sx={styles.greenDot} />
           {currentUser.label}
         </Label>
       </div>
       <div sx={styles.headerSection}>
-        <AccountImage src={appIcon} seed={appTitle} lg={true} />
-        <Label sx={styles.label}>{appTitle}</Label>
+        <AccountImage src={icon} seed={title} lg={true} />
+        <Label sx={styles.label}>{title}</Label>
       </div>
     </div>
   )

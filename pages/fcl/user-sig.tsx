@@ -1,7 +1,11 @@
+/** @jsxImportSource theme-ui */
 import * as fcl from "@onflow/fcl"
+import AuthzActions from "components/AuthzActions"
+import AuthzDetailsTable, {AuthzDetailsRow} from "components/AuthzDetailsTable"
+import Dialog from "components/Dialog"
 import {useEffect, useState} from "react"
-import {Header} from "src/comps/header.comp"
 import {paths} from "src/constants"
+import {Themed} from "theme-ui"
 
 type AuthReadyResponseSignable = {
   data: {
@@ -23,6 +27,7 @@ const reply =
   }
 
 export default function UserSign() {
+  const [isLoading, setIsLoading] = useState(false)
   const [signable, setSignable] = useState<AuthReadyResponseSignable | null>(
     null
   )
@@ -43,8 +48,9 @@ export default function UserSign() {
     return () => window.removeEventListener("message", callback)
   }, [])
 
-  async function signUserMessage() {
-    await fetch(paths.userSig, {
+  function onApprove() {
+    setIsLoading(true)
+    fetch(paths.userSig, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(signable),
@@ -64,14 +70,16 @@ export default function UserSign() {
             signature: signature,
           },
         })()
+        setIsLoading(false)
       })
       .catch(d => {
         // eslint-disable-next-line no-console
         console.error("FCL-DEV-WALLET FAILED TO SIGN", d)
+        setIsLoading(false)
       })
   }
 
-  const declineSign = () => {
+  const onDecline = () => {
     reply("FCL:FRAME:RESPONSE", {
       f_type: "PollingResponse",
       f_vsn: "1.0.0",
@@ -81,36 +89,32 @@ export default function UserSign() {
   }
 
   return (
-    <div>
-      <Header subHeader="Sign message to prove you have access to this wallet." />
-      <h4>This won’t cost you any Flow.</h4>
-      <table>
-        <thead>
-          <tr>
-            <th>Address</th>
-            <th>Key Id</th>
-            <th>Message</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{fcl.withPrefix(signable?.data.addr)}</td>
-            <td>{signable?.data.keyId}</td>
-            <td>{signable?.message}</td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={1}>
-              <button onClick={declineSign}>Decline</button>
-            </td>
-            <td colSpan={1}></td>
-            <td colSpan={1}>
-              <button onClick={signUserMessage}>Approve</button>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
+    <Dialog>
+      <Themed.h1 sx={{textAlign: "center", mb: 0}}>Sign Message</Themed.h1>
+      <Themed.p sx={{textAlign: "center", mb: 4}}>
+        Please prove you have access to this wallet.
+        <br />
+        This won’t cost you any Flow.
+      </Themed.p>
+      <AuthzDetailsTable>
+        <AuthzDetailsRow>
+          <td>Address</td>
+          <td>{signable?.data.addr}</td>
+        </AuthzDetailsRow>
+        <AuthzDetailsRow>
+          <td>Key ID</td>
+          <td>{signable?.data.keyId}</td>
+        </AuthzDetailsRow>
+        <AuthzDetailsRow>
+          <td>Message</td>
+          <td>{signable?.message}</td>
+        </AuthzDetailsRow>
+      </AuthzDetailsTable>
+      <AuthzActions
+        onApprove={onApprove}
+        onDecline={onDecline}
+        isLoading={isLoading}
+      />
+    </Dialog>
   )
 }

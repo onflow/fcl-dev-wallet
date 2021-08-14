@@ -78,11 +78,10 @@ export default function AccountsListItem({
   onEditAccount: (account: Account | NewAccount) => void
   isNew: boolean
 }) {
+  const {connectedAppConfig} = useAuthnContext()
   const {
-    connectedAppConfig: {
-      app: {title},
-    },
-  } = useAuthnContext()
+    app: {title},
+  } = connectedAppConfig
 
   const [showScopes, setShowScopes] = useState(false)
   const [scopes, setScopes] = useState<Set<string>>(new Set(account.scopes))
@@ -104,7 +103,7 @@ export default function AccountsListItem({
           <Button
             variant="unstyled"
             sx={styles.chooseAccountButton}
-            onClick={e => chooseAccount(account, scopes)(e)}
+            onClick={e => chooseAccount(account, scopes, connectedAppConfig)(e)}
             data-test="log-in-button"
           >
             <AccountImage
