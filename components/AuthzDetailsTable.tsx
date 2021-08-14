@@ -50,8 +50,8 @@ const styles: SXStyles = {
     mr: 2,
   },
   accountDetailLabelCurrent: {
-    backgroundColor: "green",
-    borderColor: "green",
+    backgroundColor: "primary",
+    borderColor: "primary",
     color: "black",
     fontWeight: 700,
   },

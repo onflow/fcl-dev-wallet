@@ -1,3 +1,4 @@
+import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "pages/api/accounts"
 
 const PROFILE_SCOPES = new Set(
@@ -65,7 +66,11 @@ function authnResponse(data: AuthResponseData) {
   }
 }
 
-export function chooseAccount(account: Account, scopes: Set<string>) {
+export function chooseAccount(
+  account: Account,
+  scopes: Set<string>,
+  connectedAppConfig: ConnectedAppConfig
+) {
   const {address, keyId} = account
   const services: AuthResponseService[] = [
     {
@@ -163,6 +168,8 @@ export function chooseAccount(account: Account, scopes: Set<string>) {
       },
     })
   }
+
+  localStorage.setItem("connectedAppConfig", JSON.stringify(connectedAppConfig))
 
   return authnResponse({
     addr: address,
