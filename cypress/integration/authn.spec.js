@@ -42,8 +42,8 @@ const appLogInButton = () => cy.get("button").contains("Log In")
 const appLogOutButton = () => cy.get("button").contains("Log Out")
 const createAccountButton = () => cy.wallet().find("[data-test='plus-button']")
 const logInButton = () => cy.wallet().find("[data-test='log-in-button']")
-const editAccountButtons = () =>
-  cy.wallet().find("[data-test='edit-account-button']")
+const expandAccountButtons = () =>
+  cy.wallet().find("[data-test='expand-account-button']")
 const accountScopeSwitch = () =>
   cy.wallet().find("[data-test='account-scope-switch']")
 const accountScopeSwitchInput = () => cy.wallet().find("input#scope-email")
@@ -97,7 +97,7 @@ describe("Authn", () => {
     cy.wallet().find("button[type='submit']").click()
     cy.wallet().should("contain", newLabel)
 
-    editAccountButtons().last().click()
+    expandAccountButtons().last().click()
     accountScopeSwitchInput().should("be.checked")
   })
 
@@ -112,13 +112,11 @@ describe("Authn", () => {
       .find("[data-test='log-in-button']")
       .should("contain", "Account A")
 
-    editAccountButtons().first().click()
+    expandAccountButtons().first().click()
     accountScopeSwitchInput().should("be.checked")
-    editAccountButtons().first().click()
+    expandAccountButtons().first().click()
 
-    editAccountButtons().last().click()
-    accountScopeSwitchInput().should("not.be.checked")
-    cy.wallet().find("[data-test='manage-account-button']").click()
+    cy.wallet().find("[data-test='manage-account-button']").last().click()
 
     cy.intercept("GET", paths.apiAccounts, {
       body: ACCOUNTS_RESPONSE,
@@ -136,7 +134,7 @@ describe("Authn", () => {
     cy.wallet().find("button[type='submit']").click()
     cy.wallet().should("contain", newLabel)
 
-    editAccountButtons().last().click()
+    expandAccountButtons().last().click()
     accountScopeSwitchInput().should("be.checked")
   })
 
@@ -166,7 +164,7 @@ describe("Authn", () => {
     appLogInButton().click()
     cy.fclIframeLoaded()
 
-    editAccountButtons().last().click()
+    expandAccountButtons().last().click()
     accountScopeSwitch().click()
     logInButton().last().click()
 

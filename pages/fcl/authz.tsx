@@ -1,3 +1,4 @@
+/** @jsxImportSource theme-ui */
 import * as fcl from "@onflow/fcl"
 import AuthzActions from "components/AuthzActions"
 import AuthzDetails from "components/AuthzDetails"
@@ -11,12 +12,9 @@ import {paths} from "src/constants"
 import reply from "src/reply"
 
 function AuthzContent() {
-  const {codePreview} = useAuthzContext()
+  const {isExpanded, codePreview} = useAuthzContext()
   const {currentUser, proposalKey, message, id} = useAuthzContext()
   const [isLoading, setIsLoading] = useState(false)
-
-  if (!!codePreview)
-    return <Code title={codePreview.title} value={codePreview.value} />
 
   const onApprove = () => {
     setIsLoading(true)
@@ -59,26 +57,32 @@ function AuthzContent() {
   const onDecline = () => reply("FCL:FRAME:CLOSE")
 
   return (
-    <>
-      <AuthzHeader />
-      <AuthzDetails />
-      <AuthzActions
-        onApprove={onApprove}
-        isLoading={isLoading}
-        onDecline={onDecline}
-      />
-    </>
+    <Dialog
+      title="Authorize Transactions"
+      header={!isExpanded && <AuthzHeader />}
+      footer={
+        !isExpanded && (
+          <AuthzActions
+            onApprove={onApprove}
+            isLoading={isLoading}
+            onDecline={onDecline}
+          />
+        )
+      }
+    >
+      {!!codePreview ? (
+        <Code title={codePreview.title} value={codePreview.value} />
+      ) : (
+        <AuthzDetails />
+      )}
+    </Dialog>
   )
 }
 
 export default function Authz() {
   return (
     <AuthzContextProvider>
-      <Dialog>
-        <div>
-          <AuthzContent />
-        </div>
-      </Dialog>
+      <AuthzContent />
     </AuthzContextProvider>
   )
 }

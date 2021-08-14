@@ -96,8 +96,6 @@ export default function AccountForm({
               <AccountListItemScopes
                 scopes={values.scopes}
                 setScopes={newScopes => setFieldValue("scopes", newScopes)}
-                onEditAccount={() => null}
-                showManageAccount={false}
                 compact={true}
               />
               <Themed.hr sx={{mt: 0, mb: 1}} />
@@ -120,7 +118,6 @@ export default function AccountForm({
                 variant="ghost"
                 block
                 size="lg"
-                sx={{color: "gray.400"}}
               >
                 Cancel
               </Button>
