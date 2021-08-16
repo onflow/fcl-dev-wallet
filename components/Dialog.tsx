@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import {Dialog as HUIDialog} from "@headlessui/react"
 import useAuthzContext from "hooks/useAuthzContext"
+import {useRef} from "react"
 import reply from "src/reply"
 import {Box, Button} from "theme-ui"
 import {SXStyles} from "types"
@@ -9,26 +10,37 @@ import ExpandCollapseButton from "./ExpandCollapseButton"
 const styles: SXStyles = {
   dialog: {
     width: ["100%", 500],
-    minHeight: 400,
+    height: "90vh",
     margin: "0 auto",
     backgroundColor: "white",
     boxShadow: "0px 4px 74px 0px #00000026",
     borderRadius: 8,
+    display: "flex",
+    flexDirection: "column",
   },
   dialogExpanded: {
     width: ["100%", "100%", "100%", 950],
     minHeight: "auto",
   },
   header: {
+    position: "sticky",
+    zIndex: 1,
+    top: 0,
+  },
+  topHeader: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    height: 52,
+    minHeight: 52,
     pl: 3,
     pr: 1,
-    mb: 40,
     borderBottom: "1px solid",
     borderColor: "gray.200",
+  },
+  footer: {
+    position: "sticky",
+    zIndex: 1,
+    bottom: 0,
   },
   logo: {
     display: "flex",
@@ -52,13 +64,28 @@ const styles: SXStyles = {
     opacity: 0.5,
   },
   body: {
-    pl: 30,
-    pr: 30,
+    pt: 40,
+    px: [15, 30],
     pb: 10,
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    overflowY: "auto",
   },
 }
 
-export default function Dialog({children}: {children: React.ReactNode}) {
+export default function Dialog({
+  title,
+  header,
+  footer,
+  children,
+}: {
+  title?: string
+  header?: React.ReactNode
+  footer?: React.ReactNode
+  children: React.ReactNode
+}) {
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
   const onClose = () => reply("FCL:FRAME:CLOSE")
   const {isExpanded, setCodePreview} = useAuthzContext()
 
@@ -69,24 +96,34 @@ export default function Dialog({children}: {children: React.ReactNode}) {
       open={true}
       onClose={onClose}
       sx={{...styles.dialog, ...(isExpanded ? styles.dialogExpanded : {})}}
-      initialFocus={undefined}
+      initialFocus={closeButtonRef}
       data-test="dev-wallet"
     >
       <HUIDialog.Overlay />
       <div sx={{...styles.header, mb: isExpanded ? 0 : styles.header.mb}}>
-        <div sx={styles.logo}>
-          <img src="/flow-logo.svg" />
-          <span sx={styles.logoText}>FCL Dev Wallet</span>
+        <div sx={styles.topHeader}>
+          <div sx={styles.logo}>
+            <img src="/flow-logo.svg" />
+            <span sx={styles.logoText}>
+              {["FCL Dev Wallet", title].filter(Boolean).join(" - ")}
+            </span>
+          </div>
+          {isExpanded ? (
+            <Box mr={2}>
+              <ExpandCollapseButton onClick={() => setCodePreview(null)} />
+            </Box>
+          ) : (
+            <Button
+              variant="unstyled"
+              onClick={onClose}
+              sx={styles.closeButton}
+              ref={closeButtonRef}
+            >
+              <img src="/x-icon.svg" />
+            </Button>
+          )}
         </div>
-        {isExpanded ? (
-          <Box mr={2}>
-            <ExpandCollapseButton onClick={() => setCodePreview(null)} />
-          </Box>
-        ) : (
-          <Button variant="unstyled" onClick={onClose} sx={styles.closeButton}>
-            <img src="/x-icon.svg" />
-          </Button>
-        )}
+        {header}
       </div>
       <div
         sx={{
@@ -97,6 +134,7 @@ export default function Dialog({children}: {children: React.ReactNode}) {
       >
         {children}
       </div>
+      <div sx={styles.footer}>{footer}</div>
     </HUIDialog>
   )
 }
