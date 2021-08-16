@@ -33,7 +33,7 @@ const styles: SXStyles = {
   },
   accountDetail: {
     display: "flex",
-    alignItems: ["flex-start", "center"],
+    alignItems: ["flex-end", "center"],
     justifyContent: "flex-end",
     flexDirection: ["column", "row"],
   },
@@ -47,7 +47,9 @@ const styles: SXStyles = {
     borderColor: "gray.200",
     borderRadius: 20,
     px: 2,
-    mr: 2,
+  },
+  accountAddress: {
+    ml: 2,
   },
   accountDetailLabelCurrent: {
     backgroundColor: "primary",
@@ -70,7 +72,7 @@ export function AuthzDetailsAccount({account}: {account: Account}) {
       >
         {account.label}
       </div>
-      {account.address}
+      <div sx={styles.accountAddress}>{account.address}</div>
     </div>
   )
 }

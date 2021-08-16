@@ -5,7 +5,7 @@ import AuthzDetailsTable, {AuthzDetailsRow} from "components/AuthzDetailsTable"
 import Dialog from "components/Dialog"
 import {useEffect, useState} from "react"
 import {paths} from "src/constants"
-import {Themed} from "theme-ui"
+import {Box, Themed} from "theme-ui"
 
 type AuthReadyResponseSignable = {
   data: {
@@ -89,32 +89,37 @@ export default function UserSign() {
   }
 
   return (
-    <Dialog>
+    <Dialog
+      footer={
+        <AuthzActions
+          onApprove={onApprove}
+          onDecline={onDecline}
+          isLoading={isLoading}
+        />
+      }
+    >
       <Themed.h1 sx={{textAlign: "center", mb: 0}}>Sign Message</Themed.h1>
       <Themed.p sx={{textAlign: "center", mb: 4}}>
         Please prove you have access to this wallet.
         <br />
         This won’t cost you any Flow.
       </Themed.p>
-      <AuthzDetailsTable>
-        <AuthzDetailsRow>
-          <td>Address</td>
-          <td>{signable?.data.addr}</td>
-        </AuthzDetailsRow>
-        <AuthzDetailsRow>
-          <td>Key ID</td>
-          <td>{signable?.data.keyId}</td>
-        </AuthzDetailsRow>
-        <AuthzDetailsRow>
-          <td>Message</td>
-          <td>{signable?.message}</td>
-        </AuthzDetailsRow>
-      </AuthzDetailsTable>
-      <AuthzActions
-        onApprove={onApprove}
-        onDecline={onDecline}
-        isLoading={isLoading}
-      />
+      <Box mb={20}>
+        <AuthzDetailsTable>
+          <AuthzDetailsRow>
+            <td>Address</td>
+            <td>{signable?.data.addr}</td>
+          </AuthzDetailsRow>
+          <AuthzDetailsRow>
+            <td>Key ID</td>
+            <td>{signable?.data.keyId}</td>
+          </AuthzDetailsRow>
+          <AuthzDetailsRow>
+            <td>Message</td>
+            <td>{signable?.message}</td>
+          </AuthzDetailsRow>
+        </AuthzDetailsTable>
+      </Box>
     </Dialog>
   )
 }

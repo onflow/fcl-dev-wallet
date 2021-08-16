@@ -1,37 +1,29 @@
 /** @jsxImportSource theme-ui */
 import useAuthzContext from "hooks/useAuthzContext"
-import {useState} from "react"
-import {Box, Button} from "theme-ui"
+import {SXStyles} from "types"
 import AuthzDetailsTable, {
   AuthzDetailsAccount,
   AuthzDetailsRow,
 } from "./AuthzDetailsTable"
 import Code from "./Code"
-type TabKey = "transaction" | "details"
 
-const TABS: {key: TabKey; label: string}[] = [
-  {key: "transaction", label: "Authorize Transaction"},
-  {key: "details", label: "Details"},
-]
-
-const styles = {
-  tabs: {
+const styles: SXStyles = {
+  container: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    flex: 1,
+    height: "100%",
+    mx: [-15, -30],
+  },
+  wrappedValue: {
+    width: [170, 200],
+    overflowWrap: "break-word",
+    textAlign: "right",
+    ml: "auto",
+  },
+  codeContainer: {
     mt: 3,
-    mb: 3,
-  },
-  button: {
-    fontSize: [1, 3],
-    mx: 3,
-    color: "gray.300",
-    borderBottom: "2px solid",
-    borderColor: "transparent",
-  },
-  buttonActive: {
-    color: "black",
-    borderColor: "black",
+    mb: -20,
+    maxWidth: [332, "100%"],
   },
 }
 
@@ -46,37 +38,10 @@ function AuthzDetails() {
     args,
     cadence,
   } = useAuthzContext()
-  const [activeTab, setActiveTab] = useState<"transaction" | "details">(
-    "transaction"
-  )
   return (
-    <div>
-      <div role="tablist" aria-label="Authorization Details" sx={styles.tabs}>
-        {TABS.map(tab => {
-          const active = activeTab === tab.key
-          return (
-            <Button
-              variant="unstyled"
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
-              role="tab"
-              aria-controls={`${tab.key}-tab`}
-              aria-selected={active}
-              disabled={active}
-              tabIndex={active ? -1 : undefined}
-              sx={{...styles.button, ...(active ? styles.buttonActive : {})}}
-            >
-              {tab.label}
-            </Button>
-          )
-        })}
-      </div>
+    <div sx={styles.container}>
       <div
-        tabIndex={0}
-        role="tabpanel"
-        id="transaction-tab"
-        aria-labelledby="transaction"
-        hidden={activeTab !== "transaction"}
+        sx={{px: [15, 30], display: "flex", flexDirection: "column", flex: 1}}
       >
         <AuthzDetailsTable>
           <AuthzDetailsRow>
@@ -102,23 +67,11 @@ function AuthzDetails() {
               ))}
             </td>
           </AuthzDetailsRow>
-        </AuthzDetailsTable>
-        <Box mt={3} mb={-20}>
-          <Code title="Arguments" value={JSON.stringify(args, null, 2)} />
-          <Code title="Script Source Code" value={cadence} />
-        </Box>
-      </div>
-      <div
-        tabIndex={0}
-        role="tabpanel"
-        id="details-tab"
-        aria-labelledby="details"
-        hidden={activeTab !== "details"}
-      >
-        <AuthzDetailsTable>
           <AuthzDetailsRow>
             <td>Proposal Key</td>
-            <td>{proposalKey.keyId}</td>
+            <td>
+              <div sx={styles.wrappedValue}>{proposalKey.keyId}</div>
+            </td>
           </AuthzDetailsRow>
           <AuthzDetailsRow>
             <td>Sequence #</td>
@@ -130,9 +83,17 @@ function AuthzDetails() {
           </AuthzDetailsRow>
           <AuthzDetailsRow>
             <td>Reference Block</td>
-            <td sx={{width: 180, overflowWrap: "anywhere"}}>{refBlock}</td>
+            <td>
+              <div sx={{...styles.wrappedValue, letterSpacing: "0.25em"}}>
+                {refBlock}
+              </div>
+            </td>
           </AuthzDetailsRow>
         </AuthzDetailsTable>
+        <div sx={styles.codeContainer}>
+          <Code title="Arguments" value={JSON.stringify(args, null, 2)} />
+          <Code title="Script Source Code" value={cadence} />
+        </div>
       </div>
     </div>
   )
