@@ -115,7 +115,7 @@ export default function UserSign() {
             <td>{signable?.data.keyId}</td>
           </AuthzDetailsRow>
           <AuthzDetailsRow>
-            <td>Message</td>
+            <td>Message (Hex)</td>
             <td>{signable?.message}</td>
           </AuthzDetailsRow>
         </AuthzDetailsTable>

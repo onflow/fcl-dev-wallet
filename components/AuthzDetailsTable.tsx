@@ -9,6 +9,7 @@ const styles: SXStyles = {
     fontSize: [0, 1],
     width: "100%",
     borderCollapse: "collapse",
+    "word-break": "break-word",
   },
   row: {
     "> td": {
