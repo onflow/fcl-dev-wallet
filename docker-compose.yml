@@ -5,15 +5,32 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=faucet
-      - POSTGRES_USER=faucet
-      - POSTGRES_PASSWORD=faucet
+      - POSTGRES_DB=dev-wallet
+      - POSTGRES_USER=dev-wallet
+      - POSTGRES_PASSWORD=dev-wallet
   emulator:
     image: gcr.io/flow-container-registry/emulator:0.20.2
     ports:
       - "8080:8080"
       - "3569:3569"
     environment:
-      - FLOW_SERVICEPRIVATEKEY=92a2a78e29deff9f42cd0bcdf5079e831f8da83b013964d014d122a85c997662
+      - FLOW_SERVICEPRIVATEKEY=${FLOW_ACCOUNT_PRIVATE_KEY}
       - FLOW_SERVICEKEYSIGALGO=ECDSA_P256
       - FLOW_SERVICEKEYHASHALGO=SHA3_256
+  wallet:
+    profiles:
+      - wallet
+    depends_on:
+      - db
+      - emulator
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      - FLOW_ACCESS_NODE=${FLOW_ACCESS_NODE}
+      - FLOW_ACCOUNT_KEY_ID=${FLOW_ACCOUNT_KEY_ID}
+      - FLOW_ACCOUNT_PRIVATE_KEY=${FLOW_ACCOUNT_PRIVATE_KEY}
+      - FLOW_ACCOUNT_PUBLIC_KEY=${FLOW_ACCOUNT_PUBLIC_KEY}
+      - FLOW_INIT_ACCOUNTS=${FLOW_INIT_ACCOUNTS}
+      - NEXT_PUBLIC_AVATAR_URL=${NEXT_PUBLIC_AVATAR_URL}
+      - NEXT_PUBLIC_FLOW_ACCOUNT_ADDRESS=${NEXT_PUBLIC_FLOW_ACCOUNT_ADDRESS}
