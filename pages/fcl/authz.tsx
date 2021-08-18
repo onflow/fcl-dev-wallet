@@ -58,7 +58,7 @@ function AuthzContent() {
 
   return (
     <Dialog
-      title="Authorize Transactions"
+      title="Authorize Transaction"
       header={!isExpanded && <AuthzHeader />}
       footer={
         !isExpanded && (
