@@ -39,12 +39,11 @@ export default function AccountsList({
   return (
     <div>
       <Box mb={4}>
-        <ConnectedAppHeader description="Create an account below, Lorem ipsum dolor sit amet, consectetur adipis elit. Curabitur." />
+        <ConnectedAppHeader description="Create an account below, or select an existing account, to log in as that account." />
       </Box>
       {createdAccountAddress && (
         <div sx={styles.accountCreated}>
-          <b>Account Created —</b> Lorem ipsum dolor sit amet, consectetur
-          adipis elit. Curabitur quis gravida.
+          <b>Account Created</b>
         </div>
       )}
       {initError ? (
@@ -76,10 +75,9 @@ export default function AccountsList({
       )}
       <Box mb={4}>
         <div sx={styles.footer}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-          quis gravida nunc, luctus sodales erat. Ut sit amet lectus tempor
-          dipiscing. Curabitur quis gravida nunc, lelit scelerisque ornare ut
-          non lectus.
+          fcl-dev-wallet is for development purposes only. Although it applies
+          the same protocol as production wallets, it is not intended for
+          production use.
           <br />
           <Link variant="secondary">privacy policy</Link> and{" "}
           <Link variant="secondary">terms of service</Link>.

@@ -10,6 +10,7 @@ import Code from "./Code"
 const styles: SXStyles = {
   container: {
     display: "flex",
+    flexDirection: "column",
     flex: 1,
     height: "100%",
     mx: [-15, -30],
@@ -41,7 +42,12 @@ function AuthzDetails() {
   return (
     <div sx={styles.container}>
       <div
-        sx={{px: [15, 30], display: "flex", flexDirection: "column", flex: 1}}
+        sx={{
+          px: [15, 30],
+          display: "flex",
+          flexDirection: "column",
+          "overflow-x": "hidden",
+        }}
       >
         <AuthzDetailsTable>
           <AuthzDetailsRow>
