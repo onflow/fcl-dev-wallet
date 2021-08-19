@@ -36,28 +36,18 @@ npm install
 npm run dev
 ```
 
-> **NOTE:** you can change the port the dev wallet runs on with `npm run dev -- -p 9999`
-
-## Configuring Your Application
-
 The FCL Dev Wallet was designed to be used with FCL with a version of `0.0.68` or higher.
 Currently `fcl@0.0.68` is in alpha an can be installed with: `npm install @onflow/fcl@alpha` or `yarn add @onflow/fcl@alpha`.
 
-```javascript
-import * as fcl from "@onflow/fcl"
-
-// prettier-ignore
-fcl.config()
-  // Point App at Emulator
-  .put("accessNode.api", "http://localhost:8080")
-  // Point FCL Wallet Discovuer at Dev Wallet
-  .put("discovery.wallet", "http://localhost:3000/fcl/authn") // with default port configuration
-```
-
 ### Emulator
 
-The Flow Emulator simulates the real Flow network
-for development purposes.
+The Flow Emulator simulates the real Flow network for development purposes. You can run the emulator locally using the [Flow CLI](https://github.com/onflow/flow-cli). The Flow CLI is a command-line interface that provides useful utilities for building Flow applications
+
+To install the Flow CLI, follow the [installation instructions](https://docs.onflow.org/flow-cli/install/) on the Flow documentation website or if using Homebrew run:
+
+```sh
+brew install flow-cli
+```
 
 Start the emulator by running the following command in this directory:
 
@@ -69,16 +59,11 @@ Keep the emulator running; you'll need it!
 
 ### Dev wallet
 
-Once the harness is running,
-clone this repository and start the dev wallet:
-
 ```sh
-cd fcl-dev-wallet
-cp .env.example .env.local
-
-npm install
 npm run dev
 ```
+
+> **NOTE:** you can change the port the dev wallet runs on with `npm run dev -- -p 9999`
 
 Keep the wallet running, too!
 
@@ -97,3 +82,19 @@ PORT=3001 npm run start
 ```
 
 You can now visit http://localhost:3001 to try out the dev wallet.
+
+## Configuring Your Application
+
+We recommend [setting configuration values](https://docs.onflow.org/fcl/api/#flow-client-library-fcl-api-reference) once and as early in the life cycle as possible. To set a configuration value, the put method on the config instance needs to be called, the put method returns the config instance so they can be chained.
+
+```javascript
+import * as fcl from "@onflow/fcl"
+
+// prettier-ignore
+fcl.config()
+  // Point App at Emulator
+  .put("accessNode.api", "http://localhost:8080")
+  // Point FCL Wallet Discovery at Dev Wallet
+  .put("discovery.wallet", "http://localhost:3000/fcl/authn") 
+  // with default port configuration
+```
