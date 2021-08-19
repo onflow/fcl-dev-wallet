@@ -1,7 +1,10 @@
 version: "3"
 services:
-  db:
-    image: postgres
+  app:
+    image: fcl-dev-wallet:experimental
+    container_name: fcl-dev-wallet:experimental
+    networks:
+      - kitty-items
     ports:
       - "5432:5432"
     environment:
@@ -34,3 +37,17 @@ services:
       - FLOW_INIT_ACCOUNTS=${FLOW_INIT_ACCOUNTS}
       - NEXT_PUBLIC_AVATAR_URL=${NEXT_PUBLIC_AVATAR_URL}
       - NEXT_PUBLIC_FLOW_ACCOUNT_ADDRESS=${NEXT_PUBLIC_FLOW_ACCOUNT_ADDRESS}
+      - 8701:8701
+    build:
+      context: .
+      args:
+        - FLOW_ACCESS_NODE=${FLOW_ACCESS_NODE}
+        - FLOW_ACCOUNT_KEY_ID=${FLOW_ACCOUNT_KEY_ID}
+        - FLOW_ACCOUNT_PRIVATE_KEY=${FLOW_ACCOUNT_PRIVATE_KEY}
+        - FLOW_ACCOUNT_PUBLIC_KEY=${FLOW_ACCOUNT_PUBLIC_KEY}
+        - FLOW_INIT_ACCOUNTS=${FLOW_INIT_ACCOUNTS}
+        - NEXT_PUBLIC_AVATAR_URL=${NEXT_PUBLIC_AVATAR_URL}
+        - NEXT_PUBLIC_FLOW_ACCOUNT_ADDRESS=${NEXT_PUBLIC_FLOW_ACCOUNT_ADDRESS}
+networks:
+  kitty-items:
+    name: kitty-items_default

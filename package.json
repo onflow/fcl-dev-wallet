@@ -9,6 +9,7 @@
     "start:all": "docker-compose --env-file .env.local up -d --build",
     "build:docker": "docker build . -t fcl-dev-wallet",
     "start": "next start --port 8701",
+    "start:docker": "docker-compose up -d",
     "lint": "eslint .",
     "tsc": "./node_modules/typescript/bin/tsc",
     "test": "cypress run",
