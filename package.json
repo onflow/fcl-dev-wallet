@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "next dev --port 8701",
     "build": "next build",
-    "start:all": "docker-compose --env-file .env.local up -d --build",
-    "build:docker": "docker build . -t fcl-dev-wallet",
     "start": "next start --port 8701",
+    "build:docker": "docker-compose build",
+    "start:docker": "docker-compose up -d",
     "lint": "eslint .",
     "tsc": "./node_modules/typescript/bin/tsc",
     "test": "cypress run",

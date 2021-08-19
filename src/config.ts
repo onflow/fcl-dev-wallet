@@ -18,8 +18,8 @@ if (!flowAccountPrivateKey) throw "Missing FLOW_ACCOUNT_PRIVATE_KEY"
 const flowAccountPublicKey = process.env.FLOW_ACCOUNT_PUBLIC_KEY
 if (!flowAccountPublicKey) throw "Missing FLOW_ACCOUNT_PUBLIC_KEY"
 
-const flowInitAccountsNo = process.env.FLOW_INIT_ACCOUNTS_NO
-if (!flowInitAccountsNo) throw "Missing FLOW_INIT_ACCOUNTS_NO"
+const flowInitAccountsNo = process.env.FLOW_INIT_ACCOUNTS
+if (!flowInitAccountsNo) throw "Missing FLOW_INIT_ACCOUNTS"
 
 const config: Config = {
   flowAccessNode,
