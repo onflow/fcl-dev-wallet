@@ -26,7 +26,7 @@ const reply =
     window.parent.postMessage({...msg, type}, "*")
   }
 
-export default function UserSign() {
+function UserSign() {
   const [isLoading, setIsLoading] = useState(false)
   const [signable, setSignable] = useState<AuthReadyResponseSignable | null>(
     null
@@ -123,3 +123,9 @@ export default function UserSign() {
     </Dialog>
   )
 }
+
+UserSign.getInitialProps = async () => {
+  return {}
+}
+
+export default UserSign

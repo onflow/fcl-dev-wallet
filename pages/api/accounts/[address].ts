@@ -2,10 +2,19 @@ import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import getAccount from "cadence/scripts/getAccount.cdc"
 import {NextApiRequest, NextApiResponse} from "next"
-import "src/fclConfig"
+import fclConfig from "src/fclConfig"
+import getConfig from "next/config"
+
+const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {address} = req.query
+
+  fclConfig(
+    serverRuntimeConfig.flowAccountAddress,
+    publicRuntimeConfig.flowAccountAddress
+  )
+
   try {
     const account = await fcl
       .send([fcl.script(getAccount), fcl.args([fcl.arg(address, t.Address)])])

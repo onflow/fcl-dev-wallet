@@ -7,8 +7,15 @@ import useAccounts from "hooks/useAccounts"
 import {Account, NewAccount} from "pages/api/accounts"
 import {useState} from "react"
 import {Err} from "src/comps/err.comp"
+import getConfig from "next/config"
 
-export default function Authn() {
+function Authn({
+  flowAccountAddress,
+  avatarUrl,
+}: {
+  flowAccountAddress: string
+  avatarUrl: string
+}) {
   const [editingAccount, setEditingAccount] = useState<
     Account | NewAccount | null
   >(null)
@@ -40,12 +47,16 @@ export default function Authn() {
               account={editingAccount}
               onSubmitComplete={onSubmitComplete}
               onCancel={onCancel}
+              flowAccountAddress={flowAccountAddress}
+              avatarUrl={avatarUrl}
             />
           ) : (
             <AccountsList
               accounts={data}
               onEditAccount={onEditAccount}
               createdAccountAddress={createdAccountAddress}
+              flowAccountAddress={flowAccountAddress}
+              avatarUrl={avatarUrl}
             />
           )}
         </div>
@@ -53,3 +64,14 @@ export default function Authn() {
     </AuthnContextProvider>
   )
 }
+
+Authn.getInitialProps = async () => {
+  const {publicRuntimeConfig} = getConfig()
+
+  return {
+    flowAccountAddress: publicRuntimeConfig.flowAccountAddress,
+    avatarUrl: publicRuntimeConfig.avatarUrl,
+  }
+}
+
+export default Authn

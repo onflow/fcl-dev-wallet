@@ -2,7 +2,6 @@
 import * as fcl from "@onflow/fcl"
 import {Img} from "react-image"
 import {avatar} from "src/avatar"
-import publicConfig from "src/publicConfig"
 import {ThemeUICSSObject} from "theme-ui"
 
 interface Props {
@@ -11,6 +10,8 @@ interface Props {
   seed: string
   sxStyles?: ThemeUICSSObject
   lg?: boolean
+  flowAccountAddress: string
+  avatarUrl: string
 }
 
 const styles = {
@@ -31,14 +32,16 @@ export default function AccountImage({
   seed,
   sxStyles = {},
   lg,
+  flowAccountAddress,
+  avatarUrl,
 }: Props) {
   const size = lg ? 65 : 40
   const prefixedAddress = fcl.withPrefix(address)
   const isServiceAccount =
-    prefixedAddress === fcl.withPrefix(publicConfig.flowAccountAddress)
+    prefixedAddress === fcl.withPrefix(flowAccountAddress)
   const defaultSrc = isServiceAccount
     ? "/settings.svg"
-    : avatar(`${prefixedAddress}-${seed}`)
+    : avatar(avatarUrl, `${prefixedAddress}-${seed}`)
 
   return (
     <div

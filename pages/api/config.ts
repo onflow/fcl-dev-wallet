@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from "next"
-import config from "src/config"
-import "src/fclConfig"
-import publicConfig from "src/publicConfig"
+import getConfig from "next/config"
+
+const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
 
 export type ConfigResponse = {
   address?: string
@@ -11,11 +11,13 @@ export type ConfigResponse = {
 }
 
 export default (_req: NextApiRequest, res: NextApiResponse) => {
+  console.log(serverRuntimeConfig, publicRuntimeConfig)
+
   const response: ConfigResponse = {
-    address: publicConfig.flowAccountAddress,
-    keyId: config.flowAccountKeyId,
-    privateKey: config.flowAccountPrivateKey,
-    accessNode: config.flowAccessNode,
+    address: publicRuntimeConfig.flowAccountAddress,
+    keyId: serverRuntimeConfig.flowAccountKeyId,
+    privateKey: serverRuntimeConfig.flowAccountPrivateKey,
+    accessNode: serverRuntimeConfig.flowAccessNode,
   }
   res.status(200).json(response)
 }

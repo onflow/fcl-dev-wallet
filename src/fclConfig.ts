@@ -1,7 +1,10 @@
-import {config as fclConfig} from "@onflow/fcl"
-import config from "./config"
-import publicConfig from "./publicConfig"
+import {config} from "@onflow/fcl"
 
-fclConfig()
-  .put("accessNode.api", config.flowAccessNode)
-  .put("0xSERVICE", publicConfig.flowAccountAddress)
+export default function fclConfig(
+  flowAccessNode: string,
+  flowAccountAddress: string
+) {
+  config()
+    .put("accessNode.api", flowAccessNode)
+    .put("0xSERVICE", flowAccountAddress)
+}

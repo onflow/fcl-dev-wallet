@@ -3,11 +3,25 @@ import * as t from "@onflow/types"
 import updateAccountTransaction from "cadence/transactions/updateAccount.cdc"
 import {NextApiRequest, NextApiResponse} from "next"
 import {authz} from "src/authz"
-import "src/fclConfig"
+import fclConfig from "src/fclConfig"
+import getConfig from "next/config"
+
+const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {label, scopes} = req.body
   const address = fcl.withPrefix(req.body.address)
+
+  fclConfig(
+    serverRuntimeConfig.flowAccountAddress,
+    publicRuntimeConfig.flowAccountAddress
+  )
+
+  const authorization = await authz(
+    publicRuntimeConfig.flowAccountAddress,
+    serverRuntimeConfig.flowAccountKeyId,
+    serverRuntimeConfig.flowAccountPrivateKey
+  )
 
   try {
     const txId = await fcl
@@ -18,8 +32,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           fcl.arg(label, t.String),
           fcl.arg(scopes, t.Array(t.String)),
         ]),
-        fcl.proposer(authz),
-        fcl.payer(authz),
+        fcl.proposer(authorization),
+        fcl.payer(authorization),
         fcl.limit(100),
       ])
       .then(fcl.decode)

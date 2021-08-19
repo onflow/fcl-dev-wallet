@@ -24,10 +24,14 @@ export default function AccountForm({
   account,
   onSubmitComplete,
   onCancel,
+  flowAccountAddress,
+  avatarUrl,
 }: {
   account: Account | NewAccount
   onSubmitComplete: (createdAccountAddress?: string) => void
   onCancel: () => void
+  flowAccountAddress: string
+  avatarUrl: string
 }) {
   const [errors, setErrors] = useState<string[]>([])
 
@@ -79,6 +83,8 @@ export default function AccountForm({
                   account.address ? "Manage Account" : "Create New Account"
                 }
                 description={account.address}
+                flowAccountAddress={flowAccountAddress}
+                avatarUrl={avatarUrl}
               />
             </Box>
 
