@@ -133,10 +133,9 @@ export default function AccountForm({
 
             <Box mb={4}>
               <div sx={styles.footer}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur quis gravida nunc, luctus sodales erat. Ut sit amet
-                lectus tempor dipiscing. Curabitur quis gravida nunc, lelit
-                scelerisque ornare ut non lectus.
+                fcl-dev-wallet is for development purposes only. Although it
+                applies the same protocol as production wallets, it is not
+                intended for production use.
                 <br />
                 <Link variant="secondary">privacy policy</Link> and{" "}
                 <Link variant="secondary">terms of service</Link>.

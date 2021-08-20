@@ -12,7 +12,6 @@ const styles: SXStyles = {
   },
   block: {
     backgroundColor: "gray.100",
-    maxHeight: 108,
     overflow: "hidden",
     cursor: "pointer",
     py: 15,
@@ -102,7 +101,10 @@ function CodeBlock({
     >
       {colorizedSafeHtml.length > 0 && (
         <code
-          sx={styles.code}
+          sx={{
+            ...styles.code,
+            overflow: isExpanded ? "scroll" : "hidden",
+          }}
           dangerouslySetInnerHTML={{__html: colorizedSafeHtml}}
         />
       )}
