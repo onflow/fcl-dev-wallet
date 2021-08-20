@@ -2,7 +2,6 @@ name: Build and publish Docker image
 
 on:
   push:
-    branches: [ main ]
     tags:
       - "v*"
 
@@ -32,7 +31,6 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          # list of Docker images to use as base name for tags
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             latest
