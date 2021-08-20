@@ -3,7 +3,7 @@ services:
   wallet:
     build: .
     ports:
-      - "3000:3000"
+      - "8701:8701"
     environment:
       - PORT=3000
       - FLOW_ACCESS_NODE=http://emulator:8080

@@ -4,9 +4,9 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 8701",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 8701",
     "lint": "eslint .",
     "tsc": "./node_modules/typescript/bin/tsc",
     "test": "cypress run",

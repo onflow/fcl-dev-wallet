@@ -33,7 +33,7 @@ COPY --from=builder /app/next.config.js ./next.config.js
 
 USER nextjs
 
-EXPOSE 3000
+EXPOSE 8701
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
