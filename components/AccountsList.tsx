@@ -83,16 +83,6 @@ export default function AccountsList({
           </Box>
         </>
       )}
-      <Box mb={4}>
-        <div sx={styles.footer}>
-          fcl-dev-wallet is for development purposes only. Although it applies
-          the same protocol as production wallets, it is not intended for
-          production use.
-          <br />
-          <Link variant="secondary">privacy policy</Link> and{" "}
-          <Link variant="secondary">terms of service</Link>.
-        </div>
-      </Box>
     </div>
   )
 }
