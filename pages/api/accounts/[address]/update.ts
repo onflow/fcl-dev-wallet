@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const address = fcl.withPrefix(req.body.address)
 
   fclConfig(
-    serverRuntimeConfig.flowAccountAddress,
+    serverRuntimeConfig.flowAccessNode,
     publicRuntimeConfig.flowAccountAddress
   )
 
@@ -42,6 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json({})
   } catch (_error) {
+    console.error(_error)
     res.status(500).json({errors: "Account update failed."})
   }
 }

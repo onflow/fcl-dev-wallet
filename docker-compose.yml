@@ -1,6 +1,6 @@
 version: "3"
 services:
-  web:
+  wallet:
     build: .
     ports:
       - "3000:3000"
@@ -12,7 +12,13 @@ services:
       - FLOW_ACCOUNT_PUBLIC_KEY=4519e9fbf966c6589fafe60903c0da5f55c5cb50aee5d870f097b35dfb6de13c170718cd92f50811cdd9290e51c2766440b696e0423a5031ae482cca79e3c479
       - FLOW_INIT_ACCOUNTS=0
       - FLOW_ACCOUNT_ADDRESS=0xf8d6e0586b0a20c7
-      - FLOW_AVATAR_URL=https://us-central1-flow-developer-playground.cloudfunctions.net/avatar/
+      - FLOW_AVATAR_URL=https://avatars.onflow.org/avatar/
+  harness:
+    build: ./harness
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
   emulator:
     image: gcr.io/flow-container-registry/emulator:0.20.2
     ports:

@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {address} = req.query
 
   fclConfig(
-    serverRuntimeConfig.flowAccountAddress,
+    serverRuntimeConfig.flowAccessNode,
     publicRuntimeConfig.flowAccountAddress
   )
 

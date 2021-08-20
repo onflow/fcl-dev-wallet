@@ -25,13 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PRESERVE_DATA_TEST_ATTRIBUTES: "true"
-      FLOW_ACCESS_NODE: "http://localhost:8080"
-      FLOW_ACCOUNT_KEY_ID: "0"
-      FLOW_ACCOUNT_PRIVATE_KEY: "92a2a78e29deff9f42cd0bcdf5079e831f8da83b013964d014d122a85c997662"
-      FLOW_ACCOUNT_PUBLIC_KEY: "480eca7fc1fab1c8685d43c818b2f1446230bdbe2933b99b7c8dd7c59f03f09e2bff0e59ab99d40e8c04ab510e0e541107de1260825a663a6cae85746f91e32d"
-      FLOW_INIT_ACCOUNTS: "3"
-      FLOW_ACCOUNT_ADDRESS: "0xf8d6e0586b0a20c7"
-      FLOW_AVATAR_URL: "https://us-central1-flow-developer-playground.cloudfunctions.net/avatar/"
 
     strategy:
       matrix:
@@ -43,12 +36,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - run: git clone https://github.com/orodio/harness
-      - run: yarn --cwd ./harness install
-      - run: PORT=3001 yarn --cwd ./harness start &
       - run: docker-compose up -d
-      - run: cp .env.example .env
       - run: npm ci
-      - run: npm run build
-      - run: ./node_modules/.bin/next start --port 3000 &
       - run: npm run test

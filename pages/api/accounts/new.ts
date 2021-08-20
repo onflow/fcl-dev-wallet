@@ -22,7 +22,7 @@ type CreatedAccountEvent = {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   fclConfig(
-    serverRuntimeConfig.flowAccountAddress,
+    serverRuntimeConfig.flowAccessNode,
     publicRuntimeConfig.flowAccountAddress
   )
 
