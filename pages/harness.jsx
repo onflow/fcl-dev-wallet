@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react"
 import "../src/harness/config"
 import decorate from "../src/harness/decorate"
 import {COMMANDS} from "../src/harness/cmds"
 import useCurrentUser from "../src/harness/hooks/use-current-user"
 import useConfig from "../src/harness/hooks/use-config"
 
-const renderCommand = (d) => {
+const renderCommand = d => {
   return (
     <li key={d.LABEL}>
       <button onClick={d.CMD}>{d.LABEL}</button>
