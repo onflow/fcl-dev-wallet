@@ -10,8 +10,15 @@ import useAuthzContext from "hooks/useAuthzContext"
 import {useState} from "react"
 import {paths} from "src/constants"
 import reply from "src/reply"
+import getConfig from "next/config"
 
-function AuthzContent() {
+function AuthzContent({
+  flowAccountAddress,
+  avatarUrl,
+}: {
+  flowAccountAddress: string
+  avatarUrl: string
+}) {
   const {isExpanded, codePreview} = useAuthzContext()
   const {currentUser, proposalKey, message, id} = useAuthzContext()
   const [isLoading, setIsLoading] = useState(false)
@@ -59,7 +66,14 @@ function AuthzContent() {
   return (
     <Dialog
       title="Authorize Transaction"
-      header={!isExpanded && <AuthzHeader />}
+      header={
+        !isExpanded && (
+          <AuthzHeader
+            flowAccountAddress={flowAccountAddress}
+            avatarUrl={avatarUrl}
+          />
+        )
+      }
       footer={
         !isExpanded && (
           <AuthzActions
@@ -79,10 +93,30 @@ function AuthzContent() {
   )
 }
 
-export default function Authz() {
+function Authz({
+  flowAccountAddress,
+  avatarUrl,
+}: {
+  flowAccountAddress: string
+  avatarUrl: string
+}) {
   return (
     <AuthzContextProvider>
-      <AuthzContent />
+      <AuthzContent
+        flowAccountAddress={flowAccountAddress}
+        avatarUrl={avatarUrl}
+      />
     </AuthzContextProvider>
   )
 }
+
+Authz.getInitialProps = async () => {
+  const {publicRuntimeConfig} = getConfig()
+
+  return {
+    flowAccountAddress: publicRuntimeConfig.flowAccountAddress,
+    avatarUrl: publicRuntimeConfig.avatarUrl,
+  }
+}
+
+export default Authz

@@ -1,7 +1,8 @@
 import {NextApiRequest, NextApiResponse} from "next"
-import config from "src/config"
 import {sign} from "src/crypto"
-import "src/fclConfig"
+import getConfig from "next/config"
+
+const {serverRuntimeConfig} = getConfig()
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {
@@ -26,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     addr: addr,
     keyId: keyId,
     signature: sign(
-      config.flowAccountPrivateKey,
+      serverRuntimeConfig.flowAccountPrivateKey,
       prependUserDomainTag(message)
     ),
   })

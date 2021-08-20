@@ -83,10 +83,14 @@ export default function AccountsListItem({
   account,
   onEditAccount,
   isNew,
+  flowAccountAddress,
+  avatarUrl,
 }: {
   account: Account
   onEditAccount: (account: Account | NewAccount) => void
   isNew: boolean
+  flowAccountAddress: string
+  avatarUrl: string
 }) {
   const {connectedAppConfig, appScopes} = useAuthnContext()
   const {
@@ -121,6 +125,8 @@ export default function AccountsListItem({
               address={account.address}
               seed={title}
               sxStyles={styles.accountImage}
+              flowAccountAddress={flowAccountAddress}
+              avatarUrl={avatarUrl}
             />
             <div sx={styles.chooseAccountButtonText}>
               <div>

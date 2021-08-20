@@ -29,17 +29,25 @@ export default function AccountsList({
   accounts,
   onEditAccount,
   createdAccountAddress,
+  flowAccountAddress,
+  avatarUrl,
 }: {
   accounts: Account[]
   onEditAccount: (account: Account | NewAccount) => void
   createdAccountAddress: string | null
+  flowAccountAddress: string
+  avatarUrl: string
 }) {
   const {initError} = useAuthnContext()
 
   return (
     <div>
       <Box mb={4}>
-        <ConnectedAppHeader description="Create an account below, or select an existing account, to log in as that account." />
+        <ConnectedAppHeader
+          description="Create an account below, or select an existing account, to log in as that account."
+          flowAccountAddress={flowAccountAddress}
+          avatarUrl={avatarUrl}
+        />
       </Box>
       {createdAccountAddress && (
         <div sx={styles.accountCreated}>
@@ -57,6 +65,8 @@ export default function AccountsList({
                 account={account}
                 onEditAccount={onEditAccount}
                 isNew={account.address === createdAccountAddress}
+                flowAccountAddress={flowAccountAddress}
+                avatarUrl={avatarUrl}
               />
             ))}
           </Box>

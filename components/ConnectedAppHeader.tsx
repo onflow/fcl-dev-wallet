@@ -78,11 +78,15 @@ export default function ConnectedAppHeader({
   description,
   info = true,
   account,
+  flowAccountAddress,
+  avatarUrl,
 }: {
   title?: string
   description?: string
   info?: boolean
   account?: Account | NewAccount
+  flowAccountAddress: string
+  avatarUrl: string
 }) {
   const [showInfo, setShowInfo] = useState(false)
   const {
@@ -133,6 +137,8 @@ export default function ConnectedAppHeader({
               address={account.address}
               seed={connectedAppTitle}
               lg={true}
+              flowAccountAddress={flowAccountAddress}
+              avatarUrl={avatarUrl}
             />
           ) : (
             <ConnectedAppIcon icon={icon} />

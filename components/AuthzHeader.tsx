@@ -44,7 +44,13 @@ const styles: SXStyles = {
   },
 }
 
-function AuthzHeader() {
+function AuthzHeader({
+  flowAccountAddress,
+  avatarUrl,
+}: {
+  flowAccountAddress: string
+  avatarUrl: string
+}) {
   const {currentUser, connectedAppConfig} = useAuthzContext()
   const title = connectedAppConfig?.app?.title || UNTITLED_APP_NAME
   const icon = connectedAppConfig?.app?.icon
@@ -54,7 +60,13 @@ function AuthzHeader() {
         <img src="/transaction.svg" />
       </div>
       <div sx={styles.headerSection}>
-        <AccountImage address={currentUser.address} seed={title} lg={true} />
+        <AccountImage
+          address={currentUser.address}
+          seed={title}
+          lg={true}
+          flowAccountAddress={flowAccountAddress}
+          avatarUrl={avatarUrl}
+        />
         <Label sx={styles.label}>
           <div sx={styles.greenDot} />
           {currentUser.label}

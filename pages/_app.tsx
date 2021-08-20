@@ -1,4 +1,4 @@
-import {AppProps} from "next/dist/next-server/lib/router/router"
+import {AppProps} from "next/app"
 import theme from "src/theme"
 import {SWRConfig} from "swr"
 import {ThemeProvider} from "theme-ui"

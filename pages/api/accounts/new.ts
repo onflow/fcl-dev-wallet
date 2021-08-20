@@ -4,7 +4,10 @@ import newAccountTransaction from "cadence/transactions/newAccount.cdc"
 import {NextApiRequest, NextApiResponse} from "next"
 import {authz} from "src/authz"
 import {FLOW_EVENT_TYPES} from "src/constants"
-import "src/fclConfig"
+import fclConfig from "src/fclConfig"
+import getConfig from "next/config"
+
+const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
 
 type CreatedAccountResponse = {
   events: CreatedAccountEvent[]
@@ -18,9 +21,18 @@ type CreatedAccountEvent = {
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  fclConfig(
+    serverRuntimeConfig.flowAccessNode,
+    publicRuntimeConfig.flowAccountAddress
+  )
+
+  const authorization = await authz(
+    publicRuntimeConfig.flowAccountAddress,
+    serverRuntimeConfig.flowAccountKeyId,
+    serverRuntimeConfig.flowAccountPrivateKey
+  )
+
   try {
-    // eslint-disable-next-line no-console
-    console.log("Creating Account")
     const {label, scopes} = req.body
     const txId = await fcl
       .send([
@@ -29,15 +41,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           fcl.arg(label, t.String),
           fcl.arg(scopes, t.Array(t.String)),
         ]),
-        fcl.proposer(authz),
-        fcl.payer(authz),
+        fcl.proposer(authorization),
+        fcl.payer(authorization),
         fcl.limit(100),
       ])
       .then(fcl.decode)
 
     const txStatus: CreatedAccountResponse = await fcl.tx(txId).onceSealed()
-    // eslint-disable-next-line no-console
-    console.log("TX:SEALED", txStatus)
 
     const createdAccountEvent = txStatus.events.find(
       (e: CreatedAccountEvent) => e.type === FLOW_EVENT_TYPES.accountCreated
