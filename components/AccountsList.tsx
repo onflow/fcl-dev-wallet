@@ -5,7 +5,7 @@ import PlusButton from "components/PlusButton"
 import useAuthnContext from "hooks/useAuthnContext"
 import {Account, NewAccount} from "pages/api/accounts"
 import accountGenerator from "src/accountGenerator"
-import {Box, Link, Themed} from "theme-ui"
+import {Box, Themed} from "theme-ui"
 import {SXStyles} from "types"
 import FormErrors from "./FormErrors"
 

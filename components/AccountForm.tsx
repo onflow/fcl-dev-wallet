@@ -9,16 +9,8 @@ import {useState} from "react"
 import {paths} from "src/constants"
 import {updateAccountSchemaClient} from "src/validate"
 import {mutate} from "swr"
-import {Box, Link, Themed} from "theme-ui"
+import {Box, Themed} from "theme-ui"
 import {CustomInputComponent} from "./Inputs"
-
-const styles = {
-  footer: {
-    lineHeight: 1.7,
-    color: "gray.400",
-    fontSize: 0,
-  },
-}
 
 export default function AccountForm({
   account,
