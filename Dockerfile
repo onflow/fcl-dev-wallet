@@ -33,8 +33,9 @@ COPY --from=builder /app/next.config.js ./next.config.js
 
 USER nextjs
 
-EXPOSE 8701
-
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV PORT=8701
+
+EXPOSE 8701
 
 CMD ["npm", "run", "start"]
