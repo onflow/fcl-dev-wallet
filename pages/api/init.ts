@@ -12,10 +12,7 @@ import getConfig from "next/config"
 
 const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
 
-const init = async (
-  serverRuntimeConfig: {[key: string]: string},
-  publicRuntimeConfig: {[key: string]: string}
-) => {
+const init = async () => {
   fclConfig(
     serverRuntimeConfig.flowAccessNode,
     publicRuntimeConfig.flowAccountAddress
@@ -66,7 +63,7 @@ const init = async (
 }
 
 export default async (_req: NextApiRequest, res: NextApiResponse) => {
-  await init(serverRuntimeConfig, publicRuntimeConfig)
+  await init()
 
   res.status(200).json({
     foo: "bar",
