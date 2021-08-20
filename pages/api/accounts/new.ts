@@ -33,8 +33,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   )
 
   try {
-    // eslint-disable-next-line no-console
-    console.log("Creating Account")
     const {label, scopes} = req.body
     const txId = await fcl
       .send([
@@ -50,8 +48,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .then(fcl.decode)
 
     const txStatus: CreatedAccountResponse = await fcl.tx(txId).onceSealed()
-    // eslint-disable-next-line no-console
-    console.log("TX:SEALED", txStatus)
 
     const createdAccountEvent = txStatus.events.find(
       (e: CreatedAccountEvent) => e.type === FLOW_EVENT_TYPES.accountCreated

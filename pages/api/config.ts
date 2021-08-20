@@ -11,8 +11,6 @@ export type ConfigResponse = {
 }
 
 export default (_req: NextApiRequest, res: NextApiResponse) => {
-  console.log(serverRuntimeConfig, publicRuntimeConfig)
-
   const response: ConfigResponse = {
     address: publicRuntimeConfig.flowAccountAddress,
     keyId: serverRuntimeConfig.flowAccountKeyId,

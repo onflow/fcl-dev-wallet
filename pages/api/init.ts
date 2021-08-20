@@ -10,8 +10,12 @@ import {encodeServiceKey} from "src/crypto"
 import fclConfig from "src/fclConfig"
 import getConfig from "next/config"
 
+const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
 
-const init = async (serverRuntimeConfig: any, publicRuntimeConfig: any) => {
+const init = async (
+  serverRuntimeConfig: {[key: string]: string},
+  publicRuntimeConfig: {[key: string]: string}
+) => {
   fclConfig(
     serverRuntimeConfig.flowAccessNode,
     publicRuntimeConfig.flowAccountAddress
@@ -46,10 +50,8 @@ const init = async (serverRuntimeConfig: any, publicRuntimeConfig: any) => {
         fcl.limit(200),
       ])
       .then(fcl.decode)
-    // eslint-disable-next-line no-console
-    const txStatus = await fcl.tx(txId).onceSealed()
-    // eslint-disable-next-line no-console
-    console.log("TX:SEALED", txStatus)
+
+    await fcl.tx(txId).onceSealed()
 
     fcl
       .account(publicRuntimeConfig.flowAccountAddress)
@@ -64,8 +66,6 @@ const init = async (serverRuntimeConfig: any, publicRuntimeConfig: any) => {
 }
 
 export default async (_req: NextApiRequest, res: NextApiResponse) => {
-  const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
-
   await init(serverRuntimeConfig, publicRuntimeConfig)
 
   res.status(200).json({

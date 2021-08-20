@@ -38,9 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       ])
       .then(fcl.decode)
 
-    const txStatus = await fcl.tx(txId).onceSealed()
-    // eslint-disable-next-line no-console
-    console.log("TX:SEALED", txStatus)
+    await fcl.tx(txId).onceSealed()
 
     res.status(200).json({})
   } catch (_error) {

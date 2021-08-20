@@ -5,8 +5,6 @@ import {Optional} from "types"
 import fclConfig from "src/fclConfig"
 import getConfig from "next/config"
 
-const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
-
 export type Account = {
   type: "ACCOUNT"
   address: string
@@ -18,6 +16,8 @@ export type Account = {
 export type NewAccount = Optional<Account, "address">
 
 export type AccountsResponse = Account[]
+
+const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
 
 export default async (_req: NextApiRequest, res: NextApiResponse) => {
   fclConfig(
@@ -38,7 +38,6 @@ export default async (_req: NextApiRequest, res: NextApiResponse) => {
       .reverse()
     res.status(200).json([serviceAccount, ...userAccounts].filter(Boolean))
   } catch (_error) {
-    console.error(_error)
     res.status(500).json([])
   }
 }
