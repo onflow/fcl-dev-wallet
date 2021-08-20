@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import "../src/config"
-import decorate from "../src/decorate"
-import {COMMANDS} from "../src/cmds"
-import useCurrentUser from "../src/hooks/use-current-user"
-import useConfig from "../src/hooks/use-config"
+import "../src/harness/config"
+import decorate from "../src/harness/decorate"
+import {COMMANDS} from "../src/harness/cmds"
+import useCurrentUser from "../src/harness/hooks/use-current-user"
+import useConfig from "../src/harness/hooks/use-config"
 
 const renderCommand = (d) => {
   return (

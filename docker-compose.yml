@@ -13,12 +13,6 @@ services:
       - FLOW_INIT_ACCOUNTS=0
       - FLOW_ACCOUNT_ADDRESS=0xf8d6e0586b0a20c7
       - FLOW_AVATAR_URL=https://avatars.onflow.org/avatar/
-  harness:
-    build: ./harness
-    ports:
-      - "3001:3001"
-    environment:
-      - PORT=3001
   emulator:
     image: gcr.io/flow-container-registry/emulator:0.20.2
     ports:

@@ -36,6 +36,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - run: docker-compose up -d
+      - run: docker-compose -f docker-compose.test.yml up -d
+      - run: cp .env.example .env
       - run: npm ci
+      - run: ./node_modules/.bin/next start --port 3000 &
       - run: npm run test

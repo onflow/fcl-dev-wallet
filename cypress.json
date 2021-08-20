@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost:3001",
+  "baseUrl": "http://localhost:3000/harness",
   "video": false,
   "viewportWidth": 1440,
   "viewportHeight": 764,
