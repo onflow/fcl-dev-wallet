@@ -1,47 +1,54 @@
-# FCL Dev Wallet
+# FCL Dev-Wallet
+
+A Flow wallet for development purposes.
+
+## Introduction
+
+The FCL `dev-wallet` is an `fcl` [(Flow client-library)](https://github.com/onflow-flow-js-sdk) compatible Flow wallet that simulates the protocols used by `fcl` to interact with the Flow blockchain on behalf of Flow accounts.
 
 **IMPORTANT**
 
 ```
-The FCL Dev Wallet is currently in active development and
-it's current state should be considered as a preview.
-
-If you encounter any problems please make sure you are
-using an up-to-date copy and if the issue persists please
-let us know by creating an issue.
-
-This project, while it does implement an FCL compatible
-interface, it should not be used as a reference for
-building a production grade wallet, especially the way it
-handles account creation and private keys.
+This project implements an FCL compatible
+interface, but should **not** be used as a reference for
+building a production grade wallet.
 
 This project should only be used in aid of local
 development against a locally run instance of the Flow
-blockchain like the emulator, and should never be used in
+blockchain like the Flow emulator, and should never be used in
 conjunction with Flow Mainnet, Testnet, Canarynet or any
-other instances of Flow you are not in complete control
-of and have isolated from the rest of the internet.
+other instances of Flow.
 ```
 
 ## Getting Started
 
+To use the dev-wallet simply start the service using Docker:
+
 ```bash
-git clone https://github.com/onflow/fcl-dev-wallet.git
-cd fcl-dev-wallet
-cp .env.example .env.local
-
-# UPDATE THE VALUES IN .env.local TO MATCH YOUR ENVIRONMENT
-
-npm install
-npm run dev
+docker run ghcr.io/onflow/fcl-dev-wallet:latest
 ```
 
-> **NOTE:** you can change the port the dev wallet runs on with `npm run dev -- -p 9999`
+## Startup Options
 
+The following startup options can be configured (defaults shown)
+
+```bash
+docker run ghcr.io/onflow/fcl-dev-wallet:latest \ 
+  -e PORT=8701 \
+  -e FLOW_ACCESS_NODE=http://emulator:8080 \
+  -e FLOW_ACCOUNT_KEY_ID=0 \
+  -e FLOW_ACCOUNT_PRIVATE_KEY="" \
+  -e FLOW_ACCOUNT_PUBLIC_KEY="" \
+  -e FLOW_INIT_ACCOUNTS=0 \
+  -e FLOW_ACCOUNT_ADDRESS=0xf8d6e0586b0a20c7 \
+  -e FLOW_AVATAR_URL=https://avatars.onflow.org/avatar/ 
+```
 ## Configuring Your Application
 
-The FCL Dev Wallet was designed to be used with FCL with a version of `0.0.68` or higher.
-Currently `fcl@0.0.68` is in alpha an can be installed with: `npm install @onflow/fcl@alpha` or `yarn add @onflow/fcl@alpha`.
+The FCL `dev-wallet` was designed to be used with FCL with a version of `0.0.68` or higher. `fcl` can be installed with: `npm install @onflow/fcl` or `yarn add @onflow/fcl`.
+
+
+To use the dev-wallet, configure `fcl` to point to the address of a locally running [Flow emulator](#emulator), and the dev-wallet endpoint.
 
 ```javascript
 import * as fcl from "@onflow/fcl"
@@ -49,9 +56,9 @@ import * as fcl from "@onflow/fcl"
 // prettier-ignore
 fcl.config()
   // Point App at Emulator
-  .put("accessNode.api", "http://localhost:8080")
-  // Point FCL Wallet Discovuer at Dev Wallet
-  .put("discovery.wallet", "http://localhost:3000/fcl/authn") // with default port configuration
+  .put("accessNode.api", "http://localhost:8080") 
+  // Point FCL at dev-wallet (default port)
+  .put("discovery.wallet", "http://localhost:8701/fcl/authn") 
 ```
 
 ### Emulator
@@ -66,22 +73,6 @@ flow emulator start
 ```
 
 Keep the emulator running; you'll need it!
-
-### Dev wallet
-
-Once the harness is running,
-clone this repository and start the dev wallet:
-
-```sh
-cd fcl-dev-wallet
-cp .env.example .env.local
-
-npm install
-npm run dev
-```
-
-Keep the wallet running, too!
-
 ### Harness
 
 It's easy to use this FCL harness app as a barebones
@@ -96,4 +87,4 @@ npm install
 PORT=3001 npm run start
 ```
 
-You can now visit http://localhost:3001 to try out the dev wallet.
+You can now visit http://localhost:3001 to try out the dev-wallet.
