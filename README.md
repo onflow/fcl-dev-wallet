@@ -54,7 +54,7 @@ FLOW_ACCOUNT_ADDRESS
 ```
 ## Configuring Your Application
 
-The FCL `dev-wallet` was designed to be used with FCL with a version of `0.0.68` or higher. `fcl` can be installed with: `npm install @onflow/fcl` or `yarn add @onflow/fcl`.
+The FCL `dev-wallet` was designed to be used with [`@onflow/fcl`](https://github.com/onflow/flow-js-sdk) with a version of `0.0.68` or higher. `fcl` can be installed with: `npm install @onflow/fcl` or `yarn add @onflow/fcl`.
 
 
 To use the dev-wallet, configure `fcl` to point to the address of a locally running [Flow emulator](#emulator), and the dev-wallet endpoint.
