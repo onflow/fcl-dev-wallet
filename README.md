@@ -4,7 +4,7 @@ A Flow wallet for development purposes.
 
 ## Introduction
 
-The FCL `dev-wallet` is an `fcl` [(Flow client-library)](https://github.com/onflow-flow-js-sdk) compatible Flow wallet that simulates the protocols used by `fcl` to interact with the Flow blockchain on behalf of Flow accounts.
+The FCL `dev-wallet` is an `fcl` [(Flow client-library)](https://github.com/onflow-flow-js-sdk) compatible Flow wallet that simulates the protocols used by `@onflow/fcl` to interact with the Flow blockchain on behalf of Flow accounts.
 
 **IMPORTANT**
 
