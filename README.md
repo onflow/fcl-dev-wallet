@@ -74,7 +74,7 @@ fcl.config()
 The Flow Emulator simulates the real Flow network
 for development purposes.
 
-Start the emulator by running the following command in this directory:
+Start the emulator by running the following command from the directory containing `flow.json` in your project.
 
 ```sh
 flow emulator start
