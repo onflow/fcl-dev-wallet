@@ -62,7 +62,6 @@ To use the dev-wallet, configure `fcl` to point to the address of a locally runn
 ```javascript
 import * as fcl from "@onflow/fcl"
 
-// prettier-ignore
 fcl.config()
   // Point App at Emulator
   .put("accessNode.api", "http://localhost:8080") 
