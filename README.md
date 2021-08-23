@@ -1,6 +1,6 @@
 # FCL Dev-Wallet
 
-A Flow wallet for development purposes.
+A Flow wallet for development purposes. To be used with the Flow Emulator.
 
 ## Introduction
 
