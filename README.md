@@ -37,7 +37,7 @@ docker run ghcr.io/onflow/fcl-dev-wallet:latest \
   -e PORT=8701 \
   -e FLOW_ACCESS_NODE=http://emulator:8080 \
   -e FLOW_ACCOUNT_KEY_ID=0 \
-  -e FLOW_ACCOUNT_PRIVATE_KEY="" \
+  -e FLOW_ACCOUNT_PRIVATE_KEY=[EMulator provate key. redacted for length] \
   -e FLOW_ACCOUNT_PUBLIC_KEY="" \
   -e FLOW_INIT_ACCOUNTS=0 \
   -e FLOW_ACCOUNT_ADDRESS=0xf8d6e0586b0a20c7 \
