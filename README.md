@@ -71,8 +71,11 @@ fcl.config()
 
 ### Emulator
 
+
 The Flow Emulator simulates the real Flow network
 for development purposes.
+
+Instructions for installing the emualtor can be found here: [https://docs.onflow.org/flow-cli/install/[](](https://docs.onflow.org/flow-cli/install/))
 
 Start the emulator by running the following command from the directory containing `flow.json` in your project.
 
