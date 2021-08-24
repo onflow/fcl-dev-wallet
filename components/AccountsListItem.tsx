@@ -94,7 +94,9 @@ export default function AccountsListItem({
 }) {
   const {connectedAppConfig, appScopes} = useAuthnContext()
   const {
-    app: {title},
+    config: {
+      app: {title},
+    },
   } = connectedAppConfig
 
   const [showScopes, setShowScopes] = useState(false)
