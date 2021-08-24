@@ -101,14 +101,8 @@ fcl.config()
 
 It's easy to use this FCL harness app as a barebones
 app to interact with the dev-wallet during development:
-https://github.com/orodio/harness
 
-```sh
-git clone https://github.com/orodio/harness.git
 
-cd harness
-npm install
-PORT=3001 npm run start
-```
+Navigate to http://localhost:8701/harness
 
-You can now visit http://localhost:3001 to try out the dev-wallet.
+🚀
