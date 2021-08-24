@@ -22,15 +22,34 @@ other instances of Flow.
 
 ## Getting Started
 
+Before using the dev-wallet, you'll need to start the Flow emulator.
+### Sarting the Flow Emulator from `flow-cli`
+
+The Flow emulator is part of the `flow-cli`. Instructions for installing the `flow-cli` can be found here: [https://docs.onflow.org/flow-cli/install/](https://docs.onflow.org/flow-cli/install/)
+
+Start the emulator by running the following command from the directory containing `flow.json` in your project.
+
+```sh
+flow emulator start
+```
+### Starting the Dev-Wallet
+
 To use the dev-wallet simply start the service using Docker:
 
 ```bash
 docker run ghcr.io/onflow/fcl-dev-wallet:latest
 ```
 
+## All-In-One
+
+You can run the dev-wallet + Flow emulator using the docker-compose file in the project using the following command:
+
+```
+docker-compose up -d
+```
 ## Startup Options
 
-The following startup options can be configured (defaults shown)
+The following startup options can be configured (defaults shown). If you're using `docker-compose` these configuration values are defined in the [`docker-compose.yml`](https://github.com/onflow/fcl-dev-wallet/docker-compose.yml) file.
 
 ```bash
 docker run ghcr.io/onflow/fcl-dev-wallet:latest \ 
@@ -69,21 +88,7 @@ fcl.config()
   .put("discovery.wallet", "http://localhost:8701/fcl/authn") 
 ```
 
-### Emulator
 
-
-The Flow emulator simulates the real Flow network
-for development purposes.
-
- - The emulator is part of the `flow-cli`. Instructions for installing the `flow-cli` can be found here: [https://docs.onflow.org/flow-cli/install/](https://docs.onflow.org/flow-cli/install/)
-
-Start the emulator by running the following command from the directory containing `flow.json` in your project.
-
-```sh
-flow emulator start
-```
-
-Keep the emulator running; you'll need it!
 ### Harness
 
 It's easy to use this FCL harness app as a barebones
