@@ -29,12 +29,13 @@ The Flow emulator is part of the `flow-cli`. Instructions for installing the `fl
 
 ### Create a `flow.json` File
 
-To create `flow.json` file in your project run: `flow init`
-
-
+To create `flow.json` file run this command (typically in your project's root directory):
+```
+flow init
+```
 ### Start the Emulator
 
-Start the emulator by running the following command from the directory containing `flow.json` in your project.
+Start the emulator by running the following command from the directory containing `flow.json` in your project:
 
 ```sh
 flow emulator start
