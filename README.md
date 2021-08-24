@@ -27,6 +27,14 @@ Before using the dev-wallet, you'll need to start the Flow emulator.
 
 The Flow emulator is part of the `flow-cli`. Instructions for installing the `flow-cli` can be found here: [https://docs.onflow.org/flow-cli/install/](https://docs.onflow.org/flow-cli/install/)
 
+
+### Create a `flow.json` File
+
+create `flow.json` file in your project run: `flow init`
+
+
+### Start the Emulator
+
 Start the emulator by running the following command from the directory containing `flow.json` in your project.
 
 ```sh
