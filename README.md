@@ -49,7 +49,7 @@ docker run ghcr.io/onflow/fcl-dev-wallet:latest
 
 ## All-In-One
 
-You can run the dev-wallet + Flow emulator using the docker-compose file in the project using the following command:
+You can run the dev-wallet + Flow emulator together using `docker-compose`:
 
 ```
 docker-compose up -d
