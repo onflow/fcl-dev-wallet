@@ -30,7 +30,7 @@ The Flow emulator is part of the `flow-cli`. Instructions for installing the `fl
 
 ### Create a `flow.json` File
 
-create `flow.json` file in your project run: `flow init`
+To create `flow.json` file in your project run: `flow init`
 
 
 ### Start the Emulator
@@ -40,7 +40,7 @@ Start the emulator by running the following command from the directory containin
 ```sh
 flow emulator start
 ```
-### Starting the Dev-Wallet
+###  Start the Dev-Wallet
 
 To use the dev-wallet simply start the service using Docker:
 
@@ -97,10 +97,10 @@ fcl.config()
 ```
 
 
-### Harness
+### Harness 
 
 It's easy to use this FCL harness app as a barebones
-app to interact with the dev wallet during development:
+app to interact with the dev-wallet during development:
 https://github.com/orodio/harness
 
 ```sh
