@@ -26,7 +26,7 @@ export default function useConnectedAppConfig() {
     }
 
     window.addEventListener("message", callback)
-    window.parent.postMessage({type: "FCL:FRAME:READY"}, "*")
+    window.parent.postMessage({type: "FCL:VIEW:READY"}, "*")
 
     return () => window.removeEventListener("message", callback)
   }, [])

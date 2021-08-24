@@ -110,7 +110,7 @@ export function AuthzContextProvider({children}: {children: React.ReactNode}) {
 
     window.addEventListener("message", callback)
 
-    reply("FCL:FRAME:READY")
+    reply("FCL:VIEW:READY")
 
     return () => window.removeEventListener("message", callback)
   }, [])

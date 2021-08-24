@@ -61,7 +61,7 @@ function AuthzContent({
       })
   }
 
-  const onDecline = () => reply("FCL:FRAME:CLOSE")
+  const onDecline = () => reply("FCL:VIEW:CLOSE")
 
   return (
     <Dialog

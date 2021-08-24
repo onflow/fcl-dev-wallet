@@ -60,9 +60,7 @@ const reply =
 
 function authnResponse(data: AuthResponseData) {
   return (e: React.MouseEvent<HTMLElement>) => {
-    reply("FCL:FRAME:RESPONSE", data)(e)
-    /* backwards compatibility with fcl@0.0.67 */
-    reply("FCL::CHALLENGE::RESPONSE", data)(e)
+    reply("FCL:VIEW:RESPONSE", data)(e)
   }
 }
 

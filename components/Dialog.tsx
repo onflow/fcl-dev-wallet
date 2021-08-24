@@ -86,7 +86,7 @@ export default function Dialog({
   children: React.ReactNode
 }) {
   const closeButtonRef = useRef<HTMLButtonElement>(null)
-  const onClose = () => reply("FCL:FRAME:CLOSE")
+  const onClose = () => reply("FCL:VIEW:CLOSE")
   const {isExpanded, setCodePreview} = useAuthzContext()
 
   return (
