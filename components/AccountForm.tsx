@@ -1,4 +1,5 @@
 /** @jsxImportSource theme-ui */
+import {SXStyles} from "types"
 import AccountListItemScopes from "components/AccountListItemScopes"
 import Button from "components/Button"
 import ConnectedAppHeader from "components/ConnectedAppHeader"
@@ -11,6 +12,15 @@ import {updateAccountSchemaClient} from "src/validate"
 import {mutate} from "swr"
 import {Box, Themed} from "theme-ui"
 import {CustomInputComponent} from "./Inputs"
+
+const styles: SXStyles = {
+  actions: {
+    display: "flex",
+    flex: 1,
+    pt: 20,
+    pb: 20,
+  },
+}
 
 export default function AccountForm({
   account,
@@ -99,27 +109,26 @@ export default function AccountForm({
               <Themed.hr sx={{mt: 0, mb: 1}} />
             </Box>
 
-            <Box mb={3}>
-              <Button
-                type="submit"
-                block
-                size="lg"
-                disabled={isSubmitting || !isValid}
-              >
-                {account.address ? "Save" : "Create Account"}
-              </Button>
-            </Box>
-            <Box mb={3}>
+            <div sx={styles.actions}>
               <Button
                 onClick={onCancel}
                 type="button"
                 variant="ghost"
                 block
                 size="lg"
-              >
+                sx={{flex: 1, mr: 10, w: "50%"}}>
                 Cancel
               </Button>
-            </Box>
+
+              <Button
+                type="submit"
+                block
+                size="lg"
+                sx={{flex: 1, ml: 10, w: "50%"}}
+                disabled={isSubmitting || !isValid}>
+                {account.address ? "Save" : "Create"}
+              </Button>
+            </div>
 
             {errors.length > 0 && <FormErrors errors={errors} />}
           </Form>
