@@ -44,7 +44,7 @@ export default function AccountsList({
     <div>
       <Box mb={4}>
         <ConnectedAppHeader
-          description="Create an account below, or select an existing account, to log in as that account."
+          description="Select an existing account to log in or create a new account."
           flowAccountAddress={flowAccountAddress}
           avatarUrl={avatarUrl}
         />
