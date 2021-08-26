@@ -202,6 +202,7 @@ const theme = makeTheme({
       outlineColor: "gray.300",
     },
     input: {
+      fontFamily: "body",
       borderColor: "gray.200",
       outlineColor: "gray.300",
       px: [10, 20],
@@ -219,17 +220,7 @@ const theme = makeTheme({
       alignItems: "center",
       marginRight: 0,
       "input:checked ~ &": {
-        backgroundColor: "black",
-      },
-      sizes: {
-        lg: {
-          width: 63,
-          height: 35,
-          "& > div": {
-            width: 29,
-            height: 29,
-          },
-        },
+        backgroundColor: "primary",
       },
     },
   },

@@ -10,7 +10,7 @@ export const FieldError = ({children}: {children: React.ReactNode}) => {
     borderBottomRightRadius: 4,
     color: "red.200",
     marginTop: "-1px",
-    px: 4,
+    px: "20px",
     py: 3,
     "> a": {
       color: "red.200",
