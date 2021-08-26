@@ -20,10 +20,11 @@ const errorInputStyles = {
   borderBottomRightRadius: 0,
   "&:focus, &:focus-visible": {
     outline: "none",
-    boxShadow: (theme: any) => `inset 0 0 0 1pt ${theme.colors.red["200"]}`,
+    boxShadow: (theme: {colors: {red: {[x: string]: string}}}) =>
+      `inset 0 0 0 1pt ${theme.colors.red["200"]}`,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
-  }
+  },
 }
 
 export const CustomInputComponent = ({

@@ -116,7 +116,8 @@ export default function AccountForm({
                 variant="ghost"
                 block
                 size="lg"
-                sx={{flex: 1, mr: 10, w: "50%"}}>
+                sx={{flex: 1, mr: 10, w: "50%"}}
+              >
                 Cancel
               </Button>
 
@@ -125,7 +126,8 @@ export default function AccountForm({
                 block
                 size="lg"
                 sx={{flex: 1, ml: 10, w: "50%"}}
-                disabled={isSubmitting || !isValid}>
+                disabled={isSubmitting || !isValid}
+              >
                 {account.address ? "Save" : "Create"}
               </Button>
             </div>

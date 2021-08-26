@@ -1,5 +1,5 @@
 import {Theme} from "theme-ui"
-import { transparentize } from '@theme-ui/color'
+import {transparentize} from "@theme-ui/color"
 
 const makeTheme = <T extends Theme>(t: T) => t
 
