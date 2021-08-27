@@ -1,4 +1,5 @@
 import {Theme} from "theme-ui"
+import {transparentize} from "@theme-ui/color"
 
 const makeTheme = <T extends Theme>(t: T) => t
 
@@ -77,7 +78,7 @@ const theme = makeTheme({
   },
   buttons: {
     primary: {
-      color: "black",
+      color: transparentize("black", 0.25),
       bg: "primary",
       border: "1px solid",
       borderColor: "green",
@@ -93,6 +94,7 @@ const theme = makeTheme({
       border: "1px solid",
       borderColor: "gray.300",
       outlineColor: "gray.800",
+      color: "gray.400",
     },
     disabled: {
       cursor: "default",
@@ -109,13 +111,14 @@ const theme = makeTheme({
       fontFamily: "sans-serif",
     },
     unstyled: {
+      color: "black",
       fontFamily: "inherit",
       border: 0,
       padding: 0,
       backgroundColor: "transparent",
       cursor: "pointer",
       borderRadius: 0,
-      letterSpacing: "inherit",
+      letterSpacing: 0.5,
       "&:hover": {
         opacity: 0.75,
       },
@@ -144,15 +147,15 @@ const theme = makeTheme({
         paddingTop: 10,
         paddingBottom: 10,
         fontWeight: "bold",
-        letterSpacing: 1,
+        letterSpacing: 0.5,
       },
       lg: {
         px: 4,
-        fontSize: 3,
+        fontSize: 2,
         paddingTop: 16,
         paddingBottom: 14,
         fontWeight: "bold",
-        letterSpacing: 1,
+        letterSpacing: 0.5,
       },
     },
   },
@@ -199,6 +202,7 @@ const theme = makeTheme({
       outlineColor: "gray.300",
     },
     input: {
+      fontFamily: "body",
       borderColor: "gray.200",
       outlineColor: "gray.300",
       px: [10, 20],
@@ -216,17 +220,7 @@ const theme = makeTheme({
       alignItems: "center",
       marginRight: 0,
       "input:checked ~ &": {
-        backgroundColor: "black",
-      },
-      sizes: {
-        lg: {
-          width: 63,
-          height: 35,
-          "& > div": {
-            width: 29,
-            height: 29,
-          },
-        },
+        backgroundColor: "primary",
       },
     },
   },

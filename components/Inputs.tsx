@@ -2,7 +2,7 @@
 import {FieldError} from "components/FormErrors"
 import Label from "components/Label"
 import {FieldProps} from "formik"
-import {Input, ThemeUICSSObject} from "theme-ui"
+import {Input, ThemeUICSSObject, Theme} from "theme-ui"
 
 type CustomFieldProps = FieldProps & {
   inputLabel: string
@@ -18,6 +18,13 @@ const errorInputStyles = {
   outlineColor: "red.200",
   borderBottomLeftRadius: 0,
   borderBottomRightRadius: 0,
+  "&:focus, &:focus-visible": {
+    outline: "none",
+    boxShadow: (theme: Theme) =>
+      `inset 0 0 0 1pt ${theme.colors?.red ? ["200"] : ""}`,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+  },
 }
 
 export const CustomInputComponent = ({

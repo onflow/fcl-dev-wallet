@@ -44,7 +44,7 @@ const Button = ({
     border: 0,
     borderRadius: 4,
     textDecoration: "none",
-    fontFamily: "Bebas Neue",
+    fontFamily: "body",
     "&:hover": {
       opacity: 0.9,
     },
