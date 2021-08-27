@@ -100,9 +100,9 @@ export default function UserSign() {
     >
       <Themed.h1 sx={{textAlign: "center", mb: 0}}>Sign Message</Themed.h1>
       <Themed.p sx={{textAlign: "center", mb: 4}}>
-        Please prove you have access to this wallet.
+        Please prove that you have access to this wallet.
         <br />
-        This won’t cost you any Flow.
+        This won’t cost you any FLOW.
       </Themed.p>
       <Box mb={20}>
         <AuthzDetailsTable>
