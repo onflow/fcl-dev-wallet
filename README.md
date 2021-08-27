@@ -57,18 +57,18 @@ docker-compose up -d
 ```
 ## Startup Options
 
-The following startup options can be configured (defaults shown). If you're using DockerCompose, these configuration values are defined in [`docker-compose.yml`](docker-compose.yml).
+The following startup options can be configured (defaults shown). If you're using Docker Compose, these configuration values are defined in [`docker-compose.yml`](docker-compose.yml).
 
 ```bash
-docker run ghcr.io/onflow/fcl-dev-wallet:latest \ 
-  -e PORT=8701 \
-  -e FLOW_ACCESS_NODE=http://emulator:8080 \
-  -e FLOW_ACCOUNT_KEY_ID=0 \
-  -e FLOW_ACCOUNT_PRIVATE_KEY=4f82df6790f07b281adb5bbc848bd6298a2de67f94bdfac7a400d5a1b893de5 \
-  -e FLOW_ACCOUNT_PUBLIC_KEY=519e9fbf966c6589fafe60903c0da5f55c5cb50aee5d870f097b35dfb6de13c170718cd92f50811cdd9290e51c2766440b696e0423a5031ae482cca79e3c479 \
-  -e FLOW_INIT_ACCOUNTS=0 \
-  -e FLOW_ACCOUNT_ADDRESS=0xf8d6e0586b0a20c7 \ 
-  -e FLOW_AVATAR_URL=https://avatars.onflow.org/avatar/ 
+docker run -it \
+    -e PORT=8701 \
+    -e FLOW_ACCESS_NODE=http://emulator:8080 \
+    -e FLOW_ACCOUNT_KEY_ID=0 \
+    -e FLOW_ACCOUNT_PRIVATE_KEY=4f82df6790f07b281adb5bbc848bd6298a2de67f94bdfac7a400d5a1b893de5 \
+    -e FLOW_ACCOUNT_PUBLIC_KEY=519e9fbf966c6589fafe60903c0da5f55c5cb50aee5d870f097b35dfb6de13c170718cd92f50811cdd9290e51c2766440b696e0423a5031ae482cca79e3c479 \       -e FLOW_INIT_ACCOUNTS=0 \
+    -e FLOW_ACCOUNT_ADDRESS=0xf8d6e0586b0a20c7 \
+    -e FLOW_AVATAR_URL=https://avatars.onflow.org/avatar/ \
+    ghcr.io/onflow/fcl-dev-wallet:latest 
 ```
 
 **Note:** The following variables should match the `emulator-account` defined in your project's `flow.json` file.
