@@ -9,7 +9,7 @@ import {AuthzContextProvider} from "contexts/AuthzContext"
 import useAuthzContext from "hooks/useAuthzContext"
 import {useState} from "react"
 import {paths} from "src/constants"
-import reply from "src/reply"
+import {WalletUtils} from "@onflow/fcl"
 import getConfig from "next/config"
 
 function AuthzContent({
@@ -61,7 +61,7 @@ function AuthzContent({
       })
   }
 
-  const onDecline = () => reply("FCL:VIEW:CLOSE")
+  const onDecline = () => WalletUtils.close()
 
   return (
     <Dialog

@@ -1,3 +1,4 @@
+import {WalletUtils} from "@onflow/fcl"
 import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "pages/api/accounts"
 
@@ -51,16 +52,9 @@ const entry = (
   value: string | boolean | number
 ) => scopes.has(key) && [key, value]
 
-const reply =
-  (type: string, msg = {}) =>
-  (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault()
-    window.parent.postMessage({...msg, type}, "*")
-  }
-
 function authnResponse(data: AuthResponseData) {
-  return (e: React.MouseEvent<HTMLElement>) => {
-    reply("FCL:VIEW:RESPONSE", data)(e)
+  return () => {
+    WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", data)
   }
 }
 

@@ -3,7 +3,7 @@ import useAccounts from "hooks/useAccounts"
 import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "pages/api/accounts"
 import React, {createContext, useEffect, useMemo, useState} from "react"
-import reply from "src/reply"
+import {WalletUtils} from "@onflow/fcl"
 
 type AuthReadyData = {
   jsonrpc: string
@@ -110,7 +110,7 @@ export function AuthzContextProvider({children}: {children: React.ReactNode}) {
 
     window.addEventListener("message", callback)
 
-    reply("FCL:VIEW:READY")
+    WalletUtils.sendMsgToFCL("FCL:VIEW:READY")
 
     return () => window.removeEventListener("message", callback)
   }, [])

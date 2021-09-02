@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react"
+import {WalletUtils} from "@onflow/fcl"
 
 export type ConnectedAppConfig = {
   type: string
@@ -26,7 +27,7 @@ export default function useConnectedAppConfig() {
     }
 
     window.addEventListener("message", callback)
-    window.parent.postMessage({type: "FCL:VIEW:READY"}, "*")
+    WalletUtils.sendMsgToFCL("FCL:VIEW:READY")
 
     return () => window.removeEventListener("message", callback)
   }, [])

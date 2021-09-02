@@ -120,7 +120,7 @@ export default function AccountsListItem({
           <Button
             variant="unstyled"
             sx={styles.chooseAccountButton}
-            onClick={e => chooseAccount(account, scopes, connectedAppConfig)(e)}
+            onClick={() => chooseAccount(account, scopes, connectedAppConfig)()}
             data-test="log-in-button"
           >
             <AccountImage

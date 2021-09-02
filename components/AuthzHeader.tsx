@@ -52,8 +52,8 @@ function AuthzHeader({
   avatarUrl: string
 }) {
   const {currentUser, connectedAppConfig} = useAuthzContext()
-  const title = connectedAppConfig?.app?.title || UNTITLED_APP_NAME
-  const icon = connectedAppConfig?.app?.icon
+  const title = connectedAppConfig?.config?.app?.title || UNTITLED_APP_NAME
+  const icon = connectedAppConfig?.config?.app?.icon
   return (
     <div sx={styles.header}>
       <div sx={styles.transactionIcon}>
