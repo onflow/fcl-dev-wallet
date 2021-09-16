@@ -108,6 +108,11 @@ export default function AccountsListItem({
     setScopes(new Set(account.scopes))
   }, [account.scopes])
 
+  const handleSelect = () => {
+    chooseAccount(account, scopes, connectedAppConfig).catch(e =>
+      console.error(e)
+    )
+  }
   return (
     <>
       <div
@@ -120,7 +125,7 @@ export default function AccountsListItem({
           <Button
             variant="unstyled"
             sx={styles.chooseAccountButton}
-            onClick={() => chooseAccount(account, scopes, connectedAppConfig)()}
+            onClick={handleSelect}
             data-test="log-in-button"
           >
             <AccountImage
