@@ -66,7 +66,7 @@ const styles: SXStyles = {
   body: {
     pt: 40,
     px: [15, 30],
-    pb: 10,
+    pb: 0,
     display: "flex",
     flexDirection: "column",
     flex: 1,

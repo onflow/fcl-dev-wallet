@@ -21,8 +21,8 @@ const styles: SXStyles = {
     backgroundColor: "white",
     maxHeight: "initial",
     cursor: "inherit",
-    pl: 1,
     py: 0,
+    px: 0,
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
     code: {
@@ -35,6 +35,7 @@ const styles: SXStyles = {
     display: "flex",
     flexDirection: "column",
     whiteSpace: "pre",
+    overflow: "hidden",
     "> br": {
       display: "none",
     },
@@ -80,7 +81,7 @@ const styles: SXStyles = {
     border: 0,
     padding: 0,
     display: "block",
-    width: "100%",
+    minWidth: "100%",
     textAlign: "initial",
   },
 }
@@ -103,7 +104,8 @@ function CodeBlock({
         <code
           sx={{
             ...styles.code,
-            overflow: isExpanded ? "scroll" : "hidden",
+            overflow: isExpanded ? "auto" : "hidden",
+            overflowY: isExpanded ? "auto" : "hidden",
           }}
           dangerouslySetInnerHTML={{__html: colorizedSafeHtml}}
         />

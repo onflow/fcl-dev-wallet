@@ -13,7 +13,7 @@ const styles: SXStyles = {
     backgroundColor: "white",
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    px: 20,
+    px: [10, 20],
   },
   actions: {
     display: "flex",
