@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import * as fcl from "@onflow/fcl"
+import {WalletUtils, withPrefix} from "@onflow/fcl"
 import AuthzActions from "components/AuthzActions"
 import AuthzDetailsTable, {AuthzDetailsRow} from "components/AuthzDetailsTable"
 import Dialog from "components/Dialog"
@@ -20,12 +20,6 @@ type AuthReadyResponseData = {
   body: AuthReadyResponseSignable
 }
 
-const reply =
-  (type: string, msg = {}) =>
-  () => {
-    window.parent.postMessage({...msg, type}, "*")
-  }
-
 export default function UserSign() {
   const [isLoading, setIsLoading] = useState(false)
   const [signable, setSignable] = useState<AuthReadyResponseSignable | null>(
@@ -36,14 +30,14 @@ export default function UserSign() {
     function callback({data}: {data: AuthReadyResponseData}) {
       if (data === null) return
       if (typeof data !== "object") return
-      if (data.type === "FCL:FRAME:READY:RESPONSE") {
+      if (data.type === "FCL:VIEW:READY:RESPONSE") {
         setSignable(data.body)
       }
     }
 
     window.addEventListener("message", callback)
 
-    reply("FCL:FRAME:READY")()
+    WalletUtils.sendMsgToFCL("FCL:VIEW:READY")
 
     return () => window.removeEventListener("message", callback)
   }, [])
@@ -57,7 +51,7 @@ export default function UserSign() {
     })
       .then(d => d.json())
       .then(({addr, keyId, signature}) => {
-        reply("FCL:FRAME:RESPONSE", {
+        WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", {
           f_type: "PollingResponse",
           f_vsn: "1.0.0",
           status: "APPROVED",
@@ -65,11 +59,11 @@ export default function UserSign() {
           data: {
             f_type: "CompositeSignature",
             f_vsn: "1.0.0",
-            addr: fcl.withPrefix(addr),
+            addr: withPrefix(addr),
             keyId: Number(keyId),
             signature: signature,
           },
-        })()
+        })
         setIsLoading(false)
       })
       .catch(d => {
@@ -80,12 +74,12 @@ export default function UserSign() {
   }
 
   const onDecline = () => {
-    reply("FCL:FRAME:RESPONSE", {
+    WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", {
       f_type: "PollingResponse",
       f_vsn: "1.0.0",
       status: "DECLINED",
       reason: null,
-    })()
+    })
   }
 
   return (

@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
+import {WalletUtils} from "@onflow/fcl"
 import {Dialog as HUIDialog} from "@headlessui/react"
 import useAuthzContext from "hooks/useAuthzContext"
 import {useRef} from "react"
-import reply from "src/reply"
 import {Box, Button} from "theme-ui"
 import {SXStyles} from "types"
 import ExpandCollapseButton from "./ExpandCollapseButton"
@@ -86,7 +86,7 @@ export default function Dialog({
   children: React.ReactNode
 }) {
   const closeButtonRef = useRef<HTMLButtonElement>(null)
-  const onClose = () => reply("FCL:FRAME:CLOSE")
+  const onClose = () => WalletUtils.close()
   const {isExpanded, setCodePreview} = useAuthzContext()
 
   return (

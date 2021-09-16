@@ -91,7 +91,9 @@ export default function ConnectedAppHeader({
   const [showInfo, setShowInfo] = useState(false)
   const {
     connectedAppConfig: {
-      app: {icon, title: connectedAppTitle},
+      config: {
+        app: {icon, title: connectedAppTitle},
+      },
     },
   } = useAuthnContext()
   const toggleShowInfo = () => setShowInfo(prev => !prev)
