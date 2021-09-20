@@ -1,6 +1,23 @@
-# FCL Development Wallet
+<br />
+<p align="center">
+  <a href="">
+    <img src="./banner.svg" alt="Logo" width="600" height="auto">
+  </a>
 
-A Flow wallet for development purposes, to be used with the Flow emulator through the [Flow Client Library](https://docs.onflow.org/fcl/) (FCL).
+  <p align="center">
+    <i>A Flow wallet for effortless development, to be used with the Flow Emulator and FCL.</i>
+    <br />
+    <a href="https://docs.onflow.org/fcl/"><strong>FCL docs»</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/onflow/fcl-dev-wallet/issues">Report Bug</a>
+    ·
+    <a href="#getting-started">Getting Started</a>
+  </p>
+</p>
+<br />
+<br />
+
 
 ## Introduction
 
