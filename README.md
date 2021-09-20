@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="">
-    <img src="./banner.svg" alt="Logo" width="270" height="auto">
+    <img src="./banner.svg" alt="Logo" width="600" height="auto">
   </a>
 
   <p align="center">
@@ -18,9 +18,6 @@
 <br />
 <br />
 
-# FCL Development Wallet
-
-A Flow wallet for development purposes, to be used with the Flow emulator through the [Flow Client Library](https://docs.onflow.org/fcl/) (FCL).
 
 ## Introduction
 
