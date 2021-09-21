@@ -27,19 +27,12 @@ export default function UserSign() {
   )
 
   useEffect(() => {
-    function callback({data}: {data: AuthReadyResponseData}) {
-      if (data === null) return
-      if (typeof data !== "object") return
-      if (data.type === "FCL:VIEW:READY:RESPONSE") {
-        setSignable(data.body)
-      }
+    function callback(data: AuthReadyResponseData) {
+      setSignable(data.body)
     }
 
-    window.addEventListener("message", callback)
-
+    WalletUtils.onMessageFromFCL("FCL:VIEW:READY:RESPONSE", callback)
     WalletUtils.sendMsgToFCL("FCL:VIEW:READY")
-
-    return () => window.removeEventListener("message", callback)
   }, [])
 
   function onApprove() {

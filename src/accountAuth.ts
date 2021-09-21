@@ -66,10 +66,10 @@ export async function chooseAccount(
 ) {
   const {address, keyId} = account
 
-  const {timeStamp, message, domainTag} = connectedAppConfig.body
+  const {domainTag, timeStamp, message} = connectedAppConfig.body
   const signable = {
     message,
-    data: {addr: address, keyId, timeStamp, domainTag},
+    data: {addr: address, keyId, domainTag, timeStamp},
   }
   const compSig = await fetch(paths.userSig, {
     method: "POST",

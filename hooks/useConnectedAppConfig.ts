@@ -19,17 +19,12 @@ export default function useConnectedAppConfig() {
     useState<ConnectedAppConfig | null>(null)
 
   useEffect(() => {
-    function callback({data}: {data: ConnectedAppConfig}) {
-      if (typeof data !== "object") return
-      if (data.type !== "FCL:VIEW:READY:RESPONSE") return
-
+    function callback(data: ConnectedAppConfig) {
       setConnectedAppConfig(data)
     }
 
-    window.addEventListener("message", callback)
+    WalletUtils.onMessageFromFCL("FCL:VIEW:READY:RESPONSE", callback)
     WalletUtils.sendMsgToFCL("FCL:VIEW:READY")
-
-    return () => window.removeEventListener("message", callback)
   }, [])
 
   const appScopes =

@@ -1,5 +1,4 @@
 /** @jsxImportSource theme-ui */
-import * as fcl from "@onflow/fcl"
 import AuthzActions from "components/AuthzActions"
 import AuthzDetails from "components/AuthzDetails"
 import AuthzHeader from "components/AuthzHeader"
@@ -20,7 +19,7 @@ function AuthzContent({
   avatarUrl: string
 }) {
   const {isExpanded, codePreview} = useAuthzContext()
-  const {currentUser, proposalKey, message, id} = useAuthzContext()
+  const {currentUser, proposalKey, message} = useAuthzContext()
   const [isLoading, setIsLoading] = useState(false)
 
   const onApprove = () => {
@@ -32,25 +31,12 @@ function AuthzContent({
     })
       .then(d => d.json())
       .then(({signature}) => {
-        window.parent.postMessage(
-          {
-            jsonrpc: "2.0",
-            id,
-            result: {
-              f_type: "PollingResponse",
-              f_vsn: "1.0.0",
-              status: "APPROVED",
-              reason: null,
-              data: {
-                f_type: "CompositeSignature",
-                f_vsn: "1.0.0",
-                addr: fcl.sansPrefix(currentUser.address),
-                keyId: Number(proposalKey.keyId),
-                signature: signature,
-              },
-            },
-          },
-          "*"
+        WalletUtils.approve(
+          new WalletUtils.CompositeSignature(
+            currentUser.address,
+            proposalKey.keyId,
+            signature
+          )
         )
         setIsLoading(false)
       })
