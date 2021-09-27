@@ -1,7 +1,12 @@
-import {WalletUtils, withPrefix} from "@onflow/fcl"
+import {WalletUtils, config, verifyUserSignatures} from "@onflow/fcl"
 import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "pages/api/accounts"
 import {paths} from "src/constants"
+
+config({
+  "accessNode.api": "http://localhost:8080",
+  "discovery.wallet": "http://localhost:3000/fcl/authn",
+})
 
 const PROFILE_SCOPES = new Set(
   "name family_name given_name middle_name nickname preferred_username profile picture website gender birthday zoneinfo locale updated_at"
@@ -66,25 +71,17 @@ export async function chooseAccount(
 ) {
   const {address, keyId} = account
 
-  const {domainTag, timeStamp, message} = connectedAppConfig.body
-  const signable = {
-    message,
-    data: {addr: address, keyId, domainTag, timeStamp},
-  }
-  const compSig = await fetch(paths.userSig, {
+  const {timestamp, appDomainTag} = connectedAppConfig.body
+  const signable = {address, keyId, timestamp, appDomainTag}
+
+  const compSig = await fetch(paths.proveAuthn, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(signable),
   })
     .then(d => d.json())
-    .then(({addr, keyId, signature}) => {
-      return {
-        f_type: "CompositeSignature",
-        f_vsn: "1.0.0",
-        addr: withPrefix(addr),
-        keyId: Number(keyId),
-        signature: signature,
-      }
+    .then(async ({addr, keyId, signature}) => {
+      return new WalletUtils.CompositeSignature(addr, keyId, signature)
     })
     .catch(e => {
       // eslint-disable-next-line no-console
@@ -115,7 +112,7 @@ export async function chooseAccount(
       type: "authz",
       uid: "fcl-dev-wallet#authz",
       endpoint: `${location.origin}/fcl/authz`,
-      method: "IFRAME/RPC",
+      method: "POP/RPC",
       identity: {
         address: address,
         keyId: Number(keyId),
@@ -143,9 +140,8 @@ export async function chooseAccount(
         f_type: "account-proof",
         f_vsn: "1.0.0",
         address: address,
-        message: message,
-        timestamp: timeStamp,
-        domainTag: domainTag,
+        timestamp: timestamp,
+        appDomainTag: appDomainTag,
         signature: compSig ?? null,
       },
     },

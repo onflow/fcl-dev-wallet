@@ -7,7 +7,7 @@ const {serverRuntimeConfig} = getConfig()
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     message,
-    data: {addr, keyId, timestamp},
+    data: {addr, keyId},
   } = req.body
 
   const rightPaddedHexBuffer = (value: string, pad: number) =>
