@@ -1,12 +1,7 @@
-import {WalletUtils, config, verifyUserSignatures} from "@onflow/fcl"
+import {WalletUtils} from "@onflow/fcl"
 import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "pages/api/accounts"
 import {paths} from "src/constants"
-
-config({
-  "accessNode.api": "http://localhost:8080",
-  "discovery.wallet": "http://localhost:3000/fcl/authn",
-})
 
 const PROFILE_SCOPES = new Set(
   "name family_name given_name middle_name nickname preferred_username profile picture website gender birthday zoneinfo locale updated_at"
