@@ -24,7 +24,6 @@ const styles: SXStyles = {
   codeContainer: {
     mt: 3,
     mb: -20,
-    maxWidth: [332, "100%"],
   },
 }
 
