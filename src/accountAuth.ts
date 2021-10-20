@@ -28,7 +28,7 @@ type AuthResponseService = {
   method?: string
   data?: Record<
     string,
-    string | boolean | number | null | CompositeSignature | unknown
+    string | boolean | number | null | Array<CompositeSignature> | unknown
   >
   identity?: {
     address: string
@@ -107,7 +107,7 @@ export async function chooseAccount(
       type: "authz",
       uid: "fcl-dev-wallet#authz",
       endpoint: `${location.origin}/fcl/authz`,
-      method: "POP/RPC",
+      method: "IFRAME/RPC",
       identity: {
         address: address,
         keyId: Number(keyId),
@@ -137,7 +137,7 @@ export async function chooseAccount(
         address: address,
         timestamp: timestamp,
         appDomainTag: appDomainTag,
-        signature: compSig ?? null,
+        signatures: [compSig] ?? null,
       },
     },
   ]

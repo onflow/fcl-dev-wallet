@@ -31,8 +31,7 @@ export default function UserSign() {
       setSignable(data.body)
     }
 
-    WalletUtils.onMessageFromFCL("FCL:VIEW:READY:RESPONSE", callback)
-    WalletUtils.sendMsgToFCL("FCL:VIEW:READY")
+    WalletUtils.ready(callback)
   }, [])
 
   function onApprove() {

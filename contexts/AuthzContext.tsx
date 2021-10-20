@@ -102,8 +102,7 @@ export function AuthzContextProvider({children}: {children: React.ReactNode}) {
       setSignable(data.body)
     }
 
-    WalletUtils.onMessageFromFCL("FCL:VIEW:READY:RESPONSE", callback)
-    WalletUtils.sendMsgToFCL("FCL:VIEW:READY")
+    WalletUtils.ready(callback)
   }, [])
 
   const accounts = useMemo(() => {

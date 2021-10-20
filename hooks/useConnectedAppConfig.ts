@@ -23,8 +23,7 @@ export default function useConnectedAppConfig() {
       setConnectedAppConfig(data)
     }
 
-    WalletUtils.onMessageFromFCL("FCL:VIEW:READY:RESPONSE", callback)
-    WalletUtils.sendMsgToFCL("FCL:VIEW:READY")
+    WalletUtils.ready(callback)
   }, [])
 
   const appScopes =
