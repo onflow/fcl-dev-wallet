@@ -1,6 +1,7 @@
 import {WalletUtils} from "@onflow/fcl"
 import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "pages/api/accounts"
+import {paths} from "src/constants"
 
 const PROFILE_SCOPES = new Set(
   "name family_name given_name middle_name nickname preferred_username profile picture website gender birthday zoneinfo locale updated_at"
@@ -8,6 +9,14 @@ const PROFILE_SCOPES = new Set(
     .split(/\s+/)
 )
 const EMAIL_SCOPES = new Set("email email_verified".trim().split(/\s+/))
+
+type CompositeSignature = {
+  f_type: string
+  f_vsn: string
+  addr: string
+  keyId: number
+  signature: string
+}
 
 type AuthResponseService = {
   f_type: string
@@ -17,7 +26,10 @@ type AuthResponseService = {
   endpoint?: string
   id?: string
   method?: string
-  data?: Record<string, string | boolean | number>
+  data?: Record<
+    string,
+    string | boolean | number | null | Array<CompositeSignature> | unknown
+  >
   identity?: {
     address: string
     keyId?: number
@@ -29,11 +41,6 @@ type AuthResponseService = {
     description: string
   }
   params?: Record<string, string>
-}
-
-type AuthResponseData = {
-  addr?: string
-  services: AuthResponseService[]
 }
 
 const intersection = (a: Set<string>, b: Set<string>) =>
@@ -52,18 +59,30 @@ const entry = (
   value: string | boolean | number
 ) => scopes.has(key) && [key, value]
 
-function authnResponse(data: AuthResponseData) {
-  return () => {
-    WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", data)
-  }
-}
-
-export function chooseAccount(
+export async function chooseAccount(
   account: Account,
   scopes: Set<string>,
   connectedAppConfig: ConnectedAppConfig
 ) {
   const {address, keyId} = account
+
+  const {timestamp, appDomainTag} = connectedAppConfig.body
+  const signable = {address, keyId, timestamp, appDomainTag}
+
+  const compSig = await fetch(paths.proveAuthn, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(signable),
+  })
+    .then(d => d.json())
+    .then(async ({addr, keyId, signature}) => {
+      return new WalletUtils.CompositeSignature(addr, keyId, signature)
+    })
+    .catch(e => {
+      // eslint-disable-next-line no-console
+      console.error("FCL-DEV-WALLET FAILED TO SIGN", e)
+    })
+
   const services: AuthResponseService[] = [
     {
       f_type: "Service",
@@ -104,6 +123,22 @@ export function chooseAccount(
       id: address,
       data: {addr: address, keyId: Number(keyId)},
       params: {},
+    },
+    // Authentication Proof Service
+    {
+      f_type: "Service",
+      f_vsn: "1.0.0",
+      type: "account-proof",
+      method: "DATA",
+      uid: "fcl-dev-wallet#account-proof",
+      data: {
+        f_type: "account-proof",
+        f_vsn: "1.0.0",
+        address: address,
+        timestamp: timestamp,
+        appDomainTag: appDomainTag,
+        signatures: [compSig] ?? null,
+      },
     },
   ]
 
@@ -163,7 +198,7 @@ export function chooseAccount(
 
   localStorage.setItem("connectedAppConfig", JSON.stringify(connectedAppConfig))
 
-  return authnResponse({
+  WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", {
     addr: address,
     services,
   })

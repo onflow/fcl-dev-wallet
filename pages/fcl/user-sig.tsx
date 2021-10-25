@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import {WalletUtils, withPrefix} from "@onflow/fcl"
+import {WalletUtils} from "@onflow/fcl"
 import AuthzActions from "components/AuthzActions"
 import AuthzDetailsTable, {AuthzDetailsRow} from "components/AuthzDetailsTable"
 import Dialog from "components/Dialog"
@@ -27,19 +27,11 @@ export default function UserSign() {
   )
 
   useEffect(() => {
-    function callback({data}: {data: AuthReadyResponseData}) {
-      if (data === null) return
-      if (typeof data !== "object") return
-      if (data.type === "FCL:VIEW:READY:RESPONSE") {
-        setSignable(data.body)
-      }
+    function callback(data: AuthReadyResponseData) {
+      setSignable(data.body)
     }
 
-    window.addEventListener("message", callback)
-
-    WalletUtils.sendMsgToFCL("FCL:VIEW:READY")
-
-    return () => window.removeEventListener("message", callback)
+    WalletUtils.ready(callback)
   }, [])
 
   function onApprove() {
@@ -51,19 +43,9 @@ export default function UserSign() {
     })
       .then(d => d.json())
       .then(({addr, keyId, signature}) => {
-        WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", {
-          f_type: "PollingResponse",
-          f_vsn: "1.0.0",
-          status: "APPROVED",
-          reason: null,
-          data: {
-            f_type: "CompositeSignature",
-            f_vsn: "1.0.0",
-            addr: withPrefix(addr),
-            keyId: Number(keyId),
-            signature: signature,
-          },
-        })
+        WalletUtils.approve(
+          new WalletUtils.CompositeSignature(addr, keyId, signature)
+        )
         setIsLoading(false)
       })
       .catch(d => {
@@ -74,12 +56,7 @@ export default function UserSign() {
   }
 
   const onDecline = () => {
-    WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", {
-      f_type: "PollingResponse",
-      f_vsn: "1.0.0",
-      status: "DECLINED",
-      reason: null,
-    })
+    WalletUtils.decline("User declined")
   }
 
   return (

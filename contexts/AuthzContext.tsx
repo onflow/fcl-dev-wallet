@@ -5,15 +5,18 @@ import {Account} from "pages/api/accounts"
 import React, {createContext, useEffect, useMemo, useState} from "react"
 import {WalletUtils} from "@onflow/fcl"
 
-type AuthReadyData = {
-  jsonrpc: string
-  method: string
-  params: AuthParams
-  signable: unknown
-  id: string
+type AuthzReadyData = {
+  type: string
+  body: AuthSignable
+  service: Record<string, unknown>
+  config: {
+    services: {"OpenID.scopes": string}
+    app: {
+      icon: string
+      title: string
+    }
+  }
 }
-
-type AuthParams = [AuthSignable, unknown]
 
 export type ProposalKey = {
   address: string
@@ -60,7 +63,6 @@ type AuthzContextType = {
   computeLimit: number
   refBlock: string
   message: string
-  id: string
   codePreview: CodePreview | null
   setCodePreview: React.Dispatch<React.SetStateAction<CodePreview | null>>
   isExpanded: boolean
@@ -83,7 +85,6 @@ export const AuthzContext = createContext<AuthzContextType>({
   computeLimit: 0,
   refBlock: "",
   message: "",
-  id: "",
   codePreview: null,
   setCodePreview: () => null,
   isExpanded: false,
@@ -92,27 +93,16 @@ export const AuthzContext = createContext<AuthzContextType>({
 
 export function AuthzContextProvider({children}: {children: React.ReactNode}) {
   const [signable, setSignable] = useState<AuthSignable | null>(null)
-  const [id, setId] = useState<string | null>(null)
   const [codePreview, setCodePreview] = useState<CodePreview | null>(null)
 
   const {data: accountsData} = useAccounts()
 
   useEffect(() => {
-    function callback({data}: {data: AuthReadyData}) {
-      if (data == null) return
-      if (data.jsonrpc != "2.0") return
-      if (data.method != "fcl:sign") return
-      const [signable] = data.params
-      delete signable.interaction
-      setId(data.id)
-      setSignable(signable)
+    function callback(data: AuthzReadyData) {
+      setSignable(data.body)
     }
 
-    window.addEventListener("message", callback)
-
-    WalletUtils.sendMsgToFCL("FCL:VIEW:READY")
-
-    return () => window.removeEventListener("message", callback)
+    WalletUtils.ready(callback)
   }, [])
 
   const accounts = useMemo(() => {
@@ -122,7 +112,7 @@ export function AuthzContextProvider({children}: {children: React.ReactNode}) {
     return hash
   }, [accountsData])
 
-  if (!signable || !id || Object.entries(accounts).length === 0) return null
+  if (!signable || Object.entries(accounts).length === 0) return null
 
   const {addr: currentUserAddress, voucher, roles, message} = signable
   const savedConnectedAppConfig = localStorage.getItem("connectedAppConfig")
@@ -140,7 +130,6 @@ export function AuthzContextProvider({children}: {children: React.ReactNode}) {
     computeLimit: voucher.computeLimit,
     refBlock: voucher.refBlock,
     message,
-    id,
     codePreview,
     setCodePreview,
     isExpanded: codePreview !== null,

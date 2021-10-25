@@ -16,7 +16,7 @@ const hashMsgHex = (msgHex: string) => {
 export function sign(privateKey: string, msgHex: string) {
   const key = ec.keyFromPrivate(Buffer.from(privateKey, "hex"))
   const sig = key.sign(hashMsgHex(msgHex))
-  const n = 32 // half of signature length?
+  const n = 32
   const r = sig.r.toArrayLike(Buffer, "be", n)
   const s = sig.s.toArrayLike(Buffer, "be", n)
   return Buffer.concat([r, s]).toString("hex")

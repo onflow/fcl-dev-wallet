@@ -10,9 +10,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     data: {addr, keyId},
   } = req.body
 
-  // UserDomainTag is the prefix of all signed user space payloads.
-  //
-  // A domain tag is encoded as UTF-8 bytes, right padded to a total length of 32 bytes.
   const rightPaddedHexBuffer = (value: string, pad: number) =>
     Buffer.from(value.padEnd(pad * 2, "0"), "hex")
 
