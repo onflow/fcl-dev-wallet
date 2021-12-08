@@ -1,5 +1,4 @@
 /** @jsxImportSource theme-ui */
-import {SXStyles} from "types"
 import AccountListItemScopes from "components/AccountListItemScopes"
 import Button from "components/Button"
 import ConnectedAppHeader from "components/ConnectedAppHeader"
@@ -10,7 +9,9 @@ import {useState} from "react"
 import {paths} from "src/constants"
 import {updateAccountSchemaClient} from "src/validate"
 import {mutate} from "swr"
-import {Box, Themed} from "theme-ui"
+import {Box} from "theme-ui"
+import {SXStyles} from "types"
+import AccountBalances from "./AccountBalances"
 import {CustomInputComponent} from "./Inputs"
 
 const styles: SXStyles = {
@@ -90,7 +91,7 @@ export default function AccountForm({
               />
             </Box>
 
-            <Box mb={3}>
+            <Box mb={4}>
               <Field
                 component={CustomInputComponent}
                 inputLabel="Label"
@@ -100,13 +101,18 @@ export default function AccountForm({
               />
             </Box>
 
-            <Box mb={3}>
+            {!!account.address && (
+              <Box mb={4}>
+                <AccountBalances address={account.address} />
+              </Box>
+            )}
+
+            <Box mb={4}>
               <AccountListItemScopes
                 scopes={values.scopes}
                 setScopes={newScopes => setFieldValue("scopes", newScopes)}
                 compact={true}
               />
-              <Themed.hr sx={{mt: 0, mb: 1}} />
             </Box>
 
             <div sx={styles.actions}>

@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
-import {WalletUtils} from "@onflow/fcl"
 import {Dialog as HUIDialog} from "@headlessui/react"
+import {WalletUtils} from "@onflow/fcl"
 import useAuthzContext from "hooks/useAuthzContext"
 import {useRef} from "react"
 import {Box, Button} from "theme-ui"
@@ -36,6 +36,9 @@ const styles: SXStyles = {
     pr: 1,
     borderBottom: "1px solid",
     borderColor: "gray.200",
+    backgroundColor: "white",
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
   },
   footer: {
     position: "sticky",

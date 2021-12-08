@@ -113,6 +113,7 @@ export default function AccountsListItem({
       console.error(e)
     )
   }
+
   return (
     <>
       <div
@@ -167,7 +168,9 @@ export default function AccountsListItem({
           </Flex>
         </div>
         {hasScopes && showScopes && (
-          <AccountListItemScopes scopes={scopes} setScopes={setScopes} />
+          <>
+            <AccountListItemScopes scopes={scopes} setScopes={setScopes} />
+          </>
         )}
       </div>
       <Themed.hr sx={{mt: 0, mb: 0}} />

@@ -2,9 +2,9 @@ import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import updateAccountTransaction from "cadence/transactions/updateAccount.cdc"
 import {NextApiRequest, NextApiResponse} from "next"
+import getConfig from "next/config"
 import {authz} from "src/authz"
 import fclConfig from "src/fclConfig"
-import getConfig from "next/config"
 
 const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
 
@@ -14,7 +14,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   fclConfig(
     serverRuntimeConfig.flowAccessNode,
-    publicRuntimeConfig.flowAccountAddress
+    publicRuntimeConfig.flowAccountAddress,
+    publicRuntimeConfig.contractFungibleToken,
+    publicRuntimeConfig.contractFlowToken,
+    publicRuntimeConfig.contractFUSD
   )
 
   const authorization = await authz(

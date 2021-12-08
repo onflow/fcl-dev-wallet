@@ -7,7 +7,6 @@ const styles: SXStyles = {
     display: "flex",
     alignItems: "center",
     width: "100%",
-    bottom: 0,
     borderTop: "1px solid",
     borderColor: "gray.200",
     backgroundColor: "white",

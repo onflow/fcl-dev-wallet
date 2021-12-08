@@ -1,11 +1,15 @@
 import * as fcl from "@onflow/fcl"
+import * as t from "@onflow/types"
+import getFUSDBalanceScript from "cadence/scripts/getFUSDBalance.cdc"
 import {NextApiRequest, NextApiResponse} from "next"
 import getConfig from "next/config"
 import fclConfig from "src/fclConfig"
 
 const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
 
-export default async (_req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const {address} = req.query
+
   fclConfig(
     serverRuntimeConfig.flowAccessNode,
     publicRuntimeConfig.flowAccountAddress,
@@ -15,15 +19,14 @@ export default async (_req: NextApiRequest, res: NextApiResponse) => {
   )
 
   try {
-    const account = await fcl
-      .send([fcl.getAccount(publicRuntimeConfig.flowAccountAddress)])
+    const balance = await fcl
+      .send([
+        fcl.script(getFUSDBalanceScript),
+        fcl.args([fcl.arg(address, t.Address)]),
+      ])
       .then(fcl.decode)
-    if (account["contracts"]["FCL"]) {
-      res.status(200).json(true)
-    } else {
-      res.status(200).json(false)
-    }
-  } catch (error) {
-    res.status(200).json(false)
+    res.status(200).json(balance)
+  } catch (_error) {
+    res.status(500).json({})
   }
 }
