@@ -1,4 +1,5 @@
 /** @jsxImportSource theme-ui */
+import * as fcl from "@onflow/fcl"
 import useAccount from "hooks/useAccount"
 import useFUSDBalance from "hooks/useFUSDBalance"
 import {FLOW_TYPE, FUSD_TYPE, paths, TokenTypes} from "src/constants"
@@ -21,21 +22,30 @@ const styles: SXStyles = {
   },
   balance: {
     fontSize: 1,
-    mr: 4,
   },
   fundButton: {
     fontWeight: "bold",
     fontSize: 0,
     color: "black",
+    ml: 4,
     px: 30,
     py: "7px",
     borderColor: "gray.200",
   },
 }
 
-export default function AccountBalances({address}: {address: string}) {
+export default function AccountBalances({
+  address,
+  flowAccountAddress,
+}: {
+  address: string
+  flowAccountAddress: string
+}) {
   const {data: fusdBalance} = useFUSDBalance(address)
   const {data: account} = useAccount(address)
+
+  const isServiceAccount =
+    fcl.withPrefix(address) === fcl.withPrefix(flowAccountAddress)
 
   const fund = (token: TokenTypes) => {
     fetch(paths.apiAccountFund(address), {
@@ -58,30 +68,34 @@ export default function AccountBalances({address}: {address: string}) {
       <AccountSectionHeading compact={true}>Funds</AccountSectionHeading>
       <Themed.hr sx={{backgroundColor: "gray.400", m: 0}} />
       <div sx={styles.accountSection}>
-        <Label sx={styles.label}>FUSD</Label>
-        <div sx={styles.balance}>{currency(fusdBalance)}</div>
-        <Button
-          variant="ghost"
-          size="xs"
-          onClick={() => fund(FUSD_TYPE)}
-          sx={styles.fundButton}
-          type="button"
-        >
-          Fund
-        </Button>
-      </div>
-      <div sx={styles.accountSection}>
         <Label sx={styles.label}>FLOW</Label>
         <div sx={styles.balance}>{currency(account?.balance || 0)}</div>
-        <Button
-          variant="ghost"
-          size="xs"
-          onClick={() => fund(FLOW_TYPE)}
-          sx={styles.fundButton}
-          type="button"
-        >
-          Fund
-        </Button>
+        {!isServiceAccount && (
+          <Button
+            variant="ghost"
+            size="xs"
+            onClick={() => fund(FLOW_TYPE)}
+            sx={styles.fundButton}
+            type="button"
+          >
+            Fund
+          </Button>
+        )}
+      </div>
+      <div sx={styles.accountSection}>
+        <Label sx={styles.label}>FUSD</Label>
+        <div sx={styles.balance}>{currency(fusdBalance)}</div>
+        {!isServiceAccount && (
+          <Button
+            variant="ghost"
+            size="xs"
+            onClick={() => fund(FUSD_TYPE)}
+            sx={styles.fundButton}
+            type="button"
+          >
+            Fund
+          </Button>
+        )}
       </div>
     </>
   )

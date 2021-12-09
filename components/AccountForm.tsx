@@ -85,7 +85,7 @@ export default function AccountForm({
                 title={
                   account.address ? "Manage Account" : "Create New Account"
                 }
-                description={account.address}
+                externalAddressLink={account.address}
                 flowAccountAddress={flowAccountAddress}
                 avatarUrl={avatarUrl}
               />
@@ -103,7 +103,10 @@ export default function AccountForm({
 
             {!!account.address && (
               <Box mb={4}>
-                <AccountBalances address={account.address} />
+                <AccountBalances
+                  address={account.address}
+                  flowAccountAddress={flowAccountAddress}
+                />
               </Box>
             )}
 

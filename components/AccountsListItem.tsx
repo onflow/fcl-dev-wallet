@@ -1,12 +1,12 @@
 /** @jsxImportSource theme-ui */
 import AccountImage from "components/AccountImage"
-import AccountListItemScopes from "components/AccountListItemScopes"
 import Button from "components/Button"
-import CaretIcon from "components/CaretIcon"
+import useAccount from "hooks/useAccount"
 import useAuthnContext from "hooks/useAuthnContext"
 import {Account, NewAccount} from "pages/api/accounts"
 import {useEffect, useState} from "react"
 import {chooseAccount} from "src/accountAuth"
+import {currency} from "src/currency"
 import {Flex, Themed} from "theme-ui"
 import {SXStyles} from "types"
 
@@ -14,15 +14,20 @@ const styles: SXStyles = {
   accountListItem: {
     marginX: -15,
     paddingX: 15,
+    height: 90,
+    display: "flex",
+    alignItems: "center",
+    flex: 1,
   },
   accountButtonContainer: {
     display: "flex",
     items: "center",
     alignItems: "center",
     justifyContent: "space-between",
+    flex: 1,
   },
   accountImage: {
-    marginRight: 2,
+    marginRight: 20,
   },
   chooseAccountButton: {
     display: "flex",
@@ -41,23 +46,24 @@ const styles: SXStyles = {
     lineHeight: "1.3rem",
   },
   chooseAccountAddress: {
-    fontSize: 1,
+    fontSize: 0,
+    color: "gray.600",
+  },
+  chooseAccountFlow: {
+    fontSize: 0,
+    color: "gray.600",
+    display: "flex",
+    alignItems: "center",
+  },
+  chooseAccountFlowLabel: {
     fontWeight: "normal",
-    color: "gray.500",
+    ml: 2,
   },
   chooseAccountButtonText: {
     height: "100%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-  },
-  expandAccountButton: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-    right: -15,
-    px: 15,
   },
   isNew: {
     textTransform: "uppercase",
@@ -74,7 +80,7 @@ const styles: SXStyles = {
   manageAccountButton: {
     margin: 0,
     padding: 0,
-    fontSize: 0,
+    fontSize: 1,
     fontWeight: "normal",
   },
 }
@@ -92,17 +98,15 @@ export default function AccountsListItem({
   flowAccountAddress: string
   avatarUrl: string
 }) {
-  const {connectedAppConfig, appScopes} = useAuthnContext()
+  const {connectedAppConfig} = useAuthnContext()
   const {
     config: {
       app: {title},
     },
   } = connectedAppConfig
 
-  const [showScopes, setShowScopes] = useState(false)
   const [scopes, setScopes] = useState<Set<string>>(new Set(account.scopes))
-  const toggleShowScopes = () => setShowScopes(prev => !prev)
-  const hasScopes = appScopes.length > 0
+  const {data: accountData} = useAccount(account.address)
 
   useEffect(() => {
     setScopes(new Set(account.scopes))
@@ -116,12 +120,7 @@ export default function AccountsListItem({
 
   return (
     <>
-      <div
-        sx={{
-          ...styles.accountListItem,
-          backgroundColor: showScopes ? "gray.100" : "transparent",
-        }}
-      >
+      <div sx={styles.accountListItem}>
         <div sx={styles.accountButtonContainer}>
           <Button
             variant="unstyled"
@@ -142,9 +141,13 @@ export default function AccountsListItem({
                 {isNew && <span sx={styles.isNew}>New</span>}
               </div>
               <code sx={styles.chooseAccountAddress}>{account.address}</code>
+              <code sx={styles.chooseAccountFlow}>
+                {currency(accountData?.balance || 0)}
+                <div sx={styles.chooseAccountFlowLabel}>FLOW</div>
+              </code>
             </div>
           </Button>
-          <Flex>
+          <Flex ml="auto">
             <Button
               variant="link"
               onClick={() => onEditAccount(account)}
@@ -153,27 +156,10 @@ export default function AccountsListItem({
             >
               Manage
             </Button>
-            {hasScopes && (
-              <Button
-                variant="unstyled"
-                sx={styles.expandAccountButton}
-                onClick={toggleShowScopes}
-                aria-controls="scopes"
-                aria-expanded={showScopes}
-                data-test="expand-account-button"
-              >
-                <CaretIcon up={showScopes} active={showScopes} />
-              </Button>
-            )}
           </Flex>
         </div>
-        {hasScopes && showScopes && (
-          <>
-            <AccountListItemScopes scopes={scopes} setScopes={setScopes} />
-          </>
-        )}
       </div>
-      <Themed.hr sx={{mt: 0, mb: 0}} />
+      <Themed.hr sx={{m: 0}} />
     </>
   )
 }

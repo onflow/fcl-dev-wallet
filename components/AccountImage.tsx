@@ -35,7 +35,7 @@ export default function AccountImage({
   flowAccountAddress,
   avatarUrl,
 }: Props) {
-  const size = lg ? 65 : 40
+  const size = lg ? 65 : 50
   const prefixedAddress = fcl.withPrefix(address)
   const isServiceAccount =
     prefixedAddress === fcl.withPrefix(flowAccountAddress)

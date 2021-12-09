@@ -16,16 +16,16 @@ const styles: SXStyles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: 40,
-    height: 40,
-    borderRadius: 40,
+    width: 50,
+    height: 50,
+    borderRadius: 50,
     marginRight: 3,
     fontFamily: "inherit",
     fontWeight: "normal",
   },
 }
 
-export default function AccountsList({
+export default function PlusButton({
   onClick,
   disabled,
   children,

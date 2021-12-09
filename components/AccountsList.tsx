@@ -18,6 +18,11 @@ const styles: SXStyles = {
     px: 3,
     mb: 3,
   },
+  plusButtonContainer: {
+    height: 90,
+    display: "flex",
+    alignItems: "center",
+  },
   footer: {
     lineHeight: 1.7,
     color: "gray.400",
@@ -58,7 +63,7 @@ export default function AccountsList({
         <FormErrors errors={[initError]} />
       ) : (
         <>
-          <Box mb={2}>
+          <Box>
             {accounts.map(account => (
               <AccountsListItem
                 key={account.address}
@@ -70,7 +75,7 @@ export default function AccountsList({
               />
             ))}
           </Box>
-          <Box mb={4}>
+          <Box sx={styles.plusButtonContainer}>
             <PlusButton
               onClick={() =>
                 onEditAccount(accountGenerator(accounts.length - 1))
@@ -79,8 +84,8 @@ export default function AccountsList({
             >
               Create New Account
             </PlusButton>
-            <Themed.hr sx={{mt: 2, mb: 0}} />
           </Box>
+          <Themed.hr sx={{mt: 0, mb: 4}} />
         </>
       )}
     </div>

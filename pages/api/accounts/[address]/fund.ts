@@ -37,7 +37,11 @@ export default async function fund(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === "POST") {
     const address = fcl.withPrefix(req.query.address)
-    const token = req.body.token
+    const token: TokenType = req.body.token
+
+    if (!["FUSD", "FLOW"].includes(token)) {
+      throw "Incorrect TokenType"
+    }
 
     const minterAuthz = await authz(
       publicRuntimeConfig.flowAccountAddress,
