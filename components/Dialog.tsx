@@ -7,7 +7,7 @@ import {Box, Button} from "theme-ui"
 import {SXStyles} from "types"
 import ExpandCollapseButton from "./ExpandCollapseButton"
 
-const styles: SXStyles = {
+export const styles: SXStyles = {
   dialog: {
     width: ["100%", 500],
     height: "90vh",
@@ -81,11 +81,13 @@ export default function Dialog({
   title,
   header,
   footer,
+  root,
   children,
 }: {
   title?: string
   header?: React.ReactNode
   footer?: React.ReactNode
+  root?: boolean
   children: React.ReactNode
 }) {
   const closeButtonRef = useRef<HTMLButtonElement>(null)
@@ -103,6 +105,7 @@ export default function Dialog({
       data-test="dev-wallet"
     >
       <HUIDialog.Overlay />
+
       <div sx={{...styles.header, mb: isExpanded ? 0 : styles.header.mb}}>
         <div sx={styles.topHeader}>
           <div sx={styles.logo}>
@@ -128,16 +131,23 @@ export default function Dialog({
         </div>
         {header}
       </div>
-      <div
-        sx={{
-          ...styles.body,
-          pt: isExpanded ? 0 : styles.body.pt,
-          pb: isExpanded ? 0 : styles.body.pb,
-        }}
-      >
-        {children}
-      </div>
-      <div sx={styles.footer}>{footer}</div>
+
+      {root ? (
+        children
+      ) : (
+        <>
+          <div
+            sx={{
+              ...styles.body,
+              pt: isExpanded ? 0 : styles.body.pt,
+              pb: isExpanded ? 0 : styles.body.pb,
+            }}
+          >
+            {children}
+          </div>
+          <div sx={styles.footer}>{footer}</div>
+        </>
+      )}
     </HUIDialog>
   )
 }

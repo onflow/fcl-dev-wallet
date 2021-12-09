@@ -142,7 +142,7 @@ export default function AccountsListItem({
               </div>
               <code sx={styles.chooseAccountAddress}>{account.address}</code>
               <code sx={styles.chooseAccountFlow}>
-                {currency(accountData?.balance || 0)}
+                {currency(accountData?.balance || 0, 20)}
                 <div sx={styles.chooseAccountFlowLabel}>FLOW</div>
               </code>
             </div>

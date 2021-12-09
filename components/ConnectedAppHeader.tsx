@@ -82,7 +82,6 @@ function MissingAppDetail({text}: {text: string}) {
 export default function ConnectedAppHeader({
   title,
   description,
-  externalAddressLink,
   info = true,
   account,
   flowAccountAddress,
@@ -90,7 +89,6 @@ export default function ConnectedAppHeader({
 }: {
   title?: string
   description?: string
-  externalAddressLink?: string
   info?: boolean
   account?: Account | NewAccount
   flowAccountAddress: string
@@ -159,18 +157,6 @@ export default function ConnectedAppHeader({
         </Themed.h1>
         {!!description && (
           <Themed.p sx={styles.description}>{description}</Themed.p>
-        )}
-        {!!externalAddressLink && (
-          <Themed.p sx={styles.description}>
-            <Link
-              href={`https://www.example.com/address=${externalAddressLink}`}
-              target="_blank"
-              sx={styles.externalAddressLink}
-            >
-              Full Account Details
-              <img sx={styles.externalLinkImage} src="/external-link.svg" />
-            </Link>
-          </Themed.p>
         )}
       </div>
     </div>

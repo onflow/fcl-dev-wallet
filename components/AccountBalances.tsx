@@ -69,7 +69,7 @@ export default function AccountBalances({
       <Themed.hr sx={{backgroundColor: "gray.400", m: 0}} />
       <div sx={styles.accountSection}>
         <Label sx={styles.label}>FLOW</Label>
-        <div sx={styles.balance}>{currency(account?.balance || 0)}</div>
+        <div sx={styles.balance}>{currency(account?.balance || 0, 20)}</div>
         {!isServiceAccount && (
           <Button
             variant="ghost"
