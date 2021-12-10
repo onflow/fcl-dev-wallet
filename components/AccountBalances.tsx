@@ -2,8 +2,8 @@
 import * as fcl from "@onflow/fcl"
 import useAccount from "hooks/useAccount"
 import useFUSDBalance from "hooks/useFUSDBalance"
+import {formattedBalance} from "src/balance"
 import {FLOW_TYPE, FUSD_TYPE, paths, TokenTypes} from "src/constants"
-import {currency} from "src/currency"
 import {mutate} from "swr"
 import {Label, Themed} from "theme-ui"
 import {SXStyles} from "types"
@@ -69,7 +69,9 @@ export default function AccountBalances({
       <Themed.hr sx={{backgroundColor: "gray.400", m: 0}} />
       <div sx={styles.accountSection}>
         <Label sx={styles.label}>FLOW</Label>
-        <div sx={styles.balance}>{currency(account?.balance || 0, 20)}</div>
+        <div sx={styles.balance}>
+          {!!account?.balance ? formattedBalance(account.balance) : "0"}
+        </div>
         {!isServiceAccount && (
           <Button
             variant="ghost"
@@ -84,7 +86,9 @@ export default function AccountBalances({
       </div>
       <div sx={styles.accountSection}>
         <Label sx={styles.label}>FUSD</Label>
-        <div sx={styles.balance}>{currency(fusdBalance)}</div>
+        <div sx={styles.balance}>
+          {formattedBalance(fusdBalance.toString())}
+        </div>
         {!isServiceAccount && (
           <Button
             variant="ghost"

@@ -11,7 +11,7 @@ export type Account = {
   scopes: string[]
   keyId?: number
   label?: string
-  balance?: number
+  balance?: string
 }
 
 export type NewAccount = Optional<Account, "address">

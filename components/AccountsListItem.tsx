@@ -6,7 +6,7 @@ import useAuthnContext from "hooks/useAuthnContext"
 import {Account, NewAccount} from "pages/api/accounts"
 import {useEffect, useState} from "react"
 import {chooseAccount} from "src/accountAuth"
-import {currency} from "src/currency"
+import {formattedBalance} from "src/balance"
 import {Flex, Themed} from "theme-ui"
 import {SXStyles} from "types"
 
@@ -142,7 +142,9 @@ export default function AccountsListItem({
               </div>
               <code sx={styles.chooseAccountAddress}>{account.address}</code>
               <code sx={styles.chooseAccountFlow}>
-                {currency(accountData?.balance || 0, 20)}
+                {!!accountData?.balance
+                  ? formattedBalance(accountData.balance)
+                  : "0"}
                 <div sx={styles.chooseAccountFlowLabel}>FLOW</div>
               </code>
             </div>
