@@ -52,10 +52,11 @@ flow init
 ```
 ### Start the Emulator
 
-Start the emulator by running the following command from the directory containing `flow.json` in your project:
+Start the emulator and deploy the contracts by running the following command from the directory containing `flow.json` in your project:
 
 ```sh
 flow emulator start
+flow project deploy --network emulator
 ```
 ###  Start the Dev Wallet
 
