@@ -4,6 +4,11 @@ export const paths = {
   apiIsInit: "/api/is-init",
   apiAccount: (address: string) => `/api/accounts/${address}`,
   apiAccountUpdate: (address: string) => `/api/accounts/${address}/update`,
+  apiAccountFund: (address: string) => `/api/accounts/${address}/fund`,
+  apiAccountFUSDBalance: (address: string) =>
+    `/api/accounts/${address}/fusdBalance`,
+  apiAccountFlowBalance: (address: string) =>
+    `/api/accounts/${address}/flowBalance`,
   apiAccounts: "/api/accounts",
   apiAccountsNew: "/api/accounts/new",
   apiConfig: "/api/config",
@@ -19,3 +24,12 @@ export const FLOW_EVENT_TYPES = {
 export const LABEL_MISSING_ERROR = "Label is required."
 export const SERVICE_ACCOUNT_LABEL = "Service Account"
 export const UNTITLED_APP_NAME = "Untitled Dapp"
+
+export const FLOW_TYPE = "FLOW"
+export const FUSD_TYPE = "FUSD"
+
+export const MISSING_FUSD_VAULT_ERROR =
+  "This account does not have an FUSD vault"
+
+export type TokenTypes = typeof FLOW_TYPE | typeof FUSD_TYPE
+export type TokenType = "FLOW" | "FUSD"

@@ -44,6 +44,12 @@ const styles: SXStyles = {
     maxWidth: 340,
     margin: "0 auto",
   },
+  externalAddressLink: {ml: 1, color: "blue", fontSize: 1},
+  externalLinkImage: {
+    ml: 2,
+    position: "relative",
+    top: "1px",
+  },
   infoButton: {
     position: "absolute",
     right: 0,
@@ -149,7 +155,7 @@ export default function ConnectedAppHeader({
         <Themed.h1 sx={styles.title}>
           {title || connectedAppTitle || UNTITLED_APP_NAME}
         </Themed.h1>
-        {description && (
+        {!!description && (
           <Themed.p sx={styles.description}>{description}</Themed.p>
         )}
       </div>

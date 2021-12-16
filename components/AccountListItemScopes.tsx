@@ -3,6 +3,7 @@ import Switch from "components/Switch"
 import useAuthnContext from "hooks/useAuthnContext"
 import {Label, Themed} from "theme-ui"
 import {SXStyles} from "types"
+import AccountSectionHeading from "./AccountSectionHeading"
 
 const styles: SXStyles = {
   headingContainer: {
@@ -19,9 +20,12 @@ const styles: SXStyles = {
   },
   label: {textTransform: "capitalize", margin: 0},
   scope: {
+    height: 40,
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    borderBottom: "1px solid",
+    borderColor: "gray.200",
   },
 }
 
@@ -43,12 +47,14 @@ export default function AccountListItemScopes({
 
   return (
     <div id="scopes">
-      <div sx={{...styles.headingContainer, height: compact ? 30 : 40}}>
-        <div sx={styles.heading}>{appScopes.length > 0 && "Scopes"}</div>
-      </div>
+      <AccountSectionHeading compact={compact}>
+        {appScopes.length > 0 && "Scopes"}
+      </AccountSectionHeading>
       {appScopes.length > 0 && (
         <>
-          <Themed.hr sx={{mt: 0, mb: compact ? 1 : 3}} />
+          <Themed.hr
+            sx={{backgroundColor: "gray.400", mt: 0, mb: compact ? 1 : 3}}
+          />
           {appScopes.map(scope => (
             <div key={scope}>
               <div sx={{...styles.scope, paddingBottom: compact ? 1 : 3}}>

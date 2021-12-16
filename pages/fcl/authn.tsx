@@ -1,13 +1,13 @@
 /** @jsxImportSource theme-ui */
 import AccountForm from "components/AccountForm"
 import AccountsList from "components/AccountsList"
-import Dialog from "components/Dialog"
+import Dialog, {styles as dialogStyles} from "components/Dialog"
 import {AuthnContextProvider} from "contexts/AuthnContext"
 import useAccounts from "hooks/useAccounts"
+import getConfig from "next/config"
 import {Account, NewAccount} from "pages/api/accounts"
 import {useState} from "react"
 import {Err} from "src/comps/err.comp"
-import getConfig from "next/config"
 
 function Authn({
   flowAccountAddress,
@@ -40,17 +40,17 @@ function Authn({
 
   return (
     <AuthnContextProvider>
-      <Dialog>
-        <div>
-          {editingAccount ? (
-            <AccountForm
-              account={editingAccount}
-              onSubmitComplete={onSubmitComplete}
-              onCancel={onCancel}
-              flowAccountAddress={flowAccountAddress}
-              avatarUrl={avatarUrl}
-            />
-          ) : (
+      <Dialog root={true}>
+        {editingAccount ? (
+          <AccountForm
+            account={editingAccount}
+            onSubmitComplete={onSubmitComplete}
+            onCancel={onCancel}
+            flowAccountAddress={flowAccountAddress}
+            avatarUrl={avatarUrl}
+          />
+        ) : (
+          <div sx={dialogStyles.body}>
             <AccountsList
               accounts={data}
               onEditAccount={onEditAccount}
@@ -58,8 +58,8 @@ function Authn({
               flowAccountAddress={flowAccountAddress}
               avatarUrl={avatarUrl}
             />
-          )}
-        </div>
+          </div>
+        )}
       </Dialog>
     </AuthnContextProvider>
   )

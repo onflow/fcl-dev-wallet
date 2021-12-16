@@ -1,4 +1,6 @@
 /** @jsxImportSource theme-ui */
+import {useFormikContext} from "formik"
+import {Account, NewAccount} from "pages/api/accounts"
 import {SXStyles} from "types"
 import Button from "./Button"
 
@@ -22,38 +24,42 @@ const styles: SXStyles = {
   },
 }
 
-function AuthzActions({
-  onApprove,
-  onDecline,
-  isLoading,
+function AuthnActions({
+  account,
+  onCancel,
 }: {
-  onApprove: () => void
-  onDecline: () => void
-  isLoading?: boolean
+  account: Account | NewAccount
+  onCancel: () => void
 }) {
+  const {isSubmitting, isValid, submitForm} = useFormikContext()
+
   return (
     <div sx={styles.actionsContainer}>
       <div sx={styles.actions}>
         <Button
+          onClick={onCancel}
+          type="button"
           variant="ghost"
+          block
           size="lg"
-          sx={{flex: 1, mx: 10, w: "50%"}}
-          onClick={onDecline}
+          sx={{flex: 1, mr: 10, w: "50%"}}
         >
-          Decline
+          Cancel
         </Button>
+
         <Button
+          type="button"
+          block
           size="lg"
-          sx={{flex: 1, mx: 10, w: "50%"}}
-          onClick={onApprove}
-          disabled={isLoading}
-          data-test="approve-transaction-button"
+          sx={{flex: 1, ml: 10, w: "50%"}}
+          disabled={isSubmitting || !isValid}
+          onClick={submitForm}
         >
-          Approve
+          {account.address ? "Save" : "Create"}
         </Button>
       </div>
     </div>
   )
 }
 
-export default AuthzActions
+export default AuthnActions

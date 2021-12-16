@@ -1,4 +1,5 @@
 /** @jsxImportSource theme-ui */
+import {WalletUtils} from "@onflow/fcl"
 import AuthzActions from "components/AuthzActions"
 import AuthzDetails from "components/AuthzDetails"
 import AuthzHeader from "components/AuthzHeader"
@@ -6,10 +7,9 @@ import Code from "components/Code"
 import Dialog from "components/Dialog"
 import {AuthzContextProvider} from "contexts/AuthzContext"
 import useAuthzContext from "hooks/useAuthzContext"
+import getConfig from "next/config"
 import {useState} from "react"
 import {paths} from "src/constants"
-import {WalletUtils} from "@onflow/fcl"
-import getConfig from "next/config"
 
 function AuthzContent({
   flowAccountAddress,

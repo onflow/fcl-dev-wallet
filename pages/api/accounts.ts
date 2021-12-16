@@ -1,9 +1,9 @@
 import * as fcl from "@onflow/fcl"
 import getAccounts from "cadence/scripts/getAccounts.cdc"
 import {NextApiRequest, NextApiResponse} from "next"
-import {Optional} from "types"
-import fclConfig from "src/fclConfig"
 import getConfig from "next/config"
+import fclConfig from "src/fclConfig"
+import {Optional} from "types"
 
 export type Account = {
   type: "ACCOUNT"
@@ -11,6 +11,7 @@ export type Account = {
   scopes: string[]
   keyId?: number
   label?: string
+  balance?: string
 }
 
 export type NewAccount = Optional<Account, "address">
@@ -22,7 +23,10 @@ const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
 export default async (_req: NextApiRequest, res: NextApiResponse) => {
   fclConfig(
     serverRuntimeConfig.flowAccessNode,
-    publicRuntimeConfig.flowAccountAddress
+    publicRuntimeConfig.flowAccountAddress,
+    publicRuntimeConfig.contractFungibleToken,
+    publicRuntimeConfig.contractFlowToken,
+    publicRuntimeConfig.contractFUSD
   )
 
   try {

@@ -46,7 +46,7 @@ const Button = ({
     textDecoration: "none",
     fontFamily: "body",
     "&:hover": {
-      opacity: 0.9,
+      opacity: 0.8,
     },
     ...variants,
     ...sx,
