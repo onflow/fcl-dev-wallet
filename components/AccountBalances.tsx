@@ -59,7 +59,8 @@ export default function AccountBalances({
         mutate(paths.apiAccount(address))
       })
       .catch(e => {
-        console.log(e)
+        // eslint-disable-next-line no-console
+        console.error(e)
       })
   }
 
