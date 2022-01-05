@@ -15,6 +15,7 @@ export const paths = {
   apiSign: "/api/sign",
   userSig: "/api/user-sig",
   proveAuthn: "/api/prove-authn",
+  authnRefresh: "/api/refresh",
 }
 
 export const FLOW_EVENT_TYPES = {
