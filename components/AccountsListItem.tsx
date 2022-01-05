@@ -114,6 +114,7 @@ export default function AccountsListItem({
 
   const handleSelect = () => {
     chooseAccount(account, scopes, connectedAppConfig).catch(e =>
+      // eslint-disable-next-line no-console
       console.error(e)
     )
   }
