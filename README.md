@@ -37,20 +37,23 @@ conjunction with Flow Mainnet, Testnet, Canarynet or any
 other instances of Flow.
 ```
 
-## Getting Started
+## Getting started
 
 Before using the dev wallet, you'll need to start the Flow emulator.
+
 ### Install the `flow-cli`
 
 The Flow emulator is bundles with the Flow CLI. Instructions for installing the CLI can be found here: [https://docs.onflow.org/flow-cli/install/](https://docs.onflow.org/flow-cli/install/)
 
-### Create a `flow.json` File
+### Create a `flow.json` file
 
 Run this command to create `flow.json` file (typically in your project's root directory):
-```
+
+```sh
 flow init
 ```
-### Start the Emulator
+
+### Start the emulator
 
 Start the emulator and deploy the contracts by running the following command from the directory containing `flow.json` in your project:
 
@@ -58,26 +61,28 @@ Start the emulator and deploy the contracts by running the following command fro
 flow emulator start
 flow project deploy --network emulator
 ```
-###  Start the Dev Wallet
+
+###  Start the dev wallet
 
 You can run the dev wallet using its Docker image:
 
-```bash
+```sh
 docker run ghcr.io/onflow/fcl-dev-wallet:latest
 ```
 
-## All-In-One
+## All-in-one
 
 You can run the dev-wallet + Flow emulator together using `docker-compose`:
 
-```
+```sh
 docker-compose up -d
 ```
-## Startup Options
+
+## Startup options
 
 The following startup options can be configured (defaults shown). If you're using Docker Compose, these configuration values are defined in [`docker-compose.yml`](docker-compose.yml).
 
-```bash
+```sh
 docker run -it \
     -p 8701:8701
     -e PORT=8701 \
@@ -93,15 +98,15 @@ docker run -it \
 **Note:** The following variables should match the `emulator-account` defined in your project's `flow.json` file.
  For details about `flow.json` visit the `flow-cli` [configuration reference](https://docs.onflow.org/flow-cli/configuration/).
 
-```
+```sh
 FLOW_ACCOUNT_PRIVATE_KEY
 FLOW_ACCOUNT_PUBLIC_KEY
 FLOW_ACCOUNT_ADDRESS
 ```
-## Configuring Your JavaScript Application
+
+## Configuring your JavaScript application
 
 The FCL dev wallet is designed to be used with [`@onflow/fcl`](https://github.com/onflow/flow-js-sdk) version `0.0.68` or higher. The FCL package can be installed with: `npm install @onflow/fcl` or `yarn add @onflow/fcl`.
-
 
 To use the dev wallet, configure FCL to point to the address of a locally running [Flow emulator](#start-the-emulator) and the dev wallet endpoint.
 
@@ -115,12 +120,10 @@ fcl.config()
   .put("discovery.wallet", "http://localhost:8701/fcl/authn") 
 ```
 
-
-### Test Harness 
+### Test harness 
 
 It's easy to use this FCL harness app as a barebones
 app to interact with the dev-wallet during development:
-
 
 Navigate to http://localhost:8701/harness
 
