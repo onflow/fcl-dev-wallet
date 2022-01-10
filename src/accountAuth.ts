@@ -140,6 +140,25 @@ export async function chooseAccount(
         signatures: [compSig] ?? null,
       },
     },
+    // Authentication Refresh Service
+    {
+      f_type: "Service",
+      f_vsn: "1.0.0",
+      type: "authn-refresh",
+      uid: "fcl-dev-wallet#authn-refresh",
+      endpoint: `${location.origin}/api/refresh`,
+      method: "HTTP/POST",
+      id: address,
+      data: {
+        f_type: "authn-refresh",
+        f_vsn: "1.0.0",
+        address: address,
+        keyId: Number(keyId),
+      },
+      params: {
+        sessionId: "C7OXWaVpU-efRymW7a5d",
+      },
+    },
   ]
 
   if (!!scopes.size) {

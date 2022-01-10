@@ -20,6 +20,7 @@
     "@onflow/util-encode-key": "^0.0.2",
     "@theme-ui/color": "^0.10.0",
     "@theme-ui/match-media": "^0.10.1",
+    "cors": "^2.8.5",
     "elliptic": "^6.5.4",
     "formik": "^2.2.9",
     "monaco-editor": "^0.27.0",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@theme-ui/css": "^0.10.1",
+    "@types/cors": "^2.8.12",
     "@types/elliptic": "^6.4.12",
     "@types/node": "^15.12.5",
     "@types/react": "^17.0.11",
