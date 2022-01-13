@@ -13,6 +13,11 @@ services:
       - FLOW_INIT_ACCOUNTS=0
       - FLOW_ACCOUNT_ADDRESS=0xf8d6e0586b0a20c7
       - FLOW_AVATAR_URL=https://avatars.onflow.org/avatar/
+      - CONTRACT_FUNGIBLE_TOKEN=0xee82856bf20e2aa6
+      - CONTRACT_FLOW_TOKEN=0x0ae53cb6e3f42a79
+      - CONTRACT_FUSD=0xf8d6e0586b0a20c7
+      - TOKEN_AMOUNT_FLOW=100.0
+      - TOKEN_AMOUNT_FUSD=100.0
   emulator:
     image: gcr.io/flow-container-registry/emulator:0.20.2
     ports:
