@@ -121,7 +121,7 @@ export function AuthzContextProvider({children}: {children: React.ReactNode}) {
     proposer: accounts[fcl.withPrefix(voucher.proposalKey.address)],
     payer: accounts[fcl.withPrefix(voucher.payer)],
     authorizers: voucher.authorizers.map(
-      authorizer => accounts[fcl.withPrefix(authorizer)]
+      authorizer => accounts[fcl.withPrefix(authorizer)] ?? {type: 'ACCOUNT', address: fcl.withPrefix(authorizer), label: fcl.withPrefix(authorizer), keyId: 0, scopes: []}
     ),
     roles,
     proposalKey: voucher.proposalKey,
