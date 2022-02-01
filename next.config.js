@@ -36,7 +36,6 @@ module.exports = {
   },
   publicRuntimeConfig: {
     flowAccountAddress: process.env.FLOW_ACCOUNT_ADDRESS,
-    baseUrl: process.env.BASE_URL,
     avatarUrl: process.env.FLOW_AVATAR_URL,
     contractFungibleToken: process.env.CONTRACT_FUNGIBLE_TOKEN,
     contractFlowToken: process.env.CONTRACT_FLOW_TOKEN,

@@ -1,7 +1,7 @@
-import {NextApiRequest, NextApiResponse} from "next"
-import {sign} from "src/crypto"
-import getConfig from "next/config"
 import {WalletUtils} from "@onflow/fcl"
+import {NextApiRequest, NextApiResponse} from "next"
+import getConfig from "next/config"
+import {sign} from "src/crypto"
 
 const {serverRuntimeConfig} = getConfig()
 
