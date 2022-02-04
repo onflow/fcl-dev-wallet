@@ -1,3 +1,4 @@
+import {cors} from "src/middleware"
 import {WalletUtils} from "@onflow/fcl"
 import {NextApiRequest, NextApiResponse} from "next"
 import getConfig from "next/config"
@@ -8,6 +9,8 @@ import {buildServices} from "src/services"
 const {serverRuntimeConfig} = getConfig()
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await cors(req, res)
+
   const {address, keyId} = req.body.service.data
   const {timestamp, appDomainTag} = req.body
   const scopes = new Set(parseScopes(req.body?.service?.params?.scopes))
