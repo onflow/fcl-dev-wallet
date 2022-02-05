@@ -1,8 +1,11 @@
 import {WalletUtils} from "@onflow/fcl"
 import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
+import getConfig from "next/config"
 import {Account} from "pages/api/accounts"
 import {paths} from "src/constants"
 import {buildServices} from "./services"
+
+const {publicRuntimeConfig} = getConfig()
 
 export async function chooseAccount(
   account: Account,
@@ -29,7 +32,7 @@ export async function chooseAccount(
     })
 
   const services = buildServices({
-    baseUrl: location.origin,
+    baseUrl: publicRuntimeConfig.baseUrl,
     address,
     timestamp,
     scopes,
