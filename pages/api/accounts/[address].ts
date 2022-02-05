@@ -9,7 +9,6 @@ const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {address} = req.query
-
   fclConfig(
     serverRuntimeConfig.flowAccessNode,
     publicRuntimeConfig.flowAccountAddress,
@@ -17,7 +16,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     publicRuntimeConfig.contractFlowToken,
     publicRuntimeConfig.contractFUSD
   )
-
   try {
     const account = await fcl
       .send([fcl.script(getAccount), fcl.args([fcl.arg(address, t.Address)])])
