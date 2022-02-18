@@ -1,6 +1,6 @@
 import {WalletUtils} from "@onflow/fcl"
 import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
-import {Account} from "pages/api/accounts"
+import {Account} from "src/accounts"
 import {sign} from "src/crypto"
 
 const PROFILE_SCOPES = new Set(
@@ -64,7 +64,7 @@ function proveAuthn(
   address: string,
   keyId: number,
   timestamp: unknown,
-  appDomainTag: unknown,
+  appDomainTag: unknown
 ) {
   return {
     addr: address,

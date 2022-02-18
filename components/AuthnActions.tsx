@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 import {useFormikContext} from "formik"
-import {Account, NewAccount} from "pages/api/accounts"
+import {Account, NewAccount} from "src/accounts"
 import {SXStyles} from "types"
 import Button from "./Button"
 

@@ -27,7 +27,7 @@ function userSignature(signable: AuthReadyResponseSignable) {
   const {
     message,
     data: {addr, keyId},
-  } = signable;
+  } = signable
 
   const rightPaddedHexBuffer = (value: string, pad: number) =>
     Buffer.from(value.padEnd(pad * 2, "0"), "hex")

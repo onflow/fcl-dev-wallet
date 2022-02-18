@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 import {alpha} from "@theme-ui/color"
 import useAuthzContext from "hooks/useAuthzContext"
-import {Account} from "pages/api/accounts"
+import {Account} from "src/accounts"
 import {SXStyles} from "types"
 
 const styles: SXStyles = {

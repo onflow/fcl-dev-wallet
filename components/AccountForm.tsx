@@ -4,11 +4,9 @@ import ConnectedAppHeader from "components/ConnectedAppHeader"
 import {styles as dialogStyles} from "components/Dialog"
 import FormErrors from "components/FormErrors"
 import {Field, Form, Formik} from "formik"
-import {Account, NewAccount} from "pages/api/accounts"
 import {useState} from "react"
-import {paths} from "src/constants"
+import {Account, NewAccount, newAccount, updateAccount} from "src/accounts"
 import {updateAccountSchemaClient} from "src/validate"
-import {mutate} from "swr"
 import {Box} from "theme-ui"
 import {SXStyles} from "types"
 import AccountBalances from "./AccountBalances"
@@ -51,37 +49,31 @@ export default function AccountForm({
     <Formik
       initialValues={{
         label: account.label,
-        scopes: new Set(account.scopes),
+        scopes: new Set<string>(account.scopes),
       }}
       validationSchema={updateAccountSchemaClient}
-      onSubmit={({label, scopes}, {setSubmitting}) => {
+      onSubmit={async ({label, scopes}, {setSubmitting}) => {
         setErrors([])
-        const url = account.address
-          ? paths.apiAccountUpdate(account.address)
-          : paths.apiAccountsNew
-        const data = {
-          address: account.address,
-          label,
-          scopes: Array.from(scopes),
-        }
-        fetch(url, {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(data),
-        })
-          .then(d => d.json())
-          .then(resp => {
-            if (resp.errors) throw Error(resp.errors)
-            const isNew = !account.address
-            mutate(paths.apiAccounts).then(() => {
-              setSubmitting(false)
-              onSubmitComplete(isNew ? resp.address : undefined)
-            })
-          })
-          .catch(e => {
-            setErrors([e.message])
+
+        const scopesList = Array.from(scopes) as [string]
+
+        try {
+          if (account.address) {
+            await updateAccount(account.address, label!, scopesList)
+
             setSubmitting(false)
-          })
+            onSubmitComplete(undefined)
+          } else {
+            const address = await newAccount(label!, scopesList)
+
+            setSubmitting(false)
+            onSubmitComplete(address)
+          }
+        } catch (error) {
+          // TODO: Fix error string
+          // setErrors([error])
+          setSubmitting(false)
+        }
       }}
     >
       {({values, setFieldValue}) => (

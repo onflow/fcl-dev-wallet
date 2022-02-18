@@ -1,5 +1,5 @@
 import * as fcl from "@onflow/fcl"
-import {Account} from "pages/api/accounts"
+import {Account} from "src/accounts"
 import {sign} from "./crypto"
 
 // alias Hex = String

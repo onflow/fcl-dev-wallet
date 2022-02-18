@@ -1,9 +1,11 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
+import {Optional} from "types"
 
 import newAccountTransaction from "cadence/transactions/newAccount.cdc"
 import getAccountsScript from "cadence/scripts/getAccounts.cdc"
 import getAccountScript from "cadence/scripts/getAccount.cdc"
+import updateAccountTransaction from "cadence/transactions/updateAccount.cdc"
 
 import getConfig from "next/config"
 import {authz} from "src/authz"
@@ -20,6 +22,8 @@ export type Account = {
   label?: string
   balance?: string
 }
+
+export type NewAccount = Optional<Account, "address">
 
 type CreatedAccountResponse = {
   events: CreatedAccountEvent[]
@@ -42,7 +46,10 @@ export async function getAccount(address: string) {
   )
 
   return await fcl
-    .send([fcl.script(getAccountScript), fcl.args([fcl.arg(address, t.Address)])])
+    .send([
+      fcl.script(getAccountScript),
+      fcl.args([fcl.arg(address, t.Address)]),
+    ])
     .then(fcl.decode)
 }
 
@@ -55,16 +62,18 @@ export async function getAccounts() {
     publicRuntimeConfig.contractFUSD
   )
 
-  const accounts = await fcl.send([fcl.script(getAccountsScript)]).then(fcl.decode)
+  const accounts = await fcl
+    .send([fcl.script(getAccountsScript)])
+    .then(fcl.decode)
   const serviceAccount = accounts.find(
     (acct: Account) => acct.address === publicRuntimeConfig.flowAccountAddress
   )
   const userAccounts = accounts
     .filter(
-      (acct: Account) =>
-        acct.address !== publicRuntimeConfig.flowAccountAddress
+      (acct: Account) => acct.address !== publicRuntimeConfig.flowAccountAddress
     )
     .reverse()
+
   return [serviceAccount, ...userAccounts].filter(Boolean)
 }
 
@@ -86,10 +95,7 @@ export async function newAccount(label: string, scopes: [string]) {
   const txId = await fcl
     .send([
       fcl.transaction(newAccountTransaction),
-      fcl.args([
-        fcl.arg(label, t.String),
-        fcl.arg(scopes, t.Array(t.String)),
-      ]),
+      fcl.args([fcl.arg(label, t.String), fcl.arg(scopes, t.Array(t.String))]),
       fcl.proposer(authorization),
       fcl.payer(authorization),
       fcl.limit(100),
@@ -106,7 +112,42 @@ export async function newAccount(label: string, scopes: [string]) {
   return createdAccountEvent.data.address
 }
 
-export async function updateAccount() {}
+export async function updateAccount(
+  address: string,
+  label: string,
+  scopes: [string]
+) {
+  address = fcl.withPrefix(address)
 
-export async function fundAccount() {}
+  fclConfig(
+    publicRuntimeConfig.flowAccessNode,
+    publicRuntimeConfig.flowAccountAddress,
+    publicRuntimeConfig.contractFungibleToken,
+    publicRuntimeConfig.contractFlowToken,
+    publicRuntimeConfig.contractFUSD
+  )
 
+  const authorization = await authz(
+    publicRuntimeConfig.flowAccountAddress,
+    publicRuntimeConfig.flowAccountKeyId,
+    publicRuntimeConfig.flowAccountPrivateKey
+  )
+
+  const txId = await fcl
+    .send([
+      fcl.transaction(updateAccountTransaction),
+      fcl.args([
+        fcl.arg(address, t.Address),
+        fcl.arg(label, t.String),
+        fcl.arg(scopes, t.Array(t.String)),
+      ]),
+      fcl.proposer(authorization),
+      fcl.payer(authorization),
+      fcl.limit(100),
+    ])
+    .then(fcl.decode)
+
+  await fcl.tx(txId).onceSealed()
+}
+
+// export async function fundAccount() {}

@@ -3,7 +3,7 @@ import AccountsListItem from "components/AccountsListItem"
 import ConnectedAppHeader from "components/ConnectedAppHeader"
 import PlusButton from "components/PlusButton"
 import useAuthnContext from "hooks/useAuthnContext"
-import {Account, NewAccount} from "pages/api/accounts"
+import {Account, NewAccount} from "src/accounts"
 import accountGenerator from "src/accountGenerator"
 import {Box, Themed} from "theme-ui"
 import {SXStyles} from "types"
@@ -42,7 +42,7 @@ export default function AccountsList({
   onEditAccount: (account: Account | NewAccount) => void
   createdAccountAddress: string | null
   flowAccountAddress: string
-  flowAccountPrivateKey: string,
+  flowAccountPrivateKey: string
   avatarUrl: string
 }) {
   const {initError} = useAuthnContext()

@@ -2,13 +2,9 @@ export const paths = {
   root: "/",
   apiInit: "/api/init",
   apiIsInit: "/api/is-init",
-  apiAccount: (address: string) => `/api/accounts/${address}`,
-  apiAccountUpdate: (address: string) => `/api/accounts/${address}/update`,
   apiAccountFund: (address: string) => `/api/accounts/${address}/fund`,
   apiAccountFUSDBalance: (address: string) =>
     `/api/accounts/${address}/fusdBalance`,
-  apiAccountFlowBalance: (address: string) =>
-    `/api/accounts/${address}/flowBalance`,
   apiAccounts: "/api/accounts",
   apiAccountsNew: "/api/accounts/new",
   apiConfig: "/api/config",

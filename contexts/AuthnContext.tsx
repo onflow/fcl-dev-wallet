@@ -2,7 +2,7 @@ import useConnectedAppConfig, {
   ConnectedAppConfig,
 } from "hooks/useConnectedAppConfig"
 import React, {createContext, useEffect, useState} from "react"
-import { initializeWallet } from "src/init"
+import {initializeWallet} from "src/init"
 
 type AuthnContextType = {
   connectedAppConfig: ConnectedAppConfig

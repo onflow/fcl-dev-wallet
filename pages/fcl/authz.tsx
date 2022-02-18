@@ -17,7 +17,7 @@ function AuthzContent({
   avatarUrl,
 }: {
   flowAccountAddress: string
-  flowAccountPrivateKey: string,
+  flowAccountPrivateKey: string
   avatarUrl: string
 }) {
   const {isExpanded, codePreview} = useAuthzContext()
@@ -76,7 +76,7 @@ function Authz({
   avatarUrl,
 }: {
   flowAccountAddress: string
-  flowAccountPrivateKey: string,
+  flowAccountPrivateKey: string
   avatarUrl: string
 }) {
   return (

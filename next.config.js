@@ -13,7 +13,7 @@ module.exports = {
     flowAccountKeyId: process.env.FLOW_ACCOUNT_KEY_ID,
     flowAccountPrivateKey: process.env.FLOW_ACCOUNT_PRIVATE_KEY,
     flowAccountPublicKey: process.env.FLOW_ACCOUNT_PUBLIC_KEY,
-    
+
     flowInitAccountsNo: process.env.FLOW_INIT_ACCOUNTS,
     avatarUrl: process.env.FLOW_AVATAR_URL,
     contractFungibleToken: process.env.CONTRACT_FUNGIBLE_TOKEN,

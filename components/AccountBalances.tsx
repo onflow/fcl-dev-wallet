@@ -4,7 +4,6 @@ import useAccount from "hooks/useAccount"
 import useFUSDBalance from "hooks/useFUSDBalance"
 import {formattedBalance} from "src/balance"
 import {FLOW_TYPE, FUSD_TYPE, paths, TokenTypes} from "src/constants"
-import {mutate} from "swr"
 import {Label, Themed} from "theme-ui"
 import {SXStyles} from "types"
 import AccountSectionHeading from "./AccountSectionHeading"
@@ -54,10 +53,6 @@ export default function AccountBalances({
       body: JSON.stringify({token}),
     })
       .then(d => d.json())
-      .then(() => {
-        mutate(paths.apiAccountFUSDBalance(address))
-        mutate(paths.apiAccount(address))
-      })
       .catch(e => {
         // eslint-disable-next-line no-console
         console.error(e)

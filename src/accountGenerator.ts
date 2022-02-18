@@ -1,5 +1,5 @@
 import Namegenerator from "namegenerator"
-import {NewAccount} from "pages/api/accounts"
+import {NewAccount} from "src/accounts"
 
 const ALPHABET = [
   "A",

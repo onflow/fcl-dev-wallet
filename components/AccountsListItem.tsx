@@ -3,7 +3,7 @@ import AccountImage from "components/AccountImage"
 import Button from "components/Button"
 import useAccount from "hooks/useAccount"
 import useAuthnContext from "hooks/useAuthnContext"
-import {Account, NewAccount} from "pages/api/accounts"
+import {Account, NewAccount} from "src/accounts"
 import {useEffect, useState} from "react"
 import {chooseAccount} from "src/accountAuth"
 import {formattedBalance} from "src/balance"
@@ -97,7 +97,7 @@ export default function AccountsListItem({
   onEditAccount: (account: Account | NewAccount) => void
   isNew: boolean
   flowAccountAddress: string
-  flowAccountPrivateKey: string,
+  flowAccountPrivateKey: string
   avatarUrl: string
 }) {
   const {connectedAppConfig} = useAuthnContext()
@@ -115,7 +115,12 @@ export default function AccountsListItem({
   }, [account.scopes])
 
   const handleSelect = () => {
-    chooseAccount(flowAccountPrivateKey, account, scopes, connectedAppConfig).catch(e =>
+    chooseAccount(
+      flowAccountPrivateKey,
+      account,
+      scopes,
+      connectedAppConfig
+    ).catch(e =>
       // eslint-disable-next-line no-console
       console.error(e)
     )

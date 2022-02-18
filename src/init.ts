@@ -16,7 +16,7 @@ async function isInitialized(): Promise<boolean> {
     const account = await fcl
       .send([fcl.getAccount(publicRuntimeConfig.flowAccountAddress)])
       .then(fcl.decode)
-      
+
     if (account["contracts"]["FCL"]) {
       return true
     }
@@ -28,7 +28,6 @@ async function isInitialized(): Promise<boolean> {
 }
 
 export async function initializeWallet() {
-
   fclConfig(
     publicRuntimeConfig.flowAccessNode,
     publicRuntimeConfig.flowAccountAddress,
