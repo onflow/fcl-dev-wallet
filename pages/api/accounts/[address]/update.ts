@@ -6,14 +6,14 @@ import getConfig from "next/config"
 import {authz} from "src/authz"
 import fclConfig from "src/fclConfig"
 
-const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
+const {publicRuntimeConfig, publicRuntimeConfig} = getConfig()
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {label, scopes} = req.body
   const address = fcl.withPrefix(req.body.address)
 
   fclConfig(
-    serverRuntimeConfig.flowAccessNode,
+    publicRuntimeConfig.flowAccessNode,
     publicRuntimeConfig.flowAccountAddress,
     publicRuntimeConfig.contractFungibleToken,
     publicRuntimeConfig.contractFlowToken,
@@ -22,8 +22,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const authorization = await authz(
     publicRuntimeConfig.flowAccountAddress,
-    serverRuntimeConfig.flowAccountKeyId,
-    serverRuntimeConfig.flowAccountPrivateKey
+    publicRuntimeConfig.flowAccountKeyId,
+    publicRuntimeConfig.flowAccountPrivateKey
   )
 
   try {

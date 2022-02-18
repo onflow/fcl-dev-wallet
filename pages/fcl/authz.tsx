@@ -9,13 +9,15 @@ import {AuthzContextProvider} from "contexts/AuthzContext"
 import useAuthzContext from "hooks/useAuthzContext"
 import getConfig from "next/config"
 import {useState} from "react"
-import {paths} from "src/constants"
+import {sign} from "src/crypto"
 
 function AuthzContent({
   flowAccountAddress,
+  flowAccountPrivateKey,
   avatarUrl,
 }: {
   flowAccountAddress: string
+  flowAccountPrivateKey: string,
   avatarUrl: string
 }) {
   const {isExpanded, codePreview} = useAuthzContext()
@@ -24,27 +26,16 @@ function AuthzContent({
 
   const onApprove = () => {
     setIsLoading(true)
-    fetch(paths.apiSign, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({message: message}),
-    })
-      .then(d => d.json())
-      .then(({signature}) => {
-        WalletUtils.approve(
-          new WalletUtils.CompositeSignature(
-            currentUser.address,
-            proposalKey.keyId,
-            signature
-          )
-        )
-        setIsLoading(false)
-      })
-      .catch(d => {
-        // eslint-disable-next-line no-console
-        console.error("FCL-DEV-WALLET FAILED TO SIGN", d)
-        setIsLoading(false)
-      })
+
+    const signature = sign(flowAccountPrivateKey, message)
+
+    WalletUtils.approve(
+      new WalletUtils.CompositeSignature(
+        currentUser.address,
+        proposalKey.keyId,
+        signature
+      )
+    )
   }
 
   const onDecline = () => WalletUtils.close()
@@ -81,15 +72,18 @@ function AuthzContent({
 
 function Authz({
   flowAccountAddress,
+  flowAccountPrivateKey,
   avatarUrl,
 }: {
   flowAccountAddress: string
+  flowAccountPrivateKey: string,
   avatarUrl: string
 }) {
   return (
     <AuthzContextProvider>
       <AuthzContent
         flowAccountAddress={flowAccountAddress}
+        flowAccountPrivateKey={flowAccountPrivateKey}
         avatarUrl={avatarUrl}
       />
     </AuthzContextProvider>
@@ -101,6 +95,7 @@ Authz.getInitialProps = async () => {
 
   return {
     flowAccountAddress: publicRuntimeConfig.flowAccountAddress,
+    flowAccountPrivateKey: publicRuntimeConfig.flowAccountPrivateKey,
     avatarUrl: publicRuntimeConfig.avatarUrl,
   }
 }

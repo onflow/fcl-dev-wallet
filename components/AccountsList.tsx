@@ -35,12 +35,14 @@ export default function AccountsList({
   onEditAccount,
   createdAccountAddress,
   flowAccountAddress,
+  flowAccountPrivateKey,
   avatarUrl,
 }: {
   accounts: Account[]
   onEditAccount: (account: Account | NewAccount) => void
   createdAccountAddress: string | null
   flowAccountAddress: string
+  flowAccountPrivateKey: string,
   avatarUrl: string
 }) {
   const {initError} = useAuthnContext()
@@ -71,6 +73,7 @@ export default function AccountsList({
                 onEditAccount={onEditAccount}
                 isNew={account.address === createdAccountAddress}
                 flowAccountAddress={flowAccountAddress}
+                flowAccountPrivateKey={flowAccountPrivateKey}
                 avatarUrl={avatarUrl}
               />
             ))}

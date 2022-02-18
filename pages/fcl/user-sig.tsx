@@ -4,8 +4,9 @@ import AuthzActions from "components/AuthzActions"
 import AuthzDetailsTable, {AuthzDetailsRow} from "components/AuthzDetailsTable"
 import Dialog from "components/Dialog"
 import {useEffect, useState} from "react"
-import {paths} from "src/constants"
+import {sign} from "src/crypto"
 import {Box, Themed} from "theme-ui"
+import getConfig from "next/config"
 
 type AuthReadyResponseSignable = {
   data: {
@@ -20,8 +21,35 @@ type AuthReadyResponseData = {
   body: AuthReadyResponseSignable
 }
 
+const {publicRuntimeConfig} = getConfig()
+
+function userSignature(signable: AuthReadyResponseSignable) {
+  const {
+    message,
+    data: {addr, keyId},
+  } = signable;
+
+  const rightPaddedHexBuffer = (value: string, pad: number) =>
+    Buffer.from(value.padEnd(pad * 2, "0"), "hex")
+
+  const USER_DOMAIN_TAG = rightPaddedHexBuffer(
+    Buffer.from("FLOW-V0.0-user").toString("hex"),
+    32
+  ).toString("hex")
+
+  const prependUserDomainTag = (msg: string) => USER_DOMAIN_TAG + msg
+
+  return {
+    addr: addr,
+    keyId: keyId,
+    signature: sign(
+      publicRuntimeConfig.flowAccountPrivateKey,
+      prependUserDomainTag(message)
+    ),
+  }
+}
+
 export default function UserSign() {
-  const [isLoading, setIsLoading] = useState(false)
   const [signable, setSignable] = useState<AuthReadyResponseSignable | null>(
     null
   )
@@ -35,24 +63,11 @@ export default function UserSign() {
   }, [])
 
   function onApprove() {
-    setIsLoading(true)
-    fetch(paths.userSig, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(signable),
-    })
-      .then(d => d.json())
-      .then(({addr, keyId, signature}) => {
-        WalletUtils.approve(
-          new WalletUtils.CompositeSignature(addr, keyId, signature)
-        )
-        setIsLoading(false)
-      })
-      .catch(d => {
-        // eslint-disable-next-line no-console
-        console.error("FCL-DEV-WALLET FAILED TO SIGN", d)
-        setIsLoading(false)
-      })
+    const {addr, keyId, signature} = userSignature(signable!)
+
+    WalletUtils.approve(
+      new WalletUtils.CompositeSignature(addr, keyId, signature)
+    )
   }
 
   const onDecline = () => {
@@ -65,7 +80,7 @@ export default function UserSign() {
         <AuthzActions
           onApprove={onApprove}
           onDecline={onDecline}
-          isLoading={isLoading}
+          isLoading={false}
         />
       }
     >

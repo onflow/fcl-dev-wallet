@@ -5,13 +5,13 @@ import {NextApiRequest, NextApiResponse} from "next"
 import getConfig from "next/config"
 import fclConfig from "src/fclConfig"
 
-const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
+const {publicRuntimeConfig} = getConfig()
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {address} = req.query
 
   fclConfig(
-    serverRuntimeConfig.flowAccessNode,
+    publicRuntimeConfig.flowAccessNode,
     publicRuntimeConfig.flowAccountAddress,
     publicRuntimeConfig.contractFungibleToken,
     publicRuntimeConfig.contractFlowToken,

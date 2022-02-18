@@ -1,7 +1,7 @@
 import {WalletUtils} from "@onflow/fcl"
 import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "pages/api/accounts"
-import {paths} from "src/constants"
+import {sign} from "src/crypto"
 
 const PROFILE_SCOPES = new Set(
   "name family_name given_name middle_name nickname preferred_username profile picture website gender birthday zoneinfo locale updated_at"
@@ -59,7 +59,29 @@ const entry = (
   value: string | boolean | number
 ) => scopes.has(key) && [key, value]
 
+function proveAuthn(
+  flowAccountPrivateKey: string,
+  address: string,
+  keyId: number,
+  timestamp: unknown,
+  appDomainTag: unknown,
+) {
+  return {
+    addr: address,
+    keyId: keyId,
+    signature: sign(
+      flowAccountPrivateKey,
+      WalletUtils.encodeMessageForProvableAuthnSigning(
+        address,
+        timestamp,
+        appDomainTag
+      )
+    ),
+  }
+}
+
 export async function chooseAccount(
+  flowAccountPrivateKey: string,
   account: Account,
   scopes: Set<string>,
   connectedAppConfig: ConnectedAppConfig
@@ -67,21 +89,16 @@ export async function chooseAccount(
   const {address, keyId} = account
 
   const {timestamp, appDomainTag} = connectedAppConfig.body
-  const signable = {address, keyId, timestamp, appDomainTag}
 
-  const compSig = await fetch(paths.proveAuthn, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(signable),
-  })
-    .then(d => d.json())
-    .then(async ({addr, keyId, signature}) => {
-      return new WalletUtils.CompositeSignature(addr, keyId, signature)
-    })
-    .catch(e => {
-      // eslint-disable-next-line no-console
-      console.error("FCL-DEV-WALLET FAILED TO SIGN", e)
-    })
+  const {addr, signature} = proveAuthn(
+    "",
+    address,
+    keyId!,
+    timestamp,
+    appDomainTag
+  )
+
+  const compSig = new WalletUtils.CompositeSignature(addr, keyId, signature)
 
   const services: AuthResponseService[] = [
     {

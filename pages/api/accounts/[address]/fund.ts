@@ -8,7 +8,7 @@ import {authz} from "src/authz"
 import {FLOW_TYPE, FUSD_TYPE, TokenType, TokenTypes} from "src/constants"
 import fclConfig from "src/fclConfig"
 
-const {serverRuntimeConfig, publicRuntimeConfig} = getConfig()
+const {publicRuntimeConfig} = getConfig()
 
 type Token = {
   tx: string
@@ -28,7 +28,7 @@ export const tokens: Tokens = {
 
 export default async function fund(req: NextApiRequest, res: NextApiResponse) {
   fclConfig(
-    serverRuntimeConfig.flowAccessNode,
+    publicRuntimeConfig.flowAccessNode,
     publicRuntimeConfig.flowAccountAddress,
     publicRuntimeConfig.contractFungibleToken,
     publicRuntimeConfig.contractFlowToken,
@@ -45,14 +45,14 @@ export default async function fund(req: NextApiRequest, res: NextApiResponse) {
 
     const minterAuthz = await authz(
       publicRuntimeConfig.flowAccountAddress,
-      serverRuntimeConfig.flowAccountKeyId,
-      serverRuntimeConfig.flowAccountPrivateKey
+      publicRuntimeConfig.flowAccountKeyId,
+      publicRuntimeConfig.flowAccountPrivateKey
     )
 
     const acctAuthz = await authz(
       address,
-      serverRuntimeConfig.flowAccountKeyId,
-      serverRuntimeConfig.flowAccountPrivateKey
+      publicRuntimeConfig.flowAccountKeyId,
+      publicRuntimeConfig.flowAccountPrivateKey
     )
 
     if (address === null) {

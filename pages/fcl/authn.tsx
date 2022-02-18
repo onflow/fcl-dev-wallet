@@ -11,9 +11,11 @@ import {Err} from "src/comps/err.comp"
 
 function Authn({
   flowAccountAddress,
+  flowAccountPrivateKey,
   avatarUrl,
 }: {
   flowAccountAddress: string
+  flowAccountPrivateKey: string,
   avatarUrl: string
 }) {
   const [editingAccount, setEditingAccount] = useState<
@@ -56,6 +58,7 @@ function Authn({
               onEditAccount={onEditAccount}
               createdAccountAddress={createdAccountAddress}
               flowAccountAddress={flowAccountAddress}
+              flowAccountPrivateKey={flowAccountPrivateKey}
               avatarUrl={avatarUrl}
             />
           </div>
@@ -70,6 +73,7 @@ Authn.getInitialProps = async () => {
 
   return {
     flowAccountAddress: publicRuntimeConfig.flowAccountAddress,
+    flowAccountPrivateKey: publicRuntimeConfig.flowAccountPrivateKey,
     avatarUrl: publicRuntimeConfig.avatarUrl,
   }
 }
