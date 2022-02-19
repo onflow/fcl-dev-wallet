@@ -31,7 +31,6 @@
     "react-image": "^4.0.3",
     "sha3": "^2.1.4",
     "styled-components": "^5.2.1",
-    "swr": "^0.5.6",
     "theme-ui": "^0.10.0",
     "yup": "^0.32.9"
   },
