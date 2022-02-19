@@ -1,18 +1,3 @@
-export const paths = {
-  root: "/",
-  apiInit: "/api/init",
-  apiIsInit: "/api/is-init",
-  apiAccountFund: (address: string) => `/api/accounts/${address}/fund`,
-  apiAccountFUSDBalance: (address: string) =>
-    `/api/accounts/${address}/fusdBalance`,
-  apiAccounts: "/api/accounts",
-  apiAccountsNew: "/api/accounts/new",
-  apiConfig: "/api/config",
-  apiSign: "/api/sign",
-  userSig: "/api/user-sig",
-  proveAuthn: "/api/prove-authn",
-}
-
 export const FLOW_EVENT_TYPES = {
   accountCreated: "flow.AccountCreated",
 }
@@ -23,9 +8,6 @@ export const UNTITLED_APP_NAME = "Untitled Dapp"
 
 export const FLOW_TYPE = "FLOW"
 export const FUSD_TYPE = "FUSD"
-
-export const MISSING_FUSD_VAULT_ERROR =
-  "This account does not have an FUSD vault"
 
 export type TokenTypes = typeof FLOW_TYPE | typeof FUSD_TYPE
 export type TokenType = "FLOW" | "FUSD"

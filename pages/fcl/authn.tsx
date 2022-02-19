@@ -21,7 +21,7 @@ function Authn({
   const [editingAccount, setEditingAccount] = useState<
     Account | NewAccount | null
   >(null)
-  const {data, error, isLoading} = useAccounts()
+  const {data: accounts, error, isLoading, refresh: refreshAccounts} = useAccounts()
   const [createdAccountAddress, setCreatedAccountAddress] = useState<
     string | null
   >(null)
@@ -33,12 +33,15 @@ function Authn({
 
   const onSubmitComplete = (createdAccountAddress?: string) => {
     setEditingAccount(null)
-    if (createdAccountAddress) setCreatedAccountAddress(createdAccountAddress)
+    if (createdAccountAddress) {
+      setCreatedAccountAddress(createdAccountAddress)
+      refreshAccounts()
+    }
   }
   const onCancel = () => setEditingAccount(null)
 
-  if (!data && error) return <Err error={error} />
-  if (!data || isLoading) return null
+  if (!accounts && error) return <Err error={error} />
+  if (!accounts || isLoading) return null
 
   return (
     <AuthnContextProvider>
@@ -54,7 +57,7 @@ function Authn({
         ) : (
           <div sx={dialogStyles.body}>
             <AccountsList
-              accounts={data}
+              accounts={accounts}
               onEditAccount={onEditAccount}
               createdAccountAddress={createdAccountAddress}
               flowAccountAddress={flowAccountAddress}
