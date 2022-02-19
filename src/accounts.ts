@@ -170,8 +170,14 @@ export const TOKEN_FUNDING_AMOUNTS: Record<TokenTypes, string> = {
 }
 
 export const tokens: Tokens = {
-  FLOW: {tx: fundAccountFLOWTransaction, amount: TOKEN_FUNDING_AMOUNTS[FLOW_TYPE]},
-  FUSD: {tx: fundAccountFUSDTransaction, amount: TOKEN_FUNDING_AMOUNTS[FUSD_TYPE]},
+  FLOW: {
+    tx: fundAccountFLOWTransaction,
+    amount: TOKEN_FUNDING_AMOUNTS[FLOW_TYPE],
+  },
+  FUSD: {
+    tx: fundAccountFUSDTransaction,
+    amount: TOKEN_FUNDING_AMOUNTS[FUSD_TYPE],
+  },
 }
 
 export async function fundAccount(address: string, token: TokenType) {

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { getAccountFUSDBalance } from "src/accounts"
+import {useEffect, useState} from "react"
+import {getAccountFUSDBalance} from "src/accounts"
 
 export function compFUSDBalanceKey(address: string) {
   return `${address}/fusd-balance`
@@ -35,6 +35,6 @@ export default function useFUSDBalance(address: string) {
     data: balance,
     error: error,
     isLoading: isLoading,
-    refresh: fetchFUSDBalance
+    refresh: fetchFUSDBalance,
   }
 }

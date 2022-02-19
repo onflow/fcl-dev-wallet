@@ -20,11 +20,11 @@ export default function useAccount(address: string) {
   useEffect(() => {
     fetchAccount()
   }, [])
-  
+
   return {
     data: account,
     error: error,
     isLoading: isLoading,
-    refresh: fetchAccount
+    refresh: fetchAccount,
   }
 }

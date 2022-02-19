@@ -25,6 +25,6 @@ export default function useAccounts() {
     data: accounts,
     error: error,
     isLoading: isLoading,
-    refresh: fetchAccounts
+    refresh: fetchAccounts,
   }
 }

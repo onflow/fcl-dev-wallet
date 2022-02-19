@@ -45,7 +45,7 @@
     "babel-plugin-react-remove-properties": "^0.3.0",
     "cypress": "^8.0.0",
     "cypress-iframe": "^1.0.1",
-    "eslint": "^7.29.0",
+    "eslint": "^7.32.0",
     "eslint-config-next": "^11.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
