@@ -2,7 +2,7 @@
 import * as fcl from "@onflow/fcl"
 import useAccount from "hooks/useAccount"
 import useFUSDBalance from "hooks/useFUSDBalance"
-import { fundAccount } from "src/accounts"
+import {fundAccount} from "src/accounts"
 import {formattedBalance} from "src/balance"
 import {FLOW_TYPE, FUSD_TYPE, TokenTypes} from "src/constants"
 import {Label, Themed} from "theme-ui"
