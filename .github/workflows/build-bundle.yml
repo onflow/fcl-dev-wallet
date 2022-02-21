@@ -13,7 +13,6 @@ jobs:
         with:
           fetch-depth: 0
       - name: Build Bundle
-        continue-on-error: true # TODO temporary until dev-wallet static bundle is implemented
         uses: actions/setup-node@v2
         with:
           node-version: '14'
@@ -21,6 +20,7 @@ jobs:
       - run: npm install
       - run: npm run bundle
       - name: Create Pull Request
+        if: always() # TODO temporary until dev-wallet static bundle is implemented
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: build a static bundle
