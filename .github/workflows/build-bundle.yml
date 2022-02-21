@@ -29,4 +29,4 @@ jobs:
           assignees: sideninja
           reviewers: 10thfloor
           branch: update-bundle
-          base: static # TODO temporary change
+          base: static-ci # TODO temporary change
