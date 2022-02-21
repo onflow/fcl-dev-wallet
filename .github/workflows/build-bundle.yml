@@ -1,8 +1,9 @@
 name: Build a static wallet bundle
 
 on:
-  release:
-    types: [published]
+  create:
+    tags:
+      - v*
 
 jobs:
   buildBundle:
