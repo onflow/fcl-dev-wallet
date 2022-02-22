@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 //go:embed out/bundle.zip
@@ -41,8 +42,28 @@ func NewHTTPServer(port uint, config *Config) (*Server, error) {
 	zipContent, _ := bundle.ReadFile(bundleZip)
 	zipFS, _ := zip.NewReader(bytes.NewReader(zipContent), int64(len(zipContent)))
 
-	mux.HandleFunc("/api/", server.apiHandler)
-	mux.Handle("/", http.FileServer(http.FS(zipFS)))
+	// handle /api endpoint returning the configuration
+	mux.HandleFunc("/api/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		err := json.NewEncoder(w).Encode(server.config)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+	})
+
+	// file server handler with custom wrapper trying to add .html file extension if file not found
+	mux.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+		path := strings.TrimPrefix(request.URL.Path, "/")
+		_, err := zipFS.Open(path) // just check if file is actually found
+		// if not found and there is no / suffix (which would mean index.html) then try adding .html for file
+		if err != nil && strings.HasSuffix(path, "/") {
+			path = fmt.Sprintf("%s.html", path)
+		}
+
+		request.URL.Path = path // overwrite path for file server handler
+		http.FileServer(http.FS(zipFS)).ServeHTTP(writer, request)
+	})
 
 	return server, nil
 }
@@ -53,13 +74,4 @@ func (s *Server) Start() error {
 
 func (s *Server) Stop() {
 	_ = s.http.Shutdown(context.Background())
-}
-
-func (s *Server) apiHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	err := json.NewEncoder(w).Encode(s.config)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-	}
 }
