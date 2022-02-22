@@ -45,12 +45,8 @@ export function refreshAuthn(
     )
   )
 
-  const compSig = new WalletUtils.CompositeSignature(
-    address, 
-    keyId, 
-    signature
-  )
-  
+  const compSig = new WalletUtils.CompositeSignature(address, keyId, signature)
+
   const services = buildServices({
     baseUrl: publicRuntimeConfig.baseUrl,
     address,

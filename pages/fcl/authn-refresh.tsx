@@ -8,18 +8,12 @@ import Dialog from "components/Dialog"
 function AuthnRefreshDialog({
   flowAccountPrivateKey,
 }: {
-  flowAccountPrivateKey: string,
+  flowAccountPrivateKey: string
 }) {
   const data = useAuthnRefreshContext()
 
   if (data) {
-    const { 
-      address,
-      keyId,
-      scopes,
-      timestamp,
-      appDomainTag
-    } = data;
+    const {address, keyId, scopes, timestamp, appDomainTag} = data
 
     refreshAuthn(
       flowAccountPrivateKey,
@@ -33,11 +27,7 @@ function AuthnRefreshDialog({
 
   // TODO: improve UI
   // e.g. add prompt to confirm reauthentication
-  return (
-    <Dialog root={true}>
-      Refreshing...
-    </Dialog>
-  )
+  return <Dialog root={true}>Refreshing...</Dialog>
 }
 
 function AuthnRefresh({

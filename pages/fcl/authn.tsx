@@ -88,10 +88,11 @@ function Authn({
 }) {
   return (
     <AuthnContextProvider>
-      <AuthnDialog 
+      <AuthnDialog
         flowAccountAddress={flowAccountAddress}
         flowAccountPrivateKey={flowAccountPrivateKey}
-        avatarUrl={avatarUrl} />
+        avatarUrl={avatarUrl}
+      />
     </AuthnContextProvider>
   )
 }
