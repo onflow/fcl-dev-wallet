@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {Account, getAccounts} from "src/accounts"
 
 export default function useAccounts() {
@@ -6,18 +6,25 @@ export default function useAccounts() {
   const [error, setError] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  getAccounts()
-    .then(accounts => {
-      setAccounts(accounts)
-    })
-    .catch(error => {
-      setError(error)
-    })
-    .finally(() => setIsLoading(false))
+  function fetchAccounts() {
+    getAccounts()
+      .then(accounts => {
+        setAccounts(accounts)
+      })
+      .catch(error => {
+        setError(error)
+      })
+      .finally(() => setIsLoading(false))
+  }
+
+  useEffect(() => {
+    fetchAccounts()
+  }, [])
 
   return {
     data: accounts,
     error: error,
     isLoading: isLoading,
+    refresh: fetchAccounts,
   }
 }

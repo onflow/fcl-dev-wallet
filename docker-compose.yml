@@ -6,6 +6,7 @@ services:
       - "8701:8701"
     environment:
       - PORT=8701
+      - BASE_URL=http://localhost:8701
       - FLOW_ACCESS_NODE=http://emulator:8080
       - FLOW_ACCOUNT_KEY_ID=0
       - FLOW_ACCOUNT_PRIVATE_KEY=84f82df6790f07b281adb5bbc848bd6298a2de67f94bdfac7a400d5a1b893de5
@@ -13,6 +14,11 @@ services:
       - FLOW_INIT_ACCOUNTS=0
       - FLOW_ACCOUNT_ADDRESS=0xf8d6e0586b0a20c7
       - FLOW_AVATAR_URL=https://avatars.onflow.org/avatar/
+      - CONTRACT_FUNGIBLE_TOKEN=0xee82856bf20e2aa6
+      - CONTRACT_FLOW_TOKEN=0x0ae53cb6e3f42a79
+      - CONTRACT_FUSD=0xf8d6e0586b0a20c7
+      - TOKEN_AMOUNT_FLOW=100.0
+      - TOKEN_AMOUNT_FUSD=100.0
   emulator:
     image: gcr.io/flow-container-registry/emulator:0.20.2
     ports:

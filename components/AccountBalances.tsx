@@ -2,8 +2,9 @@
 import * as fcl from "@onflow/fcl"
 import useAccount from "hooks/useAccount"
 import useFUSDBalance from "hooks/useFUSDBalance"
+import {fundAccount} from "src/accounts"
 import {formattedBalance} from "src/balance"
-import {FLOW_TYPE, FUSD_TYPE, paths, TokenTypes} from "src/constants"
+import {FLOW_TYPE, FUSD_TYPE, TokenTypes} from "src/constants"
 import {Label, Themed} from "theme-ui"
 import {SXStyles} from "types"
 import AccountSectionHeading from "./AccountSectionHeading"
@@ -40,23 +41,16 @@ export default function AccountBalances({
   address: string
   flowAccountAddress: string
 }) {
-  const {data: fusdBalance} = useFUSDBalance(address)
-  const {data: account} = useAccount(address)
+  const {data: fusdBalance, refresh: refreshFUSD} = useFUSDBalance(address)
+  const {data: account, refresh: refreshAccount} = useAccount(address)
 
   const isServiceAccount =
     fcl.withPrefix(address) === fcl.withPrefix(flowAccountAddress)
 
-  const fund = (token: TokenTypes) => {
-    fetch(paths.apiAccountFund(address), {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({token}),
-    })
-      .then(d => d.json())
-      .catch(e => {
-        // eslint-disable-next-line no-console
-        console.error(e)
-      })
+  const fund = async (token: TokenTypes) => {
+    await fundAccount(address, token)
+    refreshAccount()
+    refreshFUSD()
   }
 
   return (
@@ -83,7 +77,7 @@ export default function AccountBalances({
       <div sx={styles.accountSection}>
         <Label sx={styles.label}>FUSD</Label>
         <div sx={styles.balance}>
-          {formattedBalance(fusdBalance.toString())}
+          {fusdBalance && formattedBalance(fusdBalance.toString())}
         </div>
         {!isServiceAccount && (
           <Button

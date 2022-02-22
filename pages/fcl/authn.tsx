@@ -9,7 +9,7 @@ import {Account, NewAccount} from "src/accounts"
 import {useState} from "react"
 import {Err} from "src/comps/err.comp"
 
-function Authn({
+function AuthnDialog({
   flowAccountAddress,
   flowAccountPrivateKey,
   avatarUrl,
@@ -21,7 +21,14 @@ function Authn({
   const [editingAccount, setEditingAccount] = useState<
     Account | NewAccount | null
   >(null)
-  const {data, error, isLoading} = useAccounts()
+
+  const {
+    data: accounts,
+    error,
+    isLoading,
+    refresh: refreshAccounts,
+  } = useAccounts()
+
   const [createdAccountAddress, setCreatedAccountAddress] = useState<
     string | null
   >(null)
@@ -33,37 +40,59 @@ function Authn({
 
   const onSubmitComplete = (createdAccountAddress?: string) => {
     setEditingAccount(null)
-    if (createdAccountAddress) setCreatedAccountAddress(createdAccountAddress)
+    if (createdAccountAddress) {
+      setCreatedAccountAddress(createdAccountAddress)
+      refreshAccounts()
+    }
   }
+
   const onCancel = () => setEditingAccount(null)
 
-  if (!data && error) return <Err error={error} />
-  if (!data || isLoading) return null
+  if (!accounts && error) return <Err error={error} />
+  if (!accounts || isLoading) return null
 
   return (
-    <AuthnContextProvider>
-      <Dialog root={true}>
-        {editingAccount ? (
-          <AccountForm
-            account={editingAccount}
-            onSubmitComplete={onSubmitComplete}
-            onCancel={onCancel}
+    <Dialog root={true}>
+      {editingAccount ? (
+        <AccountForm
+          account={editingAccount}
+          onSubmitComplete={onSubmitComplete}
+          onCancel={onCancel}
+          flowAccountAddress={flowAccountAddress}
+          avatarUrl={avatarUrl}
+        />
+      ) : (
+        <div sx={dialogStyles.body}>
+          <AccountsList
+            accounts={accounts}
+            onEditAccount={onEditAccount}
+            createdAccountAddress={createdAccountAddress}
             flowAccountAddress={flowAccountAddress}
+            flowAccountPrivateKey={flowAccountPrivateKey}
             avatarUrl={avatarUrl}
           />
-        ) : (
-          <div sx={dialogStyles.body}>
-            <AccountsList
-              accounts={data}
-              onEditAccount={onEditAccount}
-              createdAccountAddress={createdAccountAddress}
-              flowAccountAddress={flowAccountAddress}
-              flowAccountPrivateKey={flowAccountPrivateKey}
-              avatarUrl={avatarUrl}
-            />
-          </div>
-        )}
-      </Dialog>
+        </div>
+      )}
+    </Dialog>
+  )
+}
+
+function Authn({
+  flowAccountAddress,
+  flowAccountPrivateKey,
+  avatarUrl,
+}: {
+  flowAccountAddress: string
+  flowAccountPrivateKey: string
+  avatarUrl: string
+}) {
+  return (
+    <AuthnContextProvider>
+      <AuthnDialog
+        flowAccountAddress={flowAccountAddress}
+        flowAccountPrivateKey={flowAccountPrivateKey}
+        avatarUrl={avatarUrl}
+      />
     </AuthnContextProvider>
   )
 }
