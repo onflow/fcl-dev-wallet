@@ -22,7 +22,7 @@ jobs:
       - uses: papeloto/action-zip@v1
         if: always() # TODO temp
         with:
-          files: out
+          files: out/
           dest: ./bundle.zip
       - name: Create Pull Request
         if: always() # TODO temporary until dev-wallet static bundle is implemented
