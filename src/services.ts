@@ -134,8 +134,8 @@ export const buildServices = ({
       f_vsn: "1.0.0",
       type: "authn-refresh",
       uid: "fcl-dev-wallet#authn-refresh",
-      endpoint: `${baseUrl}/api/refresh`,
-      method: "HTTP/POST",
+      endpoint: `${baseUrl}/fcl/authn-refresh`,
+      method: "IFRAME/RPC",
       id: address,
       data: {
         f_type: "authn-refresh",

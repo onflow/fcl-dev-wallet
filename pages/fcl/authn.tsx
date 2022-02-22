@@ -21,12 +21,14 @@ function Authn({
   const [editingAccount, setEditingAccount] = useState<
     Account | NewAccount | null
   >(null)
+
   const {
     data: accounts,
     error,
     isLoading,
     refresh: refreshAccounts,
   } = useAccounts()
+
   const [createdAccountAddress, setCreatedAccountAddress] = useState<
     string | null
   >(null)
@@ -43,6 +45,7 @@ function Authn({
       refreshAccounts()
     }
   }
+
   const onCancel = () => setEditingAccount(null)
 
   if (!accounts && error) return <Err error={error} />

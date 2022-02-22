@@ -1,4 +1,4 @@
-import {reauthenticate} from "@onflow/fcl"
+import {authenticate} from "@onflow/fcl"
 
 export const LABEL = "Log In"
-export const CMD = reauthenticate
+export const CMD = authenticate
