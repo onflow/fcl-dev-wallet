@@ -19,6 +19,10 @@ jobs:
           cache: 'npm'
       - run: npm install
       - run: npm run bundle
+      - uses: papeloto/action-zip@v1
+        with:
+          files: out
+          dest: ./bundle.zip
       - name: Create Pull Request
         if: always() # TODO temporary until dev-wallet static bundle is implemented
         uses: peter-evans/create-pull-request@v3
