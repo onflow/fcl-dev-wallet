@@ -20,6 +20,7 @@ jobs:
       - run: npm install
       - run: npm run bundle
       - uses: papeloto/action-zip@v1
+        if: always() # TODO temp
         with:
           files: out
           dest: ./bundle.zip
