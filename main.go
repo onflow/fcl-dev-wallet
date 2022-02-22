@@ -1,18 +1,19 @@
 package wallet
 
 import (
+	"archive/zip"
+	"bytes"
 	"context"
 	"embed"
 	"encoding/json"
 	"fmt"
-	"io/fs"
 	"net/http"
 )
 
-//go:embed out
+//go:embed out/bundle.zip
 var bundle embed.FS
 
-const baseDir = "out"
+const bundleZip = "out/bundle.zip"
 
 type Config struct {
 	Address    string `json:"address"`
@@ -37,13 +38,11 @@ func NewHTTPServer(port uint, config *Config) (*Server, error) {
 		config: config,
 	}
 
-	subFs, err := fs.Sub(bundle, baseDir)
-	if err != nil {
-		return nil, err
-	}
+	zipContent, _ := bundle.ReadFile(bundleZip)
+	zipFS, _ := zip.NewReader(bytes.NewReader(zipContent), int64(len(zipContent)))
 
 	mux.HandleFunc("/api/", server.apiHandler)
-	mux.Handle("/", http.FileServer(http.FS(subFs)))
+	mux.Handle("/", http.FileServer(http.FS(zipFS)))
 
 	return server, nil
 }
