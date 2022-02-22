@@ -55,6 +55,7 @@ export function refreshAuthn(
     compSig,
     appDomainTag,
     keyId,
+    includeRefresh: false,
   })
 
   WalletUtils.approve({
@@ -93,6 +94,7 @@ export async function chooseAccount(
     compSig,
     appDomainTag,
     keyId,
+    includeRefresh: false,
   })
 
   localStorage.setItem("connectedAppConfig", JSON.stringify(connectedAppConfig))
