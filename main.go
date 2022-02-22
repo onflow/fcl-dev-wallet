@@ -11,10 +11,10 @@ import (
 	"strings"
 )
 
-//go:embed out/bundle.zip
+//go:embed bundle.zip
 var bundle embed.FS
 
-const bundleZip = "out/bundle.zip"
+const bundleZip = "bundle.zip"
 
 type Config struct {
 	Address    string `json:"address"`
