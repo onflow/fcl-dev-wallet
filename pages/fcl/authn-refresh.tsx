@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import getConfig from "next/config"
+import getConfig from "hooks/useConfig"
 import {AuthnRefreshContextProvider} from "contexts/AuthnRefreshContext"
 import useAuthnRefreshContext from "hooks/useAuthnRefreshContext"
 import {refreshAuthn} from "src/accountAuth"
@@ -43,10 +43,10 @@ function AuthnRefresh({
 }
 
 AuthnRefresh.getInitialProps = async () => {
-  const {publicRuntimeConfig} = getConfig()
+  const {flowAccountPrivateKey} = getConfig()
 
   return {
-    flowAccountPrivateKey: publicRuntimeConfig.flowAccountPrivateKey,
+    flowAccountPrivateKey: flowAccountPrivateKey,
   }
 }
 

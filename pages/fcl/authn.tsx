@@ -4,7 +4,7 @@ import AccountsList from "components/AccountsList"
 import Dialog, {styles as dialogStyles} from "components/Dialog"
 import {AuthnContextProvider} from "contexts/AuthnContext"
 import useAccounts from "hooks/useAccounts"
-import getConfig from "next/config"
+import getConfig from "hooks/useConfig"
 import {Account, NewAccount} from "src/accounts"
 import {useState} from "react"
 import {Err} from "src/comps/err.comp"
@@ -98,12 +98,12 @@ function Authn({
 }
 
 Authn.getInitialProps = async () => {
-  const {publicRuntimeConfig} = getConfig()
+  const {flowAccountAddress, flowAccountPrivateKey, avatarUrl} = getConfig()
 
   return {
-    flowAccountAddress: publicRuntimeConfig.flowAccountAddress,
-    flowAccountPrivateKey: publicRuntimeConfig.flowAccountPrivateKey,
-    avatarUrl: publicRuntimeConfig.avatarUrl,
+    flowAccountAddress: flowAccountAddress,
+    flowAccountPrivateKey: flowAccountPrivateKey,
+    avatarUrl: avatarUrl,
   }
 }
 

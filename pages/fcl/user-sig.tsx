@@ -6,7 +6,7 @@ import Dialog from "components/Dialog"
 import {useEffect, useState} from "react"
 import {sign} from "src/crypto"
 import {Box, Themed} from "theme-ui"
-import getConfig from "next/config"
+import getConfig from "hooks/useConfig"
 
 type AuthReadyResponseSignable = {
   data: {
@@ -21,7 +21,7 @@ type AuthReadyResponseData = {
   body: AuthReadyResponseSignable
 }
 
-const {publicRuntimeConfig} = getConfig()
+const {flowAccountPrivateKey} = getConfig()
 
 function userSignature(signable: AuthReadyResponseSignable) {
   const {
@@ -42,10 +42,7 @@ function userSignature(signable: AuthReadyResponseSignable) {
   return {
     addr: addr,
     keyId: keyId,
-    signature: sign(
-      publicRuntimeConfig.flowAccountPrivateKey,
-      prependUserDomainTag(message)
-    ),
+    signature: sign(flowAccountPrivateKey, prependUserDomainTag(message)),
   }
 }
 
