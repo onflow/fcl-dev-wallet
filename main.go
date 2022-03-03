@@ -17,10 +17,10 @@ var bundle embed.FS
 const bundleZip = "bundle.zip"
 
 type Config struct {
-	Address    string `json:"address"`
-	PrivateKey string `json:"privateKey"`
-	PublicKey  string `json:"publicKey"`
-	AccessNode string `json:"accessNode"`
+	Address    string `json:"flowAccountAddress"`
+	PrivateKey string `json:"flowAccountPrivateKey"`
+	PublicKey  string `json:"flowAccountPublicKey"`
+	AccessNode string `json:"flowAccessNode"`
 }
 
 type Server struct {

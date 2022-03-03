@@ -1,9 +1,10 @@
 /** @jsxImportSource theme-ui */
-import getConfig from "hooks/useConfig"
+
 import {AuthnRefreshContextProvider} from "contexts/AuthnRefreshContext"
 import useAuthnRefreshContext from "hooks/useAuthnRefreshContext"
 import {refreshAuthn} from "src/accountAuth"
 import Dialog from "components/Dialog"
+import {fetchConfigFromAPI} from "contexts/ConfigContext"
 
 function AuthnRefreshDialog({
   flowAccountPrivateKey,
@@ -43,7 +44,7 @@ function AuthnRefresh({
 }
 
 AuthnRefresh.getInitialProps = async () => {
-  const {flowAccountPrivateKey} = getConfig()
+  const {flowAccountPrivateKey} = await fetchConfigFromAPI()
 
   return {
     flowAccountPrivateKey: flowAccountPrivateKey,

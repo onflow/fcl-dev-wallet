@@ -6,7 +6,7 @@ import Dialog from "components/Dialog"
 import {useEffect, useState} from "react"
 import {sign} from "src/crypto"
 import {Box, Themed} from "theme-ui"
-import getConfig from "hooks/useConfig"
+import getWalletConfig from "hooks/useConfig"
 
 type AuthReadyResponseSignable = {
   data: {
@@ -21,9 +21,10 @@ type AuthReadyResponseData = {
   body: AuthReadyResponseSignable
 }
 
-const {flowAccountPrivateKey} = getConfig()
-
-function userSignature(signable: AuthReadyResponseSignable) {
+function userSignature(
+  signable: AuthReadyResponseSignable,
+  privateKey: string
+) {
   const {
     message,
     data: {addr, keyId},
@@ -42,11 +43,13 @@ function userSignature(signable: AuthReadyResponseSignable) {
   return {
     addr: addr,
     keyId: keyId,
-    signature: sign(flowAccountPrivateKey, prependUserDomainTag(message)),
+    signature: sign(privateKey, prependUserDomainTag(message)),
   }
 }
 
 export default function UserSign() {
+  const {flowAccountPrivateKey} = getWalletConfig()
+
   const [signable, setSignable] = useState<AuthReadyResponseSignable | null>(
     null
   )
@@ -60,7 +63,10 @@ export default function UserSign() {
   }, [])
 
   function onApprove() {
-    const {addr, keyId, signature} = userSignature(signable!)
+    const {addr, keyId, signature} = userSignature(
+      signable!,
+      flowAccountPrivateKey
+    )
 
     WalletUtils.approve(
       new WalletUtils.CompositeSignature(addr, keyId, signature)

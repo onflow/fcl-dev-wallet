@@ -1,16 +1,24 @@
 import React, {createContext, useEffect, useState} from "react"
 
 interface RuntimeConfig {
-  flowAccountAddress?: string
-  flowAccountPrivateKey?: string
-  flowAccountPublicKey?: string
-  flowAccountKeyId?: string
-  flowAccessNode?: string
+  flowAccountAddress: string
+  flowAccountPrivateKey: string
+  flowAccountPublicKey: string
+  flowAccountKeyId: string
+  flowAccessNode: string
 }
 
-export const ConfigContext = createContext<RuntimeConfig>({})
+const defaultConfig = {
+  flowAccountAddress: "",
+  flowAccountPrivateKey: "",
+  flowAccountPublicKey: "",
+  flowAccountKeyId: "",
+  flowAccessNode: "",
+}
 
-function fetchConfigFromAPI(): Promise<RuntimeConfig> {
+export const ConfigContext = createContext<RuntimeConfig>(defaultConfig)
+
+export async function fetchConfigFromAPI(): Promise<RuntimeConfig> {
   return fetch("http://localhost:8701/api/")
     .then(res => res.json())
     .catch(e => {
@@ -22,8 +30,8 @@ function fetchConfigFromAPI(): Promise<RuntimeConfig> {
     })
 }
 
-export function ConfigContextProvider({children}) {
-  const [config, setConfig] = useState<RuntimeConfig>({})
+export function ConfigContextProvider({children}: {children: React.ReactNode}) {
+  const [config, setConfig] = useState<RuntimeConfig>()
 
   useEffect(() => {
     async function fetchConfig() {

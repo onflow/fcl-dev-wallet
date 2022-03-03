@@ -6,8 +6,9 @@ import AuthzHeader from "components/AuthzHeader"
 import Code from "components/Code"
 import Dialog from "components/Dialog"
 import {AuthzContextProvider} from "contexts/AuthzContext"
+import {fetchConfigFromAPI} from "contexts/ConfigContext"
 import useAuthzContext from "hooks/useAuthzContext"
-import getConfig from "hooks/useConfig"
+import getConfig from "next/config"
 import {useState} from "react"
 import {sign} from "src/crypto"
 
@@ -91,12 +92,13 @@ function Authz({
 }
 
 Authz.getInitialProps = async () => {
-  const {flowAccountAddress, flowAccountPrivateKey, avatarUrl} = getConfig()
+  const {flowAccountAddress, flowAccountPrivateKey} = await fetchConfigFromAPI()
+  const {publicRuntimeConfig} = getConfig()
 
   return {
     flowAccountAddress: flowAccountAddress,
     flowAccountPrivateKey: flowAccountPrivateKey,
-    avatarUrl: avatarUrl,
+    avatarUrl: publicRuntimeConfig.avatarUrl,
   }
 }
 

@@ -1,6 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
-import getConfig from "hooks/useConfig"
+import {fetchConfigFromAPI} from "contexts/ConfigContext"
+import getConfig from "next/config"
 import FCLContract from "cadence/contracts/FCL.cdc"
 import initTransaction from "cadence/transactions/init.cdc"
 import {accountLabelGenerator} from "src/accountGenerator"
@@ -9,14 +10,9 @@ import {SERVICE_ACCOUNT_LABEL} from "src/constants"
 import {encodeServiceKey} from "src/crypto"
 import fclConfig from "src/fclConfig"
 
-const {
-  flowAccountAddress,
-  flowAccountKeyId,
-  flowAccountPrivateKey,
-  flowAccountPublicKey,
-} = getConfig()
+const {publicRuntimeConfig} = getConfig()
 
-async function isInitialized(): Promise<boolean> {
+async function isInitialized(flowAccountAddress: string): Promise<boolean> {
   try {
     const account = await fcl
       .send([fcl.getAccount(flowAccountAddress)])
@@ -33,15 +29,23 @@ async function isInitialized(): Promise<boolean> {
 }
 
 export async function initializeWallet() {
+  const {
+    flowAccountAddress,
+    flowAccessNode,
+    flowAccountPrivateKey,
+    flowAccountPublicKey,
+  } = await fetchConfigFromAPI()
+
   fclConfig(
     flowAccountAddress,
-    publicRuntimeConfig.flowAccessNode,
+    flowAccessNode,
     publicRuntimeConfig.contractFungibleToken,
     publicRuntimeConfig.contractFlowToken,
     publicRuntimeConfig.contractFUSD
   )
 
-  const initialized = await isInitialized()
+  const initialized = await isInitialized(flowAccountAddress)
+
   if (initialized) {
     return
   }
@@ -54,7 +58,7 @@ export async function initializeWallet() {
 
   const authorization = await authz(
     flowAccountAddress,
-    flowAccountKeyId,
+    publicRuntimeConfig.pflowAccountKeyId,
     flowAccountPrivateKey
   )
 
