@@ -30,15 +30,15 @@ async function isInitialized(flowAccountAddress: string): Promise<boolean> {
 
 export async function initializeWallet() {
   const {
-    flowAccountAddress,
     flowAccessNode,
+    flowAccountAddress,
     flowAccountPrivateKey,
     flowAccountPublicKey,
   } = await fetchConfigFromAPI()
 
   fclConfig(
-    flowAccountAddress,
     flowAccessNode,
+    flowAccountAddress,
     publicRuntimeConfig.contractFungibleToken,
     publicRuntimeConfig.contractFlowToken,
     publicRuntimeConfig.contractFUSD
@@ -58,7 +58,7 @@ export async function initializeWallet() {
 
   const authorization = await authz(
     flowAccountAddress,
-    publicRuntimeConfig.pflowAccountKeyId,
+    publicRuntimeConfig.flowAccountKeyId,
     flowAccountPrivateKey
   )
 

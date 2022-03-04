@@ -6,6 +6,7 @@ import (
 	"context"
 	"embed"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -17,7 +18,7 @@ var bundle embed.FS
 const bundleZip = "bundle.zip"
 
 type Config struct {
-	Address    string `json:"flowAccountAddress"`
+	Address    string `json:"flowAddress"`
 	PrivateKey string `json:"flowAccountPrivateKey"`
 	PublicKey  string `json:"flowAccountPublicKey"`
 	AccessNode string `json:"flowAccessNode"`
@@ -69,7 +70,12 @@ func NewHTTPServer(port uint, config *Config) (*Server, error) {
 }
 
 func (s *Server) Start() error {
-	return s.http.ListenAndServe()
+	err := s.http.ListenAndServe()
+	if errors.Is(err, http.ErrServerClosed) {
+		return nil
+	}
+
+	return err
 }
 
 func (s *Server) Stop() {
