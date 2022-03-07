@@ -71,7 +71,7 @@ export const buildServices = ({
   compSig: string
   appDomainTag?: string
   keyId?: number
-  includeRefresh: boolean
+  includeRefresh?: boolean
 }) => {
   const services: AuthResponseService[] = [
     {
