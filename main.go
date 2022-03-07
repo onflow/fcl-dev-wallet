@@ -6,11 +6,8 @@ import (
 	"context"
 	"embed"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"mime"
 	"net/http"
-	"path/filepath"
 	"strings"
 )
 
@@ -20,10 +17,10 @@ var bundle embed.FS
 const bundleZip = "bundle.zip"
 
 type Config struct {
-	Address    string `json:"flowAddress"`
-	PrivateKey string `json:"flowAccountPrivateKey"`
-	PublicKey  string `json:"flowAccountPublicKey"`
-	AccessNode string `json:"flowAccessNode"`
+	Address    string `json:"address"`
+	PrivateKey string `json:"privateKey"`
+	PublicKey  string `json:"publicKey"`
+	AccessNode string `json:"accessNode"`
 }
 
 type Server struct {
@@ -56,62 +53,23 @@ func NewHTTPServer(port uint, config *Config) (*Server, error) {
 	})
 
 	// file server handler with custom wrapper trying to add .html file extension if file not found
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		upath := r.URL.Path
-
-		if !strings.HasPrefix(upath, "/") {
-			upath = "/" + upath
-			r.URL.Path = upath
-		}
-		if strings.HasSuffix(upath, "/") {
-			upath = "/index.html"
-			r.URL.Path = upath
+	mux.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+		path := strings.TrimPrefix(request.URL.Path, "/")
+		_, err := zipFS.Open(path) // just check if file is actually found
+		// if not found and there is no / suffix (which would mean index.html) then try adding .html for file
+		if err != nil && strings.HasSuffix(path, "/") {
+			path = fmt.Sprintf("%s.html", path)
 		}
 
-		file, err := zipFS.Open(upath[1:])
-
-		if err != nil {
-			//try with .html suffix
-			upath = upath + ".html"
-			file, err = zipFS.Open(upath[1:])
-			if err != nil {
-				w.WriteHeader(500)
-				return
-			}
-		}
-
-		//detect mime type
-		extension := filepath.Ext(upath)
-		mimeType := mime.TypeByExtension("." + extension)
-		if mimeType != "" {
-			w.Header().Add("Content-Type", mimeType)
-		}
-
-		fileStat, _ := file.Stat()
-		target := fileStat.Size()
-		var buffer []byte = make([]byte, 32768)
-
-		for target > 0 {
-			count, _ := file.Read(buffer)
-			_, err := w.Write(buffer[:count])
-			if err != nil {
-				return
-			}
-			target = target - int64(count)
-		}
-
+		request.URL.Path = path // overwrite path for file server handler
+		http.FileServer(http.FS(zipFS)).ServeHTTP(writer, request)
 	})
 
 	return server, nil
 }
 
 func (s *Server) Start() error {
-	err := s.http.ListenAndServe()
-	if errors.Is(err, http.ErrServerClosed) {
-		return nil
-	}
-
-	return err
+	return s.http.ListenAndServe()
 }
 
 func (s *Server) Stop() {
