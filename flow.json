@@ -36,7 +36,6 @@
   "deployments": {
     "emulator": {
       "emulator-account": [
-        "FCL",
         "FUSD"
       ]
     }
