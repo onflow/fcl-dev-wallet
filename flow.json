@@ -6,6 +6,9 @@
     }
   },
   "contracts": {
+    "FCL": {
+      "source": "./cadence/contracts/FCL.cdc"
+    },
     "FUSD": {
       "source": "./cadence/contracts/FUSD.cdc",
       "aliases": {
@@ -33,6 +36,7 @@
   "deployments": {
     "emulator": {
       "emulator-account": [
+        "FCL",
         "FUSD"
       ]
     }
