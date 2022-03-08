@@ -12,7 +12,7 @@
     "test": "cypress run",
     "check": "eslint . && npm run tsc",
     "export": "next export",
-    "bundle": "next build && next export && zip bundle.zip ./out/*.*"
+    "bundle": "next build && next export && cd out && zip -r bundle.zip ./*"
   },
   "dependencies": {
     "@headlessui/react": "^1.3.0",
