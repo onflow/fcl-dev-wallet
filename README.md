@@ -18,7 +18,6 @@
 <br />
 <br />
 
-foo
 ## Introduction
 
 The FCL dev wallet is a mock Flow wallet that simulates the protocols used by [FCL](https://docs.onflow.org/fcl/) to interact with the Flow blockchain on behalf of simulated user accounts.
