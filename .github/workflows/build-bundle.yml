@@ -1,10 +1,9 @@
 name: Build a static wallet bundle
 
-on: [push]
-# on:
-#   create:
-#     tags:
-#       - v*
+on:
+  push:
+    paths:
+      - 'src/**'
 
 jobs:
   buildBundle:
@@ -14,14 +13,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get specific changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v17.3
-        with:
-          files: src
-
       - name: Build Bundle
-        if: steps.changed-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v2
         with:
           node-version: '14'
@@ -31,14 +23,11 @@ jobs:
       - run: npm run bundle
 
       - uses: papeloto/action-zip@v1
-        if: always() # TODO temp
         with:
           files: out/
           dest: ./bundle.zip
 
       - name: Create Pull Request
-        # if: steps.verify-changed-files.outputs.files_changed == 'true'
-        # if: always() # TODO temporary until dev-wallet static bundle is implemented
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: build a static bundle
