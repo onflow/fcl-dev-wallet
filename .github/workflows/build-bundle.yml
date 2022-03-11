@@ -1,9 +1,10 @@
 name: Build a static wallet bundle
 
-on:
-  create:
-    tags:
-      - v*
+on: [push]
+# on:
+#   create:
+#     tags:
+#       - v*
 
 jobs:
   buildBundle:
@@ -24,8 +25,14 @@ jobs:
         with:
           files: out/
           dest: ./bundle.zip
+      - name: Verify Changed files
+        uses: tj-actions/verify-changed-files@v8.8
+        id: verify-changed-files
+        with:
+          files: ./bundle.zip
       - name: Create Pull Request
-        if: always() # TODO temporary until dev-wallet static bundle is implemented
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        # if: always() # TODO temporary until dev-wallet static bundle is implemented
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: build a static bundle
