@@ -23,7 +23,6 @@ export default function Page() {
 
   return (
     <div>
-      <div>FOO</div>
       <ul>{COMMANDS.map(renderCommand)}</ul>
       <pre>{JSON.stringify({currentUser, config}, null, 2)}</pre>
     </div>

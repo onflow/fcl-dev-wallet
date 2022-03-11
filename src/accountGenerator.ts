@@ -28,6 +28,7 @@ const ALPHABET = [
   "X",
   "Y",
   "Z",
+  "FOO"
 ]
 
 export function accountLabelGenerator(index: number) {
