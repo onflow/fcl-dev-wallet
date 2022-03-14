@@ -41,6 +41,7 @@ func NewHTTPServer(port uint, config *Config) (*Server, error) {
 
 	zipContent, _ := bundle.ReadFile(bundleZip)
 	zipFS, _ := zip.NewReader(bytes.NewReader(zipContent), int64(len(zipContent)))
+	rootFS := http.FS(zipFS)
 
 	// handle /api endpoint returning the configuration
 	mux.HandleFunc("/api/", func(w http.ResponseWriter, r *http.Request) {
@@ -52,17 +53,16 @@ func NewHTTPServer(port uint, config *Config) (*Server, error) {
 		}
 	})
 
-	// file server handler with custom wrapper trying to add .html file extension if file not found
 	mux.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		path := strings.TrimPrefix(request.URL.Path, "/")
-		_, err := zipFS.Open(path) // just check if file is actually found
+
 		// if not found and there is no / suffix (which would mean index.html) then try adding .html for file
-		if err != nil && strings.HasSuffix(path, "/") {
+		if _, err := zipFS.Open(path); err != nil && path != "" {
 			path = fmt.Sprintf("%s.html", path)
 		}
 
 		request.URL.Path = path // overwrite path for file server handler
-		http.FileServer(http.FS(zipFS)).ServeHTTP(writer, request)
+		http.FileServer(rootFS).ServeHTTP(writer, request)
 	})
 
 	return server, nil
