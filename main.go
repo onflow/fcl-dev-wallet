@@ -6,7 +6,6 @@ import (
 	"context"
 	"embed"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -53,24 +52,13 @@ func NewHTTPServer(port uint, config *Config) (*Server, error) {
 		}
 	})
 
+	// file server handler with custom wrapper trying to add .html file extension if file not found
 	mux.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		path := strings.TrimPrefix(request.URL.Path, "/")
-
-		_, err1 := zipFS.Open(path) // just check if file is actually found
-
-		if err1 != nil {
+		_, err := zipFS.Open(path) // just check if file is actually found
+		// if not found and there is no / suffix (which would mean index.html) then try adding .html for file
+		if err != nil && strings.HasSuffix(path, "/") {
 			path = fmt.Sprintf("%s.html", path)
-		}
-
-		_, err2 := zipFS.Open(path)
-
-		if err2 != nil {
-			if path == ".html" {
-				path = "/"
-			} else {
-				writer.WriteHeader(http.StatusNotFound)
-				return
-			}
 		}
 
 		request.URL.Path = path // overwrite path for file server handler
@@ -81,12 +69,7 @@ func NewHTTPServer(port uint, config *Config) (*Server, error) {
 }
 
 func (s *Server) Start() error {
-	err := s.http.ListenAndServe()
-	if errors.Is(err, http.ErrServerClosed) {
-		return nil
-	}
-
-	return err
+	return s.http.ListenAndServe()
 }
 
 func (s *Server) Stop() {
