@@ -8,7 +8,7 @@ import getConfig from "next/config"
 import {Account, NewAccount} from "src/accounts"
 import {useState} from "react"
 import {Err} from "src/comps/err.comp"
-import {fetchConfigFromAPI} from "contexts/ConfigContext"
+import useConfig from "hooks/useConfig"
 
 function AuthnDialog({
   flowAccountAddress,
@@ -78,15 +78,9 @@ function AuthnDialog({
   )
 }
 
-function Authn({
-  flowAccountAddress,
-  flowAccountPrivateKey,
-  avatarUrl,
-}: {
-  flowAccountAddress: string
-  flowAccountPrivateKey: string
-  avatarUrl: string
-}) {
+function Authn({avatarUrl}: {avatarUrl: string}) {
+  const {flowAccountAddress, flowAccountPrivateKey} = useConfig()
+
   return (
     <AuthnContextProvider>
       <AuthnDialog
@@ -99,12 +93,8 @@ function Authn({
 }
 
 Authn.getInitialProps = async () => {
-  const {flowAccountAddress, flowAccountPrivateKey} = await fetchConfigFromAPI()
   const {publicRuntimeConfig} = getConfig()
-
   return {
-    flowAccountAddress: flowAccountAddress,
-    flowAccountPrivateKey: flowAccountPrivateKey,
     avatarUrl: publicRuntimeConfig.avatarUrl,
   }
 }

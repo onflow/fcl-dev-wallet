@@ -6,6 +6,9 @@
     }
   },
   "contracts": {
+    "FCL": {
+      "source": "./cadence/contracts/FCL.cdc"
+    },
     "FUSD": {
       "source": "./cadence/contracts/FUSD.cdc",
       "aliases": {

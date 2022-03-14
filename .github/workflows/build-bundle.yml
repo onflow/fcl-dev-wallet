@@ -1,9 +1,9 @@
 name: Build a static wallet bundle
 
 on:
-  create:
-    tags:
-      - v*
+  push:
+    paths:
+      - 'src/**'
 
 jobs:
   buildBundle:
@@ -12,20 +12,22 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
       - name: Build Bundle
         uses: actions/setup-node@v2
         with:
           node-version: '14'
           cache: 'npm'
+
       - run: npm install
       - run: npm run bundle
+
       - uses: papeloto/action-zip@v1
-        if: always() # TODO temp
         with:
           files: out/
           dest: ./bundle.zip
+
       - name: Create Pull Request
-        if: always() # TODO temporary until dev-wallet static bundle is implemented
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: build a static bundle
@@ -34,4 +36,4 @@ jobs:
           assignees: sideninja
           reviewers: 10thfloor
           branch: update-bundle
-          base: static-ci # TODO temporary change
+          base: master

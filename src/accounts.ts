@@ -63,6 +63,7 @@ export async function getAccount(address: string) {
 
 export async function getAccounts() {
   const {flowAccountAddress, flowAccessNode} = await fetchConfigFromAPI()
+
   fclConfig(
     flowAccessNode,
     flowAccountAddress,
