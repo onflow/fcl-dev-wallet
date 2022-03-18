@@ -1,7 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import useAccounts from "hooks/useAccounts"
 import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
-import {Account} from "pages/api/accounts"
+import {Account} from "src/accounts"
 import React, {createContext, useEffect, useMemo, useState} from "react"
 import {WalletUtils} from "@onflow/fcl"
 

@@ -1,35 +1,51 @@
 import {WalletUtils} from "@onflow/fcl"
 import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
+import {Account} from "src/accounts"
+import {sign} from "src/crypto"
 import getConfig from "next/config"
-import {Account} from "pages/api/accounts"
-import {paths} from "src/constants"
 import {buildServices} from "./services"
 
 const {publicRuntimeConfig} = getConfig()
 
-export async function chooseAccount(
-  account: Account,
-  scopes: Set<string>,
-  connectedAppConfig: ConnectedAppConfig
+function proveAuthn(
+  flowAccountPrivateKey: string,
+  address: string,
+  keyId: number,
+  timestamp: unknown,
+  appDomainTag: unknown
 ) {
-  const {address, keyId} = account
+  return {
+    addr: address,
+    keyId: keyId,
+    signature: sign(
+      flowAccountPrivateKey,
+      WalletUtils.encodeMessageForProvableAuthnSigning(
+        address,
+        timestamp,
+        appDomainTag
+      )
+    ),
+  }
+}
 
-  const {timestamp, appDomainTag} = connectedAppConfig.body
-  const signable = {address, keyId, timestamp, appDomainTag}
+export function refreshAuthn(
+  flowAccountPrivateKey: string,
+  address: string,
+  keyId: number,
+  scopes: Set<string>,
+  timestamp: number,
+  appDomainTag: string
+) {
+  const signature = sign(
+    flowAccountPrivateKey,
+    WalletUtils.encodeMessageForProvableAuthnSigning(
+      address,
+      timestamp,
+      appDomainTag
+    )
+  )
 
-  const compSig = await fetch(paths.proveAuthn, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(signable),
-  })
-    .then(d => d.json())
-    .then(async ({addr, keyId, signature}) => {
-      return new WalletUtils.CompositeSignature(addr, keyId, signature)
-    })
-    .catch(e => {
-      // eslint-disable-next-line no-console
-      console.error("FCL-DEV-WALLET FAILED TO SIGN", e)
-    })
+  const compSig = new WalletUtils.CompositeSignature(address, keyId, signature)
 
   const services = buildServices({
     baseUrl: publicRuntimeConfig.baseUrl,
@@ -39,6 +55,46 @@ export async function chooseAccount(
     compSig,
     appDomainTag,
     keyId,
+    includeRefresh: false,
+  })
+
+  WalletUtils.approve({
+    f_type: "AuthnResponse",
+    f_vsn: "1.0.0",
+    addr: address,
+    services,
+  })
+}
+
+export async function chooseAccount(
+  flowAccountPrivateKey: string,
+  account: Account,
+  scopes: Set<string>,
+  connectedAppConfig: ConnectedAppConfig
+) {
+  const {address, keyId} = account
+
+  const {timestamp, appDomainTag} = connectedAppConfig.body
+
+  const {addr, signature} = proveAuthn(
+    flowAccountPrivateKey,
+    address,
+    keyId!,
+    timestamp,
+    appDomainTag
+  )
+
+  const compSig = new WalletUtils.CompositeSignature(addr, keyId, signature)
+
+  const services = buildServices({
+    baseUrl: publicRuntimeConfig.baseUrl,
+    address,
+    timestamp,
+    scopes,
+    compSig,
+    appDomainTag,
+    keyId,
+    includeRefresh: false,
   })
 
   localStorage.setItem("connectedAppConfig", JSON.stringify(connectedAppConfig))

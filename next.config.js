@@ -1,4 +1,5 @@
 module.exports = {
+  productionBrowserSourceMaps: true,
   async headers() {
     return [
       {
@@ -27,15 +28,9 @@ module.exports = {
     })
     return config
   },
-  serverRuntimeConfig: {
-    flowAccessNode: process.env.FLOW_ACCESS_NODE,
-    flowAccountKeyId: process.env.FLOW_ACCOUNT_KEY_ID,
-    flowAccountPrivateKey: process.env.FLOW_ACCOUNT_PRIVATE_KEY,
-    flowAccountPublicKey: process.env.FLOW_ACCOUNT_PUBLIC_KEY,
-    flowInitAccountsNo: process.env.FLOW_INIT_ACCOUNTS,
-  },
   publicRuntimeConfig: {
-    flowAccountAddress: process.env.FLOW_ACCOUNT_ADDRESS,
+    flowInitAccountsNo: process.env.FLOW_INIT_ACCOUNTS,
+    flowAccountKeyId: process.env.FLOW_ACCOUNT_KEY_ID,
     baseUrl: process.env.BASE_URL,
     avatarUrl: process.env.FLOW_AVATAR_URL,
     contractFungibleToken: process.env.CONTRACT_FUNGIBLE_TOKEN,

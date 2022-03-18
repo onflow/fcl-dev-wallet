@@ -2,7 +2,7 @@
 import AccountImage from "components/AccountImage"
 import InfoIcon from "components/InfoIcon"
 import useAuthnContext from "hooks/useAuthnContext"
-import {Account, NewAccount} from "pages/api/accounts"
+import {Account, NewAccount} from "src/accounts"
 import {useState} from "react"
 import {UNTITLED_APP_NAME} from "src/constants"
 import {Button, Link, Themed} from "theme-ui"

@@ -62,6 +62,7 @@ export const buildServices = ({
   compSig,
   appDomainTag,
   keyId,
+  includeRefresh = false,
 }: {
   baseUrl: string
   address: string
@@ -70,6 +71,7 @@ export const buildServices = ({
   compSig: string
   appDomainTag?: string
   keyId?: number
+  includeRefresh?: boolean
 }) => {
   const services: AuthResponseService[] = [
     {
@@ -128,14 +130,17 @@ export const buildServices = ({
         signatures: [compSig] ?? null,
       },
     },
-    // Authentication Refresh Service
-    {
+  ]
+
+  // Authentication Refresh Service
+  if (includeRefresh) {
+    services.push({
       f_type: "Service",
       f_vsn: "1.0.0",
       type: "authn-refresh",
       uid: "fcl-dev-wallet#authn-refresh",
-      endpoint: `${baseUrl}/api/refresh`,
-      method: "HTTP/POST",
+      endpoint: `${baseUrl}/fcl/authn-refresh`,
+      method: "IFRAME/RPC",
       id: address,
       data: {
         f_type: "authn-refresh",
@@ -147,8 +152,8 @@ export const buildServices = ({
         sessionId: "C7OXWaVpU-efRymW7a5d",
         scopes: Array.from(scopes).join(" "),
       },
-    },
-  ]
+    })
+  }
 
   if (!!scopes.size) {
     services.push({

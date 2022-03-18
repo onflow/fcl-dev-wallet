@@ -1,12 +1,30 @@
-import {Account} from "pages/api/accounts"
-import {paths} from "src/constants"
-import useSWR from "swr"
+import {useEffect, useState} from "react"
+import {Account, getAccounts} from "src/accounts"
 
 export default function useAccounts() {
-  const {data, error} = useSWR<Account[]>(paths.apiAccounts)
+  const [accounts, setAccounts] = useState<Array<Account>>([])
+  const [error, setError] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  function fetchAccounts() {
+    getAccounts()
+      .then(accounts => {
+        setAccounts(accounts)
+      })
+      .catch(error => {
+        setError(error)
+      })
+      .finally(() => setIsLoading(false))
+  }
+
+  useEffect(() => {
+    fetchAccounts()
+  }, [])
+
   return {
-    data,
+    data: accounts,
     error: error,
-    isLoading: !error && !data,
+    isLoading: isLoading,
+    refresh: fetchAccounts,
   }
 }
