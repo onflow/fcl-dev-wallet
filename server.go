@@ -57,8 +57,10 @@ func NewHTTPServer(port uint, config *Config) (*Server, error) {
 		path := strings.TrimPrefix(request.URL.Path, "/")
 
 		// if not found and there is no / suffix (which would mean index.html) then try adding .html for file
-		if _, err := zipFS.Open(path); err != nil && path != "" {
-			path = fmt.Sprintf("%s.html", path)
+		if path != "" {
+			if _, err := zipFS.Open(path); err != nil {
+				path = fmt.Sprintf("%s.html", path)
+			}
 		}
 
 		request.URL.Path = path // overwrite path for file server handler
