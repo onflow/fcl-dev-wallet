@@ -36,7 +36,6 @@ export async function fetchConfigFromAPI(): Promise<RuntimeConfig> {
          ${e}
           `
       )
-
       return defaultConfig
     })
 }
