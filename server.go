@@ -8,7 +8,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 )
 
 //go:embed bundle.zip
@@ -76,8 +79,20 @@ func devWalletHandler() func(writer http.ResponseWriter, request *http.Request) 
 	}
 }
 
-func (s *server) Start() error {
-	return s.http.ListenAndServe()
+func (s *server) Start() {
+	done := make(chan os.Signal, 1)
+	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		err := s.http.ListenAndServe()
+		if err != nil {
+			fmt.Printf("error starting up the server: %s\n", err)
+			done <- syscall.SIGTERM
+		}
+	}()
+
+	<-done
+	s.Stop()
 }
 
 func (s *server) Stop() {
