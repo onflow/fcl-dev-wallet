@@ -6,8 +6,8 @@ type AuthnRefreshContextType = {
   address: string
   keyId: number
   scopes: Set<string>
-  timestamp: number
-  appDomainTag: string
+  nonce: string | undefined
+  appIdentifier: string | undefined
 } | null
 
 export const AuthnRefreshContext = createContext<AuthnRefreshContextType>(null)
