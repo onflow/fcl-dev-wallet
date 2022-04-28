@@ -14,12 +14,14 @@ fcl.config()
 if (USE_LOCAL) {
   // prettier-ignore
   fcl.config()
+    .put("flow.network", "local")
     .put("env", "local")
     .put("accessNode.api", "http://localhost:8080")
     .put("discovery.wallet", "http://localhost:8701/fcl/authn")
 } else {
   // prettier-ignore
   fcl.config()
+    .put("flow.network", "testnet")
     .put("env", "testnet")
     .put("accessNode.api", "https://access-testnet.onflow.org")
     .put("discovery.wallet", "https://fcl-discovery.onflow.org/testnet/authn")

@@ -61,7 +61,7 @@ flow emulator start
 flow project deploy --network emulator
 ```
 
-###  Start the dev wallet
+### Start the dev wallet
 
 You can run the dev wallet using its Docker image:
 
@@ -96,13 +96,14 @@ docker run -it \
     -e CONTRACT_FUNGIBLE_TOKEN=0xee82856bf20e2aa6 \
     -e CONTRACT_FLOW_TOKEN=0x0ae53cb6e3f42a79 \
     -e CONTRACT_FUSD=0xf8d6e0586b0a20c7 \
+    -e CONTRACT_FCL_CRYPTO=0x74daa6f9c7ef24b1 \
     -e TOKEN_AMOUNT_FLOW=100.0 \
     -e TOKEN_AMOUNT_FUSD=100.0 \
-    ghcr.io/onflow/fcl-dev-wallet:latest  
+    ghcr.io/onflow/fcl-dev-wallet:latest
 ```
 
 **Note:** The following variables should match the `emulator-account` defined in your project's `flow.json` file.
- For details about `flow.json` visit the `flow-cli` [configuration reference](https://docs.onflow.org/flow-cli/configuration/).
+For details about `flow.json` visit the `flow-cli` [configuration reference](https://docs.onflow.org/flow-cli/configuration/).
 
 ```sh
 FLOW_ACCOUNT_PRIVATE_KEY
@@ -120,15 +121,16 @@ To use the dev wallet, configure FCL to point to the address of a locally runnin
 import * as fcl from "@onflow/fcl"
 import {send as grpcSend} from "@onflow/transport-grpc"
 
-fcl.config()
+fcl
+  .config()
   // Point App at Emulator
-  .put("accessNode.api", "http://localhost:8080") 
+  .put("accessNode.api", "http://localhost:8080")
   // Point FCL at dev-wallet (default port)
-  .put("discovery.wallet", "http://localhost:8701/fcl/authn") 
+  .put("discovery.wallet", "http://localhost:8701/fcl/authn")
   .put("sdk.transport", grpcSend)
 ```
 
-### Test harness 
+### Test harness
 
 It's easy to use this FCL harness app as a barebones
 app to interact with the dev-wallet during development:
