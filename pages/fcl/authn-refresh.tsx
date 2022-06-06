@@ -14,15 +14,15 @@ function AuthnRefreshDialog({
   const data = useAuthnRefreshContext()
 
   if (data) {
-    const {address, keyId, scopes, timestamp, appDomainTag} = data
+    const {address, keyId, scopes, nonce, appIdentifier} = data
 
     refreshAuthn(
       flowAccountPrivateKey,
       address,
       keyId,
       scopes,
-      timestamp,
-      appDomainTag
+      nonce,
+      appIdentifier
     )
   }
 

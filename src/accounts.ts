@@ -45,6 +45,7 @@ type CreatedAccountEvent = {
 
 export async function getAccount(address: string) {
   const {flowAccountAddress, flowAccessNode} = await fetchConfigFromAPI()
+
   fclConfig(
     flowAccessNode,
     flowAccountAddress,

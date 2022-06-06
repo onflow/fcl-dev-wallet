@@ -57,19 +57,17 @@ const entry = (
 export const buildServices = ({
   baseUrl,
   address,
-  timestamp,
+  nonce,
   scopes,
   compSig,
-  appDomainTag,
   keyId,
   includeRefresh = false,
 }: {
   baseUrl: string
   address: string
-  timestamp: number
+  nonce: string | undefined
   scopes: Set<string>
-  compSig: string
-  appDomainTag?: string
+  compSig: string | undefined
   keyId?: number
   includeRefresh?: boolean
 }) => {
@@ -114,8 +112,11 @@ export const buildServices = ({
       data: {addr: address, keyId: Number(keyId)},
       params: {},
     },
-    // Authentication Proof Service
-    {
+  ]
+
+  // Account Proof Service
+  if (nonce) {
+    services.push({
       f_type: "Service",
       f_vsn: "1.0.0",
       type: "account-proof",
@@ -125,12 +126,11 @@ export const buildServices = ({
         f_type: "account-proof",
         f_vsn: "1.0.0",
         address: address,
-        timestamp: timestamp,
-        appDomainTag: appDomainTag,
+        nonce: nonce,
         signatures: [compSig] ?? null,
       },
-    },
-  ]
+    })
+  }
 
   // Authentication Refresh Service
   if (includeRefresh) {

@@ -5,10 +5,10 @@ import {parseScopes} from "src/scopes"
 export type ConnectedAppConfig = {
   type: string
   body: {
-    appDomainTag?: string
+    appIdentifier?: string | undefined
     data: unknown
     extensions: unknown[]
-    timestamp: number
+    nonce?: string | undefined
   }
   service: Record<string, unknown>
   config: {
