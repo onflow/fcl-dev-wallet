@@ -7,7 +7,6 @@ export default function useAccounts() {
   const [isLoading, setIsLoading] = useState(true)
 
   function fetchAccounts() {
-
     getAccounts()
       .then(accounts => {
         setAccounts(accounts)
