@@ -19,9 +19,5 @@ func main() {
 
 	fmt.Println("Server started on port 8701, make sure you have the latest version of bundle.zip build before starting this server")
 
-	err = srv.Start()
-	if err != nil {
-		panic(err)
-	}
-
+	srv.Start()
 }
