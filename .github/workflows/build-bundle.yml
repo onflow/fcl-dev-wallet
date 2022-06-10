@@ -3,7 +3,7 @@ name: Build a static wallet bundle
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
     paths:
       - 'src/**'
 
