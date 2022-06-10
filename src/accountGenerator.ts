@@ -28,7 +28,7 @@ const ALPHABET = [
   "X",
   "Y",
   "Z",
-]
+] 
 
 export function accountLabelGenerator(index: number) {
   const namegenerator = new Namegenerator(ALPHABET)
