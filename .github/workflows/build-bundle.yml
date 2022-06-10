@@ -38,4 +38,4 @@ jobs:
           assignees: sideninja
           reviewers: 10thfloor
           branch: update-bundle
-          base: master
+          base: main
