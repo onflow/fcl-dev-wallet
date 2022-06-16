@@ -34,6 +34,7 @@ export async function initializeWallet() {
     flowAccountAddress,
     flowAccountPrivateKey,
     flowAccountPublicKey,
+    flowAccountKeyId
   } = await fetchConfigFromAPI()
 
   fclConfig(
@@ -58,7 +59,7 @@ export async function initializeWallet() {
 
   const authorization = await authz(
     flowAccountAddress,
-    publicRuntimeConfig.flowAccountKeyId,
+    flowAccountKeyId,
     flowAccountPrivateKey
   )
 

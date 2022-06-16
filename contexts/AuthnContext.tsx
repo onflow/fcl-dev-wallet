@@ -27,7 +27,9 @@ export function AuthnContextProvider({children}: {children: React.ReactNode}) {
         await initializeWallet()
         setIsInitialized(true)
       } catch (error) {
-        setError(`Dev wallet initialization failed: ${error}`)
+        const message = `Dev wallet initialization failed: ${error}`
+        setError(message)
+        console.error(message)
       }
     }
 

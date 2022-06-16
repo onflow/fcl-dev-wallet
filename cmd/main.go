@@ -9,9 +9,10 @@ import (
 func main() {
 	srv, err := wallet.NewHTTPServer(8701, &wallet.Config{
 		Address:    "0xf8d6e0586b0a20c7",
-		PrivateKey: "f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5",
-		PublicKey:  "6e70492cb4ec2a6013e916114bc8bf6496f3335562f315e18b085c19da659bdfd88979a5904ae8bd9b4fd52a07fc759bad9551c04f289210784e7b08980516d2",
-		AccessNode: "http://localhost:8080",
+		PrivateKey: "823fe26eb8346f86441410ffc41924f8733def3841281a88fda10845bf363251",
+		PublicKey:  "03609dc83c9a0ee8fe8ebf74d9fb3da37509fee6d7fb5bd2e99dadf7729b3cdaf64564040cd8d9a516e7615caf0685e112e8650798cc59e5f8aeeae2bd227fdb",
+		KeyID:      "0",
+		AccessNode: "http://localhost:8888",
 	})
 	if err != nil {
 		panic(err)

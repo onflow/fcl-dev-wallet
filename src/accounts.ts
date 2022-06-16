@@ -89,8 +89,13 @@ export async function getAccounts() {
 }
 
 export async function newAccount(label: string, scopes: [string]) {
-  const {flowAccountAddress, flowAccessNode, flowAccountPrivateKey} =
-    await fetchConfigFromAPI()
+  const {
+    flowAccountAddress,
+    flowAccessNode,
+    flowAccountPrivateKey,
+    flowAccountKeyId
+  } = await fetchConfigFromAPI()
+
   fclConfig(
     flowAccessNode,
     flowAccountAddress,
@@ -101,7 +106,7 @@ export async function newAccount(label: string, scopes: [string]) {
 
   const authorization = await authz(
     flowAccountAddress,
-    publicRuntimeConfig.flowAccountKeyId,
+    flowAccountKeyId,
     flowAccountPrivateKey
   )
 
@@ -130,8 +135,13 @@ export async function updateAccount(
   label: string,
   scopes: [string]
 ) {
-  const {flowAccountAddress, flowAccessNode, flowAccountPrivateKey} =
-    await fetchConfigFromAPI()
+  const {
+    flowAccountAddress,
+    flowAccessNode,
+    flowAccountPrivateKey,
+    flowAccountKeyId
+  } = await fetchConfigFromAPI()
+  
   address = fcl.withPrefix(address)
 
   fclConfig(
@@ -144,7 +154,7 @@ export async function updateAccount(
 
   const authorization = await authz(
     flowAccountAddress,
-    publicRuntimeConfig.flowAccountKeyId,
+    flowAccountKeyId,
     flowAccountPrivateKey
   )
 
@@ -189,8 +199,13 @@ export const tokens: Tokens = {
 }
 
 export async function fundAccount(address: string, token: TokenType) {
-  const {flowAccountAddress, flowAccessNode, flowAccountPrivateKey} =
-    await fetchConfigFromAPI()
+  const {
+    flowAccountAddress,
+    flowAccessNode,
+    flowAccountPrivateKey,
+    flowAccountKeyId
+  } = await fetchConfigFromAPI()
+
   fclConfig(
     flowAccessNode,
     flowAccountAddress,
@@ -205,13 +220,13 @@ export async function fundAccount(address: string, token: TokenType) {
 
   const minterAuthz = await authz(
     flowAccountAddress,
-    publicRuntimeConfig.flowAccountKeyId,
+    flowAccountKeyId,
     flowAccountPrivateKey
   )
 
   const acctAuthz = await authz(
     address,
-    publicRuntimeConfig.flowAccountKeyId,
+    flowAccountKeyId,
     flowAccountPrivateKey
   )
 
