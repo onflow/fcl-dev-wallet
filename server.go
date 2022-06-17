@@ -20,10 +20,16 @@ var bundle embed.FS
 const bundleZip = "bundle.zip"
 
 type Config struct {
-	Address    string `json:"flowAccountAddress"`
-	PrivateKey string `json:"flowAccountPrivateKey"`
-	PublicKey  string `json:"flowAccountPublicKey"`
-	AccessNode string `json:"flowAccessNode"`
+	Address               string `json:"flowAccountAddress"`
+	PrivateKey            string `json:"flowAccountPrivateKey"`
+	PublicKey             string `json:"flowAccountPublicKey"`
+	AccountKeyId          string `json:"flowAccountKeyId"`
+	AccessNode            string `json:"flowAccessNode"`
+	BaseUrl               string `json:"baseUrl"`
+	ContractFungibleToken string `json:"contractFungibleToken"`
+	ContractFlowToken     string `json:"contractFlowToken"`
+	ContractFUSD          string `json:"contractFUSD"`
+	ContractFCLCrypto     string `json:"contractFCLCrypto"`
 }
 
 type server struct {
