@@ -10,16 +10,14 @@ import updateAccountTransaction from "cadence/transactions/updateAccount.cdc"
 import fundAccountFLOWTransaction from "cadence/transactions/fundFLOW.cdc"
 import fundAccountFUSDTransaction from "cadence/transactions/fundFUSD.cdc"
 
-import getConfig from "next/config"
-
 import {authz} from "src/authz"
 import {FLOW_EVENT_TYPES} from "src/constants"
 import fclConfig from "src/fclConfig"
 
 import {FLOW_TYPE, FUSD_TYPE, TokenType, TokenTypes} from "src/constants"
-import {fetchConfigFromAPI} from "contexts/ConfigContext"
+import {getConfig, getStaticConfig} from "contexts/ConfigContext"
 
-const {publicRuntimeConfig} = getConfig()
+const staticConfig = getStaticConfig()
 
 export type Account = {
   type: "ACCOUNT"
@@ -44,14 +42,20 @@ type CreatedAccountEvent = {
 }
 
 export async function getAccount(address: string) {
-  const {flowAccountAddress, flowAccessNode} = await fetchConfigFromAPI()
+  const {
+    flowAccountAddress,
+    flowAccessNode,
+    contractFungibleToken,
+    contractFlowToken,
+    contractFUSD,
+  } = await getConfig()
 
   fclConfig(
     flowAccessNode,
     flowAccountAddress,
-    publicRuntimeConfig.contractFungibleToken,
-    publicRuntimeConfig.contractFlowToken,
-    publicRuntimeConfig.contractFUSD
+    contractFungibleToken,
+    contractFlowToken,
+    contractFUSD
   )
 
   return await fcl
@@ -63,14 +67,20 @@ export async function getAccount(address: string) {
 }
 
 export async function getAccounts() {
-  const {flowAccountAddress, flowAccessNode} = await fetchConfigFromAPI()
+  const {
+    flowAccountAddress,
+    flowAccessNode,
+    contractFungibleToken,
+    contractFlowToken,
+    contractFUSD,
+  } = await getConfig()
 
   fclConfig(
     flowAccessNode,
     flowAccountAddress,
-    publicRuntimeConfig.contractFungibleToken,
-    publicRuntimeConfig.contractFlowToken,
-    publicRuntimeConfig.contractFUSD
+    contractFungibleToken,
+    contractFlowToken,
+    contractFUSD
   )
 
   const accounts = await fcl
@@ -89,19 +99,27 @@ export async function getAccounts() {
 }
 
 export async function newAccount(label: string, scopes: [string]) {
-  const {flowAccountAddress, flowAccessNode, flowAccountPrivateKey} =
-    await fetchConfigFromAPI()
+  const {
+    flowAccountAddress,
+    flowAccountKeyId,
+    flowAccountPrivateKey,
+    flowAccessNode,
+    contractFungibleToken,
+    contractFlowToken,
+    contractFUSD,
+  } = await getConfig()
+
   fclConfig(
     flowAccessNode,
     flowAccountAddress,
-    publicRuntimeConfig.contractFungibleToken,
-    publicRuntimeConfig.contractFlowToken,
-    publicRuntimeConfig.contractFUSD
+    contractFungibleToken,
+    contractFlowToken,
+    contractFUSD
   )
 
   const authorization = await authz(
     flowAccountAddress,
-    publicRuntimeConfig.flowAccountKeyId,
+    flowAccountKeyId,
     flowAccountPrivateKey
   )
 
@@ -130,21 +148,28 @@ export async function updateAccount(
   label: string,
   scopes: [string]
 ) {
-  const {flowAccountAddress, flowAccessNode, flowAccountPrivateKey} =
-    await fetchConfigFromAPI()
+  const {
+    contractFungibleToken,
+    contractFlowToken,
+    contractFUSD,
+    flowAccountAddress,
+    flowAccountKeyId,
+    flowAccessNode,
+    flowAccountPrivateKey,
+  } = await getConfig()
   address = fcl.withPrefix(address)
 
   fclConfig(
     flowAccessNode,
     flowAccountAddress,
-    publicRuntimeConfig.contractFungibleToken,
-    publicRuntimeConfig.contractFlowToken,
-    publicRuntimeConfig.contractFUSD
+    contractFungibleToken,
+    contractFlowToken,
+    contractFUSD
   )
 
   const authorization = await authz(
     flowAccountAddress,
-    publicRuntimeConfig.flowAccountKeyId,
+    flowAccountKeyId,
     flowAccountPrivateKey
   )
 
@@ -173,8 +198,8 @@ type Token = {
 type Tokens = Record<TokenType, Token>
 
 export const TOKEN_FUNDING_AMOUNTS: Record<TokenTypes, string> = {
-  FLOW: publicRuntimeConfig.tokenAmountFLOW,
-  FUSD: publicRuntimeConfig.tokenAmountFUSD,
+  FLOW: staticConfig.tokenAmountFLOW,
+  FUSD: staticConfig.tokenAmountFUSD,
 }
 
 export const tokens: Tokens = {
@@ -189,14 +214,21 @@ export const tokens: Tokens = {
 }
 
 export async function fundAccount(address: string, token: TokenType) {
-  const {flowAccountAddress, flowAccessNode, flowAccountPrivateKey} =
-    await fetchConfigFromAPI()
+  const {
+    contractFungibleToken,
+    contractFlowToken,
+    contractFUSD,
+    flowAccountAddress,
+    flowAccountKeyId,
+    flowAccessNode,
+    flowAccountPrivateKey,
+  } = await getConfig()
   fclConfig(
     flowAccessNode,
     flowAccountAddress,
-    publicRuntimeConfig.contractFungibleToken,
-    publicRuntimeConfig.contractFlowToken,
-    publicRuntimeConfig.contractFUSD
+    contractFungibleToken,
+    contractFlowToken,
+    contractFUSD
   )
 
   if (!["FUSD", "FLOW"].includes(token)) {
@@ -205,13 +237,13 @@ export async function fundAccount(address: string, token: TokenType) {
 
   const minterAuthz = await authz(
     flowAccountAddress,
-    publicRuntimeConfig.flowAccountKeyId,
+    flowAccountKeyId,
     flowAccountPrivateKey
   )
 
   const acctAuthz = await authz(
     address,
-    publicRuntimeConfig.flowAccountKeyId,
+    flowAccountKeyId,
     flowAccountPrivateKey
   )
 
@@ -235,13 +267,20 @@ export async function fundAccount(address: string, token: TokenType) {
 }
 
 export async function getAccountFUSDBalance(address: string): Promise<number> {
-  const {flowAccountAddress, flowAccessNode} = await fetchConfigFromAPI()
+  const {
+    contractFungibleToken,
+    contractFUSD,
+    contractFlowToken,
+    flowAccountAddress,
+    flowAccessNode,
+  } = await getConfig()
+
   fclConfig(
     flowAccessNode,
     flowAccountAddress,
-    publicRuntimeConfig.contractFungibleToken,
-    publicRuntimeConfig.contractFlowToken,
-    publicRuntimeConfig.contractFUSD
+    contractFungibleToken,
+    contractFlowToken,
+    contractFUSD
   )
 
   const balance = await fcl

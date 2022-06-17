@@ -4,7 +4,7 @@ import {AuthnRefreshContextProvider} from "contexts/AuthnRefreshContext"
 import useAuthnRefreshContext from "hooks/useAuthnRefreshContext"
 import {refreshAuthn} from "src/accountAuth"
 import Dialog from "components/Dialog"
-import {fetchConfigFromAPI} from "contexts/ConfigContext"
+import {getConfig} from "contexts/ConfigContext"
 
 function AuthnRefreshDialog({
   flowAccountPrivateKey,
@@ -44,7 +44,7 @@ function AuthnRefresh({
 }
 
 AuthnRefresh.getInitialProps = async () => {
-  const {flowAccountPrivateKey} = await fetchConfigFromAPI()
+  const {flowAccountPrivateKey} = await getConfig()
 
   return {
     flowAccountPrivateKey: flowAccountPrivateKey,

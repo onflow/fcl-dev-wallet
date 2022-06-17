@@ -1,7 +1,12 @@
 import React, {createContext, useEffect, useState} from "react"
-import getConfig from "next/config"
+import getNextConfig from "next/config"
 
 interface RuntimeConfig {
+  baseUrl: string
+  contractFungibleToken: string
+  contractFlowToken: string
+  contractFUSD: string
+  contractFCLCrypto: string
   flowAccountAddress: string
   flowAccountPrivateKey: string
   flowAccountPublicKey: string
@@ -9,9 +14,21 @@ interface RuntimeConfig {
   flowAccessNode: string
 }
 
-const {publicRuntimeConfig} = getConfig()
+interface StaticConfig {
+  avatarUrl: string
+  flowInitAccountsNo: number
+  tokenAmountFLOW: string
+  tokenAmountFUSD: string
+}
+
+const {publicRuntimeConfig} = getNextConfig()
 
 const defaultConfig = {
+  baseUrl: publicRuntimeConfig.baseUrl || "",
+  contractFungibleToken: publicRuntimeConfig.contractFungibleToken || "",
+  contractFlowToken: publicRuntimeConfig.contractFlowToken || "",
+  contractFUSD: publicRuntimeConfig.contractFUSD || "",
+  contractFCLCrypto: publicRuntimeConfig.contractFCLCrypto || "",
   flowAccountAddress: publicRuntimeConfig.flowAccountAddress || "",
   flowAccountPrivateKey: publicRuntimeConfig.flowAccountPrivateKey || "",
   flowAccountPublicKey: publicRuntimeConfig.flowAccountPublicKey || "",
@@ -21,12 +38,22 @@ const defaultConfig = {
 
 export const ConfigContext = createContext<RuntimeConfig>(defaultConfig)
 
-export async function fetchConfigFromAPI(): Promise<RuntimeConfig> {
+export function getStaticConfig(): StaticConfig {
+  // Should we set sensible defaults here?
+  return {
+    avatarUrl: publicRuntimeConfig.avatarUrl,
+    flowInitAccountsNo: publicRuntimeConfig.flowInitAccountsNo,
+    tokenAmountFLOW: publicRuntimeConfig.tokenAmountFLOW,
+    tokenAmountFUSD: publicRuntimeConfig.tokenAmountFUSD,
+  }
+}
+
+export async function getConfig(): Promise<RuntimeConfig> {
   if (publicRuntimeConfig.isLocal) {
     return defaultConfig
   }
 
-  return fetch("http://localhost:8701/api/")
+  const result = await fetch("http://localhost:8701/api/")
     .then(res => res.json())
     .catch(e => {
       console.log(
@@ -38,6 +65,11 @@ export async function fetchConfigFromAPI(): Promise<RuntimeConfig> {
       )
       return defaultConfig
     })
+
+  return {
+    ...defaultConfig,
+    ...result,
+  }
 }
 
 export function ConfigContextProvider({children}: {children: React.ReactNode}) {
@@ -45,7 +77,7 @@ export function ConfigContextProvider({children}: {children: React.ReactNode}) {
 
   useEffect(() => {
     async function fetchConfig() {
-      const config = await fetchConfigFromAPI()
+      const config = await getConfig()
       setConfig(config)
     }
 
