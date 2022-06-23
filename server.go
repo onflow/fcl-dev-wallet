@@ -23,9 +23,9 @@ type Config struct {
 	Address               string `json:"flowAccountAddress"`
 	PrivateKey            string `json:"flowAccountPrivateKey"`
 	PublicKey             string `json:"flowAccountPublicKey"`
-	AccountKeyId          string `json:"flowAccountKeyId"`
+	AccountKeyID          string `json:"flowAccountKeyId"`
 	AccessNode            string `json:"flowAccessNode"`
-	BaseUrl               string `json:"baseUrl"`
+	BaseURL               string `json:"baseUrl"`
 	ContractFungibleToken string `json:"contractFungibleToken"`
 	ContractFlowToken     string `json:"contractFlowToken"`
 	ContractFUSD          string `json:"contractFUSD"`
