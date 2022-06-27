@@ -43,8 +43,8 @@ function AuthnDialog({
     setEditingAccount(null)
     if (createdAccountAddress) {
       setCreatedAccountAddress(createdAccountAddress)
-      refreshAccounts()
     }
+    refreshAccounts()
   }
 
   const onCancel = () => setEditingAccount(null)
