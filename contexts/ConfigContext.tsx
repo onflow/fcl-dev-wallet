@@ -64,10 +64,7 @@ async function getConfig(): Promise<RuntimeConfig> {
       return defaultConfig
     })
 
-  return {
-    ...defaultConfig,
-    ...result,
-  }
+  return result
 }
 
 export function ConfigContextProvider({children}: {children: React.ReactNode}) {
