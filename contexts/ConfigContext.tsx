@@ -1,5 +1,4 @@
 import React, {createContext, useEffect, useState} from "react"
-import getNextConfig from "next/config"
 import fclConfig from "src/fclConfig"
 
 interface RuntimeConfig {
@@ -22,19 +21,17 @@ interface StaticConfig {
   tokenAmountFUSD: string
 }
 
-const {publicRuntimeConfig} = getNextConfig()
-
 const defaultConfig = {
-  baseUrl: publicRuntimeConfig.baseUrl || "",
-  contractFungibleToken: publicRuntimeConfig.contractFungibleToken || "",
-  contractFlowToken: publicRuntimeConfig.contractFlowToken || "",
-  contractFUSD: publicRuntimeConfig.contractFUSD || "",
-  contractFCLCrypto: publicRuntimeConfig.contractFCLCrypto || "",
-  flowAccountAddress: publicRuntimeConfig.flowAccountAddress || "",
-  flowAccountPrivateKey: publicRuntimeConfig.flowAccountPrivateKey || "",
-  flowAccountPublicKey: publicRuntimeConfig.flowAccountPublicKey || "",
-  flowAccountKeyId: publicRuntimeConfig.flowAccountKeyId || "",
-  flowAccessNode: publicRuntimeConfig.flowAccessNode || "",
+  baseUrl: process.env.baseUrl || "",
+  contractFungibleToken: process.env.contractFungibleToken || "",
+  contractFlowToken: process.env.contractFlowToken || "",
+  contractFUSD: process.env.contractFUSD || "",
+  contractFCLCrypto: process.env.contractFCLCrypto || "",
+  flowAccountAddress: process.env.flowAccountAddress || "",
+  flowAccountPrivateKey: process.env.flowAccountPrivateKey || "",
+  flowAccountPublicKey: process.env.flowAccountPublicKey || "",
+  flowAccountKeyId: process.env.flowAccountKeyId || "",
+  flowAccessNode: process.env.flowAccessNode || "",
 }
 
 export const ConfigContext = createContext<RuntimeConfig>(defaultConfig)
@@ -42,15 +39,15 @@ export const ConfigContext = createContext<RuntimeConfig>(defaultConfig)
 export function getStaticConfig(): StaticConfig {
   // Should we set sensible defaults here?
   return {
-    avatarUrl: publicRuntimeConfig.avatarUrl,
-    flowInitAccountsNo: publicRuntimeConfig.flowInitAccountsNo,
-    tokenAmountFLOW: publicRuntimeConfig.tokenAmountFLOW,
-    tokenAmountFUSD: publicRuntimeConfig.tokenAmountFUSD,
+    avatarUrl: process.env.avatarUrl || "",
+    flowInitAccountsNo: parseInt(process.env.flowInitAccountsNo || "0") || 0,
+    tokenAmountFLOW: process.env.tokenAmountFLOW || "",
+    tokenAmountFUSD: process.env.tokenAmountFUSD || "",
   }
 }
 
 async function getConfig(): Promise<RuntimeConfig> {
-  if (publicRuntimeConfig.isLocal) {
+  if (process.env.isLocal) {
     return defaultConfig
   }
 

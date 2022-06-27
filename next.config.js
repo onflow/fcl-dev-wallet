@@ -28,7 +28,7 @@ module.exports = {
     })
     return config
   },
-  publicRuntimeConfig: {
+  env: {
     isLocal: process.env.APP_ENV === "local",
     flowInitAccountsNo: process.env.FLOW_INIT_ACCOUNTS,
     flowAccountKeyId: process.env.FLOW_ACCOUNT_KEY_ID,
