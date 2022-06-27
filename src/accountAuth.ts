@@ -3,7 +3,6 @@ import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "src/accounts"
 import {sign} from "src/crypto"
 import {buildServices} from "./services"
-import {getConfig} from "../contexts/ConfigContext"
 
 type AccountProofData = {
   address: string
@@ -34,6 +33,7 @@ function proveAuthn(
 }
 
 export async function refreshAuthn(
+  baseUrl: string,
   flowAccountPrivateKey: string,
   address: string,
   keyId: number,
@@ -41,7 +41,6 @@ export async function refreshAuthn(
   nonce: string | undefined,
   appIdentifier: string | undefined
 ) {
-  const {baseUrl} = await getConfig()
   const signature = getSignature(flowAccountPrivateKey, {
     address,
     nonce,
@@ -69,12 +68,12 @@ export async function refreshAuthn(
 }
 
 export async function chooseAccount(
+  baseUrl: string,
   flowAccountPrivateKey: string,
   account: Account,
   scopes: Set<string>,
   connectedAppConfig: ConnectedAppConfig
 ) {
-  const {baseUrl} = await getConfig()
   const {address, keyId} = account
 
   const {nonce, appIdentifier} = connectedAppConfig.body

@@ -49,7 +49,7 @@ export function getStaticConfig(): StaticConfig {
   }
 }
 
-export async function getConfig(): Promise<RuntimeConfig> {
+async function getConfig(): Promise<RuntimeConfig> {
   if (publicRuntimeConfig.isLocal) {
     return defaultConfig
   }

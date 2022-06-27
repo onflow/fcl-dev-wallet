@@ -4,19 +4,17 @@ import {AuthnRefreshContextProvider} from "contexts/AuthnRefreshContext"
 import useAuthnRefreshContext from "hooks/useAuthnRefreshContext"
 import {refreshAuthn} from "src/accountAuth"
 import Dialog from "components/Dialog"
-import {getConfig} from "contexts/ConfigContext"
+import useConfig from "hooks/useConfig"
 
-function AuthnRefreshDialog({
-  flowAccountPrivateKey,
-}: {
-  flowAccountPrivateKey: string
-}) {
+function AuthnRefreshDialog() {
   const data = useAuthnRefreshContext()
+  const {baseUrl, flowAccountPrivateKey} = useConfig()
 
   if (data) {
     const {address, keyId, scopes, nonce, appIdentifier} = data
 
     refreshAuthn(
+      baseUrl,
       flowAccountPrivateKey,
       address,
       keyId,
@@ -31,24 +29,12 @@ function AuthnRefreshDialog({
   return <Dialog root={true}>Refreshing...</Dialog>
 }
 
-function AuthnRefresh({
-  flowAccountPrivateKey,
-}: {
-  flowAccountPrivateKey: string
-}) {
+function AuthnRefresh() {
   return (
     <AuthnRefreshContextProvider>
-      <AuthnRefreshDialog flowAccountPrivateKey={flowAccountPrivateKey} />
+      <AuthnRefreshDialog />
     </AuthnRefreshContextProvider>
   )
-}
-
-AuthnRefresh.getInitialProps = async () => {
-  const {flowAccountPrivateKey} = await getConfig()
-
-  return {
-    flowAccountPrivateKey: flowAccountPrivateKey,
-  }
 }
 
 export default AuthnRefresh
