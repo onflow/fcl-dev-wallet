@@ -1,5 +1,6 @@
 import React, {createContext, useEffect, useState} from "react"
 import getNextConfig from "next/config"
+import fclConfig from "src/fclConfig"
 
 interface RuntimeConfig {
   baseUrl: string
@@ -78,6 +79,23 @@ export function ConfigContextProvider({children}: {children: React.ReactNode}) {
   useEffect(() => {
     async function fetchConfig() {
       const config = await getConfig()
+
+      const {
+        flowAccessNode,
+        flowAccountAddress,
+        contractFungibleToken,
+        contractFlowToken,
+        contractFUSD,
+      } = config
+
+      fclConfig(
+        flowAccessNode,
+        flowAccountAddress,
+        contractFungibleToken,
+        contractFlowToken,
+        contractFUSD
+      )
+
       setConfig(config)
     }
 

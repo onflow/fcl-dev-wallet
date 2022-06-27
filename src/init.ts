@@ -1,13 +1,12 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
-import {getConfig, getStaticConfig} from "contexts/ConfigContext"
+import {getStaticConfig} from "contexts/ConfigContext"
 import FCLContract from "cadence/contracts/FCL.cdc"
 import initTransaction from "cadence/transactions/init.cdc"
 import {accountLabelGenerator} from "src/accountGenerator"
 import {authz} from "src/authz"
 import {SERVICE_ACCOUNT_LABEL} from "src/constants"
 import {encodeServiceKey} from "src/crypto"
-import fclConfig from "src/fclConfig"
 
 async function isInitialized(flowAccountAddress: string): Promise<boolean> {
   try {
@@ -25,27 +24,20 @@ async function isInitialized(flowAccountAddress: string): Promise<boolean> {
   }
 }
 
-export async function initializeWallet() {
+export async function initializeWallet(config: {
+  flowAccountAddress: string
+  flowAccountKeyId: string
+  flowAccountPrivateKey: string
+  flowAccountPublicKey: string
+}) {
   const {
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD,
-    flowAccessNode,
     flowAccountAddress,
     flowAccountKeyId,
     flowAccountPrivateKey,
     flowAccountPublicKey,
-  } = await getConfig()
+  } = config
 
   const {flowInitAccountsNo} = getStaticConfig()
-
-  fclConfig(
-    flowAccessNode,
-    flowAccountAddress,
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD
-  )
 
   const initialized = await isInitialized(flowAccountAddress)
 
