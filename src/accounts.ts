@@ -12,10 +12,9 @@ import fundAccountFUSDTransaction from "cadence/transactions/fundFUSD.cdc"
 
 import {authz} from "src/authz"
 import {FLOW_EVENT_TYPES} from "src/constants"
-import fclConfig from "src/fclConfig"
 
 import {FLOW_TYPE, FUSD_TYPE, TokenType, TokenTypes} from "src/constants"
-import {getConfig, getStaticConfig} from "contexts/ConfigContext"
+import {getStaticConfig} from "contexts/ConfigContext"
 
 const staticConfig = getStaticConfig()
 
@@ -42,22 +41,6 @@ type CreatedAccountEvent = {
 }
 
 export async function getAccount(address: string) {
-  const {
-    flowAccountAddress,
-    flowAccessNode,
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD,
-  } = await getConfig()
-
-  fclConfig(
-    flowAccessNode,
-    flowAccountAddress,
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD
-  )
-
   return await fcl
     .send([
       fcl.script(getAccountScript),
@@ -66,22 +49,8 @@ export async function getAccount(address: string) {
     .then(fcl.decode)
 }
 
-export async function getAccounts() {
-  const {
-    flowAccountAddress,
-    flowAccessNode,
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD,
-  } = await getConfig()
-
-  fclConfig(
-    flowAccessNode,
-    flowAccountAddress,
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD
-  )
+export async function getAccounts(config: {flowAccountAddress: string}) {
+  const {flowAccountAddress} = config
 
   const accounts = await fcl
     .send([fcl.script(getAccountsScript)])
@@ -98,24 +67,16 @@ export async function getAccounts() {
   return [serviceAccount, ...userAccounts]
 }
 
-export async function newAccount(label: string, scopes: [string]) {
-  const {
-    flowAccountAddress,
-    flowAccountKeyId,
-    flowAccountPrivateKey,
-    flowAccessNode,
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD,
-  } = await getConfig()
-
-  fclConfig(
-    flowAccessNode,
-    flowAccountAddress,
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD
-  )
+export async function newAccount(
+  config: {
+    flowAccountAddress: string
+    flowAccountKeyId: string
+    flowAccountPrivateKey: string
+  },
+  label: string,
+  scopes: [string]
+) {
+  const {flowAccountAddress, flowAccountKeyId, flowAccountPrivateKey} = config
 
   const authorization = await authz(
     flowAccountAddress,
@@ -144,28 +105,17 @@ export async function newAccount(label: string, scopes: [string]) {
 }
 
 export async function updateAccount(
+  config: {
+    flowAccountAddress: string
+    flowAccountKeyId: string
+    flowAccountPrivateKey: string
+  },
   address: string,
   label: string,
   scopes: [string]
 ) {
-  const {
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD,
-    flowAccountAddress,
-    flowAccountKeyId,
-    flowAccessNode,
-    flowAccountPrivateKey,
-  } = await getConfig()
+  const {flowAccountAddress, flowAccountKeyId, flowAccountPrivateKey} = config
   address = fcl.withPrefix(address)
-
-  fclConfig(
-    flowAccessNode,
-    flowAccountAddress,
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD
-  )
 
   const authorization = await authz(
     flowAccountAddress,
@@ -213,23 +163,16 @@ export const tokens: Tokens = {
   },
 }
 
-export async function fundAccount(address: string, token: TokenType) {
-  const {
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD,
-    flowAccountAddress,
-    flowAccountKeyId,
-    flowAccessNode,
-    flowAccountPrivateKey,
-  } = await getConfig()
-  fclConfig(
-    flowAccessNode,
-    flowAccountAddress,
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD
-  )
+export async function fundAccount(
+  config: {
+    flowAccountAddress: string
+    flowAccountKeyId: string
+    flowAccountPrivateKey: string
+  },
+  address: string,
+  token: TokenType
+) {
+  const {flowAccountAddress, flowAccountKeyId, flowAccountPrivateKey} = config
 
   if (!["FUSD", "FLOW"].includes(token)) {
     throw "Incorrect TokenType"
@@ -267,22 +210,6 @@ export async function fundAccount(address: string, token: TokenType) {
 }
 
 export async function getAccountFUSDBalance(address: string): Promise<number> {
-  const {
-    contractFungibleToken,
-    contractFUSD,
-    contractFlowToken,
-    flowAccountAddress,
-    flowAccessNode,
-  } = await getConfig()
-
-  fclConfig(
-    flowAccessNode,
-    flowAccountAddress,
-    contractFungibleToken,
-    contractFlowToken,
-    contractFUSD
-  )
-
   const balance = await fcl
     .send([
       fcl.script(getFUSDBalanceScript),
