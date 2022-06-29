@@ -113,13 +113,12 @@ FLOW_ACCOUNT_ADDRESS
 
 ## Configuring your JavaScript application
 
-The FCL dev wallet is designed to be used with [`@onflow/fcl`](https://github.com/onflow/flow-js-sdk) version `0.0.68` or higher. The FCL package can be installed with: `npm install @onflow/fcl` or `yarn add @onflow/fcl`.
+The FCL dev wallet is designed to be used with [`@onflow/fcl`](https://github.com/onflow/flow-js-sdk) version `1.0.0` or higher. The FCL package can be installed with: `npm install @onflow/fcl` or `yarn add @onflow/fcl`.
 
 To use the dev wallet, configure FCL to point to the address of a locally running [Flow emulator](#start-the-emulator) and the dev wallet endpoint.
 
 ```javascript
 import * as fcl from "@onflow/fcl"
-import {send as grpcSend} from "@onflow/transport-grpc"
 
 fcl
   .config()
@@ -127,7 +126,6 @@ fcl
   .put("accessNode.api", "http://localhost:8888")
   // Point FCL at dev-wallet (default port)
   .put("discovery.wallet", "http://localhost:8701/fcl/authn")
-  .put("sdk.transport", grpcSend)
 ```
 
 ### Test harness
