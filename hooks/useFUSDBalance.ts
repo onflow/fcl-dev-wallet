@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react"
+import {useCallback, useEffect, useState} from "react"
 import {getAccountFUSDBalance} from "src/accounts"
 
 export function compFUSDBalanceKey(address: string) {
@@ -16,7 +16,7 @@ export default function useFUSDBalance(address: string) {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  function fetchFUSDBalance() {
+  const fetchFUSDBalance = useCallback(() => {
     getAccountFUSDBalance(address)
       .then(balance => {
         setBalance(balance)
@@ -25,11 +25,11 @@ export default function useFUSDBalance(address: string) {
         setError(error)
       })
       .finally(() => setIsLoading(false))
-  }
+  }, [address])
 
   useEffect(() => {
     fetchFUSDBalance()
-  }, [])
+  }, [fetchFUSDBalance])
 
   return {
     data: balance,

@@ -2,7 +2,6 @@ import {WalletUtils} from "@onflow/fcl"
 import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "src/accounts"
 import {sign} from "src/crypto"
-import getConfig from "next/config"
 import {buildServices} from "./services"
 
 type AccountProofData = {
@@ -10,8 +9,6 @@ type AccountProofData = {
   nonce: string | undefined
   appIdentifier: string | undefined
 }
-
-const {publicRuntimeConfig} = getConfig()
 
 const getSignature = (key: string, accountProofData: AccountProofData) => {
   return sign(key, WalletUtils.encodeAccountProof(accountProofData))
@@ -35,7 +32,8 @@ function proveAuthn(
   }
 }
 
-export function refreshAuthn(
+export async function refreshAuthn(
+  baseUrl: string,
   flowAccountPrivateKey: string,
   address: string,
   keyId: number,
@@ -52,7 +50,7 @@ export function refreshAuthn(
   const compSig = new WalletUtils.CompositeSignature(address, keyId, signature)
 
   const services = buildServices({
-    baseUrl: publicRuntimeConfig.baseUrl,
+    baseUrl,
     address,
     nonce,
     scopes,
@@ -70,6 +68,7 @@ export function refreshAuthn(
 }
 
 export async function chooseAccount(
+  baseUrl: string,
   flowAccountPrivateKey: string,
   account: Account,
   scopes: Set<string>,
@@ -92,7 +91,7 @@ export async function chooseAccount(
   }
 
   const services = buildServices({
-    baseUrl: publicRuntimeConfig.baseUrl,
+    baseUrl,
     address,
     nonce,
     scopes,

@@ -6,6 +6,7 @@ import FormErrors from "components/FormErrors"
 import {Field, Form, Formik} from "formik"
 import {useState} from "react"
 import {Account, NewAccount, newAccount, updateAccount} from "src/accounts"
+import useConfig from "hooks/useConfig"
 import {updateAccountSchemaClient} from "src/validate"
 import {Box} from "theme-ui"
 import {SXStyles} from "types"
@@ -44,6 +45,7 @@ export default function AccountForm({
   avatarUrl: string
 }) {
   const [errors, setErrors] = useState<string[]>([])
+  const config = useConfig()
 
   return (
     <Formik
@@ -59,12 +61,12 @@ export default function AccountForm({
 
         try {
           if (account.address) {
-            await updateAccount(account.address, label!, scopesList)
+            await updateAccount(config, account.address, label!, scopesList)
 
             setSubmitting(false)
             onSubmitComplete(undefined)
           } else {
-            const address = await newAccount(label!, scopesList)
+            const address = await newAccount(config, label!, scopesList)
 
             setSubmitting(false)
             onSubmitComplete(address)

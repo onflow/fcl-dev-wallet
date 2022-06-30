@@ -9,6 +9,7 @@ import {chooseAccount} from "src/accountAuth"
 import {formattedBalance} from "src/balance"
 import {Flex, Themed} from "theme-ui"
 import {SXStyles} from "types"
+import useConfig from "hooks/useConfig"
 
 const styles: SXStyles = {
   accountListItem: {
@@ -106,6 +107,7 @@ export default function AccountsListItem({
       app: {title},
     },
   } = connectedAppConfig
+  const {baseUrl} = useConfig()
 
   const [scopes, setScopes] = useState<Set<string>>(new Set(account.scopes))
   const {data: accountData} = useAccount(account.address)
@@ -116,6 +118,7 @@ export default function AccountsListItem({
 
   const handleSelect = () => {
     chooseAccount(
+      baseUrl,
       flowAccountPrivateKey,
       account,
       scopes,

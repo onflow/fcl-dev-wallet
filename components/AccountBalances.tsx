@@ -5,6 +5,7 @@ import useFUSDBalance from "hooks/useFUSDBalance"
 import {fundAccount} from "src/accounts"
 import {formattedBalance} from "src/balance"
 import {FLOW_TYPE, FUSD_TYPE, TokenTypes} from "src/constants"
+import useConfig from "hooks/useConfig"
 import {Label, Themed} from "theme-ui"
 import {SXStyles} from "types"
 import AccountSectionHeading from "./AccountSectionHeading"
@@ -43,12 +44,13 @@ export default function AccountBalances({
 }) {
   const {data: fusdBalance, refresh: refreshFUSD} = useFUSDBalance(address)
   const {data: account, refresh: refreshAccount} = useAccount(address)
+  const config = useConfig()
 
   const isServiceAccount =
     fcl.withPrefix(address) === fcl.withPrefix(flowAccountAddress)
 
   const fund = async (token: TokenTypes) => {
-    await fundAccount(address, token)
+    await fundAccount(config, address, token)
     refreshAccount()
     refreshFUSD()
   }

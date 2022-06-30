@@ -4,11 +4,11 @@ import AccountsList from "components/AccountsList"
 import Dialog, {styles as dialogStyles} from "components/Dialog"
 import {AuthnContextProvider} from "contexts/AuthnContext"
 import useAccounts from "hooks/useAccounts"
-import getConfig from "next/config"
 import {Account, NewAccount} from "src/accounts"
 import {useState} from "react"
 import {Err} from "src/comps/err.comp"
 import useConfig from "hooks/useConfig"
+import {getStaticConfig} from "../../contexts/ConfigContext"
 
 function AuthnDialog({
   flowAccountAddress,
@@ -43,8 +43,8 @@ function AuthnDialog({
     setEditingAccount(null)
     if (createdAccountAddress) {
       setCreatedAccountAddress(createdAccountAddress)
-      refreshAccounts()
     }
+    refreshAccounts()
   }
 
   const onCancel = () => setEditingAccount(null)
@@ -93,9 +93,9 @@ function Authn({avatarUrl}: {avatarUrl: string}) {
 }
 
 Authn.getInitialProps = async () => {
-  const {publicRuntimeConfig} = getConfig()
+  const {avatarUrl} = await getStaticConfig()
   return {
-    avatarUrl: publicRuntimeConfig.avatarUrl,
+    avatarUrl,
   }
 }
 

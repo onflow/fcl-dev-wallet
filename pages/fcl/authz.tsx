@@ -8,9 +8,9 @@ import Dialog from "components/Dialog"
 import {AuthzContextProvider} from "contexts/AuthzContext"
 import useConfig from "hooks/useConfig"
 import useAuthzContext from "hooks/useAuthzContext"
-import getConfig from "next/config"
 import {useState} from "react"
 import {sign} from "src/crypto"
+import {getStaticConfig} from "../../contexts/ConfigContext"
 
 function AuthzContent({
   flowAccountAddress,
@@ -91,10 +91,10 @@ function Authz({
 }
 
 Authz.getInitialProps = async () => {
-  const {publicRuntimeConfig} = getConfig()
+  const {avatarUrl} = getStaticConfig()
 
   return {
-    avatarUrl: publicRuntimeConfig.avatarUrl,
+    avatarUrl,
   }
 }
 

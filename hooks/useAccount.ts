@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react"
+import {useCallback, useEffect, useState} from "react"
 import {Account, getAccount} from "src/accounts"
 
 export default function useAccount(address: string) {
@@ -6,7 +6,7 @@ export default function useAccount(address: string) {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  function fetchAccount() {
+  const fetchAccount = useCallback(() => {
     getAccount(address)
       .then(account => {
         setAccount(account)
@@ -15,11 +15,11 @@ export default function useAccount(address: string) {
         setError(error)
       })
       .finally(() => setIsLoading(false))
-  }
+  }, [address])
 
   useEffect(() => {
     fetchAccount()
-  }, [])
+  }, [fetchAccount])
 
   return {
     data: account,
