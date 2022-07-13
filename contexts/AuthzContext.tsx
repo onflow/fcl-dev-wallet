@@ -91,15 +91,53 @@ export const AuthzContext = createContext<AuthzContextType>({
   connectedAppConfig: undefined,
 })
 
+const AUDIT_RESOLVERS = [
+  async (template: any) => {
+    return await fetch(`http://localhost:3030/audits/${template?.id}`)
+        .then(response => response.json())
+        .catch(e => null)
+  }
+]
+
 export function AuthzContextProvider({children}: {children: React.ReactNode}) {
   const [signable, setSignable] = useState<AuthSignable | null>(null)
+  const [template, setTemplate] = useState(null)
+  const [isAudited, setIsAudited] = useState<Boolean>(false)
   const [codePreview, setCodePreview] = useState<CodePreview | null>(null)
 
   const {data: accountsData} = useAccounts()
 
   useEffect(() => {
-    function callback(data: AuthzReadyData) {
+    async function callback(data: AuthzReadyData) {
       setSignable(data.body)
+
+      const template = data.body?.voucher?.template
+
+      if (!template) return
+
+      let audits = await Promise.all(AUDIT_RESOLVERS.map(async auditResolver => auditResolver(template)))
+      let audit = audits[0]
+
+      if (!audit) {
+        setIsAudited(false)
+        return
+      }
+
+      let verifiedAudit = await fcl.InteractionTemplateUtils.verifyInteractionTemplateAudit({
+        template,
+        audit,
+      })
+
+      let areTemplateDependenciesSame = 
+        await fcl.InteractionTemplateUtils.verifyDependencyPinsSameAtLatestSealedBlock({
+          template,
+          networks: ["emulator"]
+        })
+
+      setIsAudited(verifiedAudit && areTemplateDependenciesSame)
+      if (verifiedAudit && areTemplateDependenciesSame) {
+        setTemplate(template)
+      }
     }
 
     WalletUtils.ready(callback)
@@ -138,6 +176,8 @@ export function AuthzContextProvider({children}: {children: React.ReactNode}) {
       : undefined,
     appTitle: "Test Harness",
     appIcon: "https://placekitten.com/g/200/200",
+    isAudited,
+    template,
   }
 
   return <AuthzContext.Provider value={value}>{children}</AuthzContext.Provider>
