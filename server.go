@@ -30,7 +30,7 @@ type Config struct {
 	ContractFlowToken     string `json:"contractFlowToken"`
 	ContractFUSD          string `json:"contractFUSD"`
 	ContractFCLCrypto     string `json:"contractFCLCrypto"`
-	AvatarURL             string `json:"contractFCLCrypto"`
+	AvatarURL             string `json:"avatarUrl"`
 	FlowInitAccountsNo    string `json:"flowInitAccountsNo"`
 	TokenAmountFLOW       string `json:"tokenAmountFLOW"`
 	TokenAmountFUSD       string `json:"tokenAmountFUSD"`
