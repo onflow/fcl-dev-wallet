@@ -96,6 +96,11 @@ const AUDIT_RESOLVERS = [
     return await fetch(`http://localhost:3030/audits/${template?.id}`)
         .then(response => response.json())
         .catch(e => null)
+  },
+  async (template: any) => {
+    return await fetch(`/api/audit/${template?.id}`)
+        .then(response => response.json())
+        .catch(e => null)
   }
 ]
 
@@ -115,7 +120,8 @@ export function AuthzContextProvider({children}: {children: React.ReactNode}) {
 
       if (!template) return
 
-      let audits = await Promise.all(AUDIT_RESOLVERS.map(async auditResolver => auditResolver(template)))
+      let audits = 
+        (await Promise.all(AUDIT_RESOLVERS.map(async auditResolver => auditResolver(template)))).filter(a => a !== null)
       let audit = audits[0]
 
       if (!audit) {
