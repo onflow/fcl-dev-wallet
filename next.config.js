@@ -42,7 +42,5 @@ module.exports = {
     contractFlowToken: process.env.CONTRACT_FLOW_TOKEN,
     contractFUSD: process.env.CONTRACT_FUSD,
     contractFCLCrypto: process.env.CONTRACT_FCL_CRYPTO,
-    tokenAmountFLOW: process.env.TOKEN_AMOUNT_FLOW,
-    tokenAmountFUSD: process.env.TOKEN_AMOUNT_FUSD,
   },
 }

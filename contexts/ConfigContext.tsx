@@ -2,6 +2,7 @@ import React, {createContext, useEffect, useState} from "react"
 import fclConfig from "src/fclConfig"
 
 interface RuntimeConfig {
+  avatarUrl: string
   baseUrl: string
   contractFungibleToken: string
   contractFlowToken: string
@@ -12,16 +13,11 @@ interface RuntimeConfig {
   flowAccountPublicKey: string
   flowAccountKeyId: string
   flowAccessNode: string
-}
-
-interface StaticConfig {
-  avatarUrl: string
   flowInitAccountsNo: number
-  tokenAmountFLOW: string
-  tokenAmountFUSD: string
 }
 
 const defaultConfig = {
+  avatarUrl: process.env.avatarUrl || "",
   baseUrl: process.env.baseUrl || "",
   contractFungibleToken: process.env.contractFungibleToken || "",
   contractFlowToken: process.env.contractFlowToken || "",
@@ -32,19 +28,10 @@ const defaultConfig = {
   flowAccountPublicKey: process.env.flowAccountPublicKey || "",
   flowAccountKeyId: process.env.flowAccountKeyId || "",
   flowAccessNode: process.env.flowAccessNode || "",
+  flowInitAccountsNo: parseInt(process.env.flowInitAccountsNo || "0") || 0,
 }
 
 export const ConfigContext = createContext<RuntimeConfig>(defaultConfig)
-
-export function getStaticConfig(): StaticConfig {
-  // Should we set sensible defaults here?
-  return {
-    avatarUrl: process.env.avatarUrl || "",
-    flowInitAccountsNo: parseInt(process.env.flowInitAccountsNo || "0") || 0,
-    tokenAmountFLOW: process.env.tokenAmountFLOW || "",
-    tokenAmountFUSD: process.env.tokenAmountFUSD || "",
-  }
-}
 
 async function getConfig(): Promise<RuntimeConfig> {
   if (process.env.isLocal) {
