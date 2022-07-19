@@ -1,6 +1,5 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
-import {getStaticConfig} from "contexts/ConfigContext"
 import FCLContract from "cadence/contracts/FCL.cdc"
 import initTransaction from "cadence/transactions/init.cdc"
 import {accountLabelGenerator} from "src/accountGenerator"
@@ -29,15 +28,15 @@ export async function initializeWallet(config: {
   flowAccountKeyId: string
   flowAccountPrivateKey: string
   flowAccountPublicKey: string
+  flowInitAccountsNo: number
 }) {
   const {
     flowAccountAddress,
     flowAccountKeyId,
     flowAccountPrivateKey,
     flowAccountPublicKey,
+    flowInitAccountsNo,
   } = config
-
-  const {flowInitAccountsNo} = getStaticConfig()
 
   const initialized = await isInitialized(flowAccountAddress)
 

@@ -14,9 +14,6 @@ import {authz} from "src/authz"
 import {FLOW_EVENT_TYPES} from "src/constants"
 
 import {FLOW_TYPE, FUSD_TYPE, TokenType, TokenTypes} from "src/constants"
-import {getStaticConfig} from "contexts/ConfigContext"
-
-const staticConfig = getStaticConfig()
 
 export type Account = {
   type: "ACCOUNT"
@@ -148,8 +145,8 @@ type Token = {
 type Tokens = Record<TokenType, Token>
 
 export const TOKEN_FUNDING_AMOUNTS: Record<TokenTypes, string> = {
-  FLOW: staticConfig.tokenAmountFLOW,
-  FUSD: staticConfig.tokenAmountFUSD,
+  FLOW: "100.0",
+  FUSD: "100.0",
 }
 
 export const tokens: Tokens = {

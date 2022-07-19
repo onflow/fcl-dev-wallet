@@ -10,7 +10,6 @@ import useConfig from "hooks/useConfig"
 import useAuthzContext from "hooks/useAuthzContext"
 import {useState} from "react"
 import {sign} from "src/crypto"
-import {getStaticConfig} from "../../contexts/ConfigContext"
 
 function AuthzContent({
   flowAccountAddress,
@@ -71,14 +70,8 @@ function AuthzContent({
   )
 }
 
-function Authz({
-  avatarUrl,
-}: {
-  flowAccountAddress: string
-  flowAccountPrivateKey: string
-  avatarUrl: string
-}) {
-  const {flowAccountAddress, flowAccountPrivateKey} = useConfig()
+function Authz() {
+  const {avatarUrl, flowAccountAddress, flowAccountPrivateKey} = useConfig()
   return (
     <AuthzContextProvider>
       <AuthzContent
@@ -88,14 +81,6 @@ function Authz({
       />
     </AuthzContextProvider>
   )
-}
-
-Authz.getInitialProps = async () => {
-  const {avatarUrl} = getStaticConfig()
-
-  return {
-    avatarUrl,
-  }
 }
 
 export default Authz
