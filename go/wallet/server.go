@@ -7,42 +7,38 @@ import (
 	"embed"
 	"encoding/json"
 	"fmt"
+	"github.com/joho/godotenv"
 	"net/http"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
+
+	"golang.org/x/exp/maps"
 )
 
 //go:embed bundle.zip
 var bundle embed.FS
 
+//go:embed .env.development
+var envConfig []byte
+
 const bundleZip = "bundle.zip"
 
-type Config struct {
-	Address               string `json:"flowAccountAddress"`
-	PrivateKey            string `json:"flowAccountPrivateKey"`
-	PublicKey             string `json:"flowAccountPublicKey"`
-	AccountKeyID          string `json:"flowAccountKeyId"`
-	AccessNode            string `json:"flowAccessNode"`
-	BaseURL               string `json:"baseUrl"`
-	ContractFungibleToken string `json:"contractFungibleToken"`
-	ContractFlowToken     string `json:"contractFlowToken"`
-	ContractFUSD          string `json:"contractFUSD"`
-	ContractFCLCrypto     string `json:"contractFCLCrypto"`
-	AvatarURL             string `json:"avatarUrl"`
-	FlowInitAccountsNo    string `json:"flowInitAccountsNo"`
-	TokenAmountFLOW       string `json:"tokenAmountFLOW"`
-	TokenAmountFUSD       string `json:"tokenAmountFUSD"`
+type FlowConfig struct {
+	Address    string `json:"flowAccountAddress"`
+	PrivateKey string `json:"flowAccountPrivateKey"`
+	PublicKey  string `json:"flowAccountPublicKey"`
+	AccessNode string `json:"flowAccessNode"`
 }
 
 type server struct {
 	http   *http.Server
-	config *Config
+	config *FlowConfig
 }
 
 // NewHTTPServer returns a new wallet server listening on provided port number.
-func NewHTTPServer(port uint, config *Config) (*server, error) {
+func NewHTTPServer(port uint, config *FlowConfig) (*server, error) {
 	mux := http.NewServeMux()
 	srv := &server{
 		http: &http.Server{
@@ -63,11 +59,48 @@ func configHandler(server *server) func(w http.ResponseWriter, r *http.Request) 
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		err := json.NewEncoder(w).Encode(server.config)
+
+		conf, err := buildConfig(server.config)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+
+		err = json.NewEncoder(w).Encode(conf)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
 	}
+}
+
+// buildConfig from provided flow config and the env config
+func buildConfig(flowConfig *FlowConfig) (map[string]string, error) {
+	env, err := godotenv.Parse(bytes.NewReader(envConfig))
+
+	flowConf, err := json.Marshal(flowConfig)
+	if err != nil {
+		return nil, err
+	}
+
+	var flow map[string]string
+	err = json.Unmarshal(flowConf, &flow)
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range env {
+		delete(env, k)
+		env[convertSnakeToCamel(k)] = v
+	}
+
+	// don't overwrite empty values
+	for k, v := range flow {
+		if v == "" {
+			delete(flow, k)
+		}
+	}
+
+	maps.Copy(env, flow)
+	return env, nil
 }
 
 // devWalletHandler handles endpoints to exported static html files
