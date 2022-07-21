@@ -2,7 +2,7 @@ name: Build a static wallet bundle
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'src/**'
 
