@@ -26,7 +26,7 @@ jobs:
       - uses: papeloto/action-zip@v1
         with:
           files: out/
-          dest: ./bundle.zip
+          dest: ./go/wallet/bundle.zip
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
