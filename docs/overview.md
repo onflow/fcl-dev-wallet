@@ -1,10 +1,10 @@
 <br />
-<p align="center">
+<div align="center">
   <a href="">
-    <img src="./banner.svg" alt="Logo" width="600" height="auto">
+    <img src="./banner.svg" alt="Logo" width="600" height="auto"/>
   </a>
 
-  <p align="center">
+  <div align="center">
     <i>A Flow wallet for effortless development, to be used with the Flow Emulator and FCL.</i>
     <br />
     <a href="https://docs.onflow.org/fcl/"><strong>FCL docs»</strong></a>
@@ -13,8 +13,8 @@
     <a href="https://github.com/onflow/fcl-dev-wallet/issues">Report Bug</a>
     ·
     <a href="#getting-started">Getting Started</a>
-  </p>
-</p>
+  </div>
+</div>
 <br />
 <br />
 
