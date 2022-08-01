@@ -13,7 +13,9 @@
     "check": "eslint . && npm run tsc",
     "export": "next export",
     "bundle": "next build && next export",
-    "zip": "zip -r bundle.zip ./out"
+    "zip": "cd ./out && zip -FSr ../go/wallet/bundle.zip . && cd ..",
+    "config": "cp .env.development ./go/wallet",
+    "go-server": "npm run bundle && npm run zip && npm run config && go run ./go/wallet/cmd/main.go"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
