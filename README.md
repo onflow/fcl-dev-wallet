@@ -63,13 +63,13 @@ flow project deploy --network=emulator
 
 ## Start the dev wallet
 
-```js
+```bash
 PORT=8701 npm run dev
 ```
 
 You can also run the dev wallet and deploy the contracts with one command if your emulator is running:
 
-```js
+```bash
 PORT=8701 npm run dev:deploy
 ```
 
