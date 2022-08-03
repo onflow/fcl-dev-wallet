@@ -67,6 +67,12 @@ flow project deploy --network=emulator
 PORT=8701 npm run dev
 ```
 
+You can also run the dev wallet and deploy the contracts with one command if your emulator is running:
+
+```js
+PORT=8701 npm run dev:deploy
+```
+
 **Note:** The following variables should match the `emulator-account` defined in your project's `flow.json` file.
 For details about `flow.json` visit the `flow-cli` [configuration reference](https://docs.onflow.org/flow-cli/configuration/).
 
