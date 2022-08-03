@@ -58,7 +58,7 @@ Start the emulator and deploy the contracts by running the following command fro
 
 ```sh
 flow emulator start
-flow project deploy --network emulator
+flow project deploy --network=emulator
 ```
 
 ## Start the dev wallet

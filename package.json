@@ -5,6 +5,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "dev": "APP_ENV=local next dev --port 8701",
+    "dev:deploy": "flow project deploy --network=emulator --update && npm run dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",

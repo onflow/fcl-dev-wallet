@@ -43,7 +43,7 @@
   },
   "deployments": {
     "emulator": {
-      "emulator-account": ["FUSD"]
+      "emulator-account": ["FCLCrypto", "FUSD"]
     }
   }
 }
