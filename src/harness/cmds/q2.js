@@ -14,6 +14,6 @@ export const CMD = async () => {
       arg(5, t.Int),
       arg(7, t.Int),
     ],
-  }).then(yup("Q-1"))
-    .catch(nope("Q-1"))
+  }).then(yup('Q-1'))
+    .catch(nope('Q-1'))
 }

@@ -13,6 +13,6 @@ export const CMD = async () => {
       }
     `,
     limit: 50,
-  }).then(yup("M-1"))
-    .catch(nope("M-1"))
+  }).then(yup('M-1'))
+    .catch(nope('M-1'))
 }

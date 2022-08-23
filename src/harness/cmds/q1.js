@@ -10,6 +10,6 @@ export const CMD = async () => {
         return 7
       }
     `,
-  }).then(yup("Q-1"))
-    .catch(nope("Q-1"))
+  }).then(yup('Q-1'))
+    .catch(nope('Q-1'))
 }
