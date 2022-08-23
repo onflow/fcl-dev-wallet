@@ -1,7 +1,7 @@
 name: Build a static wallet bundle
 
 on:
-  pull_request:
+  push:
     branches: [ main ]
     paths:
       - 'src/**'
