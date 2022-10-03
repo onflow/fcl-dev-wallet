@@ -22,6 +22,7 @@ export function AuthnContextProvider({children}: {children: React.ReactNode}) {
   const [error, setError] = useState<string | null>(null)
   const {connectedAppConfig, appScopes} = useConnectedAppConfig()
   const config = useConfig()
+  const isLoading = !isInitialized || !connectedAppConfig;
 
   useEffect(() => {
     async function initialize() {
@@ -36,7 +37,9 @@ export function AuthnContextProvider({children}: {children: React.ReactNode}) {
     initialize()
   }, [])
 
-  if (!isInitialized || !connectedAppConfig) return null
+  // TODO: add nicer UI
+  if (error) return <>{error}</>
+  if (isLoading) return <>Loading...</>
   const value = {connectedAppConfig, appScopes, initError: error}
 
   return <AuthnContext.Provider value={value}>{children}</AuthnContext.Provider>
