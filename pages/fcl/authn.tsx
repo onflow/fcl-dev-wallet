@@ -8,6 +8,7 @@ import {Account, NewAccount} from "src/accounts"
 import {useState} from "react"
 import {Err} from "src/comps/err.comp"
 import useConfig from "hooks/useConfig"
+import { Loading } from "../../components/Loading";
 
 function AuthnDialog({
   flowAccountAddress,
@@ -49,7 +50,7 @@ function AuthnDialog({
   const onCancel = () => setEditingAccount(null)
 
   if (error) return <Err error={error} />
-  if (isLoading) return <>Loading...</>
+  if (isLoading) return <Loading />
 
   return (
     <Dialog root={true}>
