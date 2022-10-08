@@ -48,8 +48,8 @@ function AuthnDialog({
 
   const onCancel = () => setEditingAccount(null)
 
-  if (!accounts && error) return <Err error={error} />
-  if (!accounts || isLoading) return null
+  if (error) return <Err error={error} />
+  if (isLoading) return <>Loading...</>
 
   return (
     <Dialog root={true}>

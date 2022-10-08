@@ -4,6 +4,7 @@ import useConnectedAppConfig, {
 } from "hooks/useConnectedAppConfig"
 import React, {createContext, useEffect, useState} from "react"
 import {initializeWallet} from "src/init"
+import { Err } from "../src/comps/err.comp";
 
 type AuthnContextType = {
   connectedAppConfig: ConnectedAppConfig
@@ -38,8 +39,9 @@ export function AuthnContextProvider({children}: {children: React.ReactNode}) {
   }, [])
 
   // TODO: add nicer UI
-  if (error) return <>{error}</>
+  if (error) return <Err error={error} />
   if (isLoading) return <>Loading...</>
+
   const value = {connectedAppConfig, appScopes, initError: error}
 
   return <AuthnContext.Provider value={value}>{children}</AuthnContext.Provider>
