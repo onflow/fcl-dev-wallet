@@ -1,11 +1,12 @@
-import Dialog from "../../components/Dialog";
-import { Themed } from "theme-ui";
+/** @jsxImportSource theme-ui */
+import Dialog from "../../components/Dialog"
+import {Themed} from "theme-ui"
 
 export type StackError = {
   stack: string
 }
 
-type Error = StackError|string
+type Error = StackError | string
 
 export function Err({error}: {error: Error}) {
   return (
@@ -20,9 +21,8 @@ export function Err({error}: {error: Error}) {
 
 function getErrorMessage(error: Error) {
   if (typeof error === "string") {
-    return error;
+    return error
   } else {
-    return error.stack;
+    return error.stack
   }
 }
-

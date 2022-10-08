@@ -1,6 +1,6 @@
 import React, {createContext, useEffect, useState} from "react"
 import fclConfig from "src/fclConfig"
-import { Loading } from "../components/Loading";
+import {Loading} from "../components/Loading"
 
 interface RuntimeConfig {
   avatarUrl: string

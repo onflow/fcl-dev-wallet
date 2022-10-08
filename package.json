@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "tsc": "./node_modules/typescript/bin/tsc",
     "test": "cypress run",
     "check": "eslint . && npm run tsc",

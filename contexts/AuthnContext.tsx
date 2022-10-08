@@ -4,8 +4,8 @@ import useConnectedAppConfig, {
 } from "hooks/useConnectedAppConfig"
 import React, {createContext, useEffect, useState} from "react"
 import {initializeWallet} from "src/init"
-import { Err } from "../src/comps/err.comp";
-import { Loading } from "../components/Loading";
+import {Err} from "../src/comps/err.comp"
+import {Loading} from "../components/Loading"
 
 type AuthnContextType = {
   connectedAppConfig: ConnectedAppConfig
@@ -24,7 +24,7 @@ export function AuthnContextProvider({children}: {children: React.ReactNode}) {
   const [error, setError] = useState<string | null>(null)
   const {connectedAppConfig, appScopes} = useConnectedAppConfig()
   const config = useConfig()
-  const isLoading = !isInitialized || !connectedAppConfig;
+  const isLoading = !isInitialized || !connectedAppConfig
 
   useEffect(() => {
     async function initialize() {

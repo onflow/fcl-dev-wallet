@@ -1,5 +1,5 @@
-import { SpinnerCircularFixed } from "spinners-react";
-import theme from "../src/theme";
+import {SpinnerCircularFixed} from "spinners-react"
+import theme from "../src/theme"
 
 export function Loading() {
   return (
