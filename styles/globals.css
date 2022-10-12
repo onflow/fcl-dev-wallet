@@ -40,3 +40,7 @@ a {
 #headlessui-portal-root > div {
   width: 100%;
 }
+
+pre {
+  white-space: pre-wrap;
+}
