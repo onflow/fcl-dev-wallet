@@ -45,7 +45,7 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
-    "@emotion/babel-plugin": "^11.10.2",
+    "@emotion/babel-plugin": "^11.9.2",
     "@types/cors": "^2.8.12",
     "@types/elliptic": "^6.4.12",
     "@types/node": "^15.12.5",
