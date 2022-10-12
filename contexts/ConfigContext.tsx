@@ -1,6 +1,6 @@
 import React, {createContext, useEffect, useState} from "react"
 import fclConfig from "src/fclConfig"
-import {Loading} from "../components/Loading"
+import {Spinner} from "../components/Spinner"
 
 interface RuntimeConfig {
   avatarUrl: string
@@ -84,7 +84,7 @@ export function ConfigContextProvider({children}: {children: React.ReactNode}) {
     fetchConfig()
   }, [])
 
-  if (!config) return <Loading />
+  if (!config) return <Spinner />
 
   return (
     <ConfigContext.Provider value={config}>{children}</ConfigContext.Provider>

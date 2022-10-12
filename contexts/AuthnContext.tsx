@@ -5,7 +5,7 @@ import useConnectedAppConfig, {
 import React, {createContext, useEffect, useState} from "react"
 import {initializeWallet} from "src/init"
 import {Err} from "../src/comps/err.comp"
-import {Loading} from "../components/Loading"
+import {Spinner} from "../components/Spinner"
 
 type AuthnContextType = {
   connectedAppConfig: ConnectedAppConfig
@@ -40,7 +40,7 @@ export function AuthnContextProvider({children}: {children: React.ReactNode}) {
   }, [])
 
   if (error) return <Err title="Initialization Error" error={error} />
-  if (isLoading) return <Loading />
+  if (isLoading) return <Spinner />
 
   const value = {connectedAppConfig, appScopes, initError: error}
 

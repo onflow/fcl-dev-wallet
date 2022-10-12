@@ -8,7 +8,7 @@ import {Account, NewAccount} from "src/accounts"
 import {useState} from "react"
 import {Err} from "src/comps/err.comp"
 import useConfig from "hooks/useConfig"
-import {Loading} from "../../components/Loading"
+import {Spinner} from "../../components/Spinner"
 
 function AuthnDialog({
   flowAccountAddress,
@@ -50,7 +50,7 @@ function AuthnDialog({
   const onCancel = () => setEditingAccount(null)
 
   if (error) return <Err title="Authentication Error" error={error} />
-  if (isLoading) return <Loading />
+  if (isLoading) return <Spinner />
 
   return (
     <Dialog root={true}>
