@@ -6,7 +6,7 @@ module.exports = function (api) {
     env === "production" && !process.env.PRESERVE_DATA_TEST_ATTRIBUTES
 
   const presets = ["next/babel"]
-  const plugins = []
+  const plugins = ["@emotion"]
 
   if (removeDataTestAttributes)
     plugins.push(["react-remove-properties", {properties: ["data-test"]}])
