@@ -49,7 +49,7 @@ function AuthnDialog({
 
   const onCancel = () => setEditingAccount(null)
 
-  if (error) return <Err error={error} />
+  if (error) return <Err title="Authentication Error" error={error} />
   if (isLoading) return <Loading />
 
   return (
