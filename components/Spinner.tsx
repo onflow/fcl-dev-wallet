@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "@emotion/styled";
+import React from "react"
+import styled from "@emotion/styled"
 
 // https://gist.github.com/knowbody/578b35164b69e867ed4913423f6bed30
 export const Spinner = () => (
@@ -13,7 +13,7 @@ export const Spinner = () => (
       strokeWidth="4"
     />
   </Svg>
-);
+)
 
 const Svg = styled.svg`
   animation: rotate 2s linear infinite;
@@ -22,8 +22,7 @@ const Svg = styled.svg`
   height: 50px;
 
   & .path {
-    stroke: ${(props) => props.theme.colors.primary};
-    
+    stroke: ${props => props.theme.colors.primary};
     stroke-linecap: round;
     animation: dash 1.5s ease-in-out infinite;
   }
@@ -47,4 +46,4 @@ const Svg = styled.svg`
       stroke-dashoffset: -124;
     }
   }
-`;
+`
