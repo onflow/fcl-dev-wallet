@@ -3,12 +3,12 @@ import Dialog from "../../components/Dialog"
 import {Themed} from "theme-ui"
 
 export type StackError = {
-  stack: string;
+  stack: string
 }
 
 export type ErrProps = {
-  title?: string;
-  error: StackError | string;
+  title?: string
+  error: StackError | string
 }
 
 export function Err({error, title = "Error occurred"}: ErrProps) {
@@ -22,7 +22,7 @@ export function Err({error, title = "Error occurred"}: ErrProps) {
   )
 }
 
-function getErrorMessage(error: StackError|string) {
+function getErrorMessage(error: StackError | string) {
   if (typeof error === "string") {
     return error
   } else {
