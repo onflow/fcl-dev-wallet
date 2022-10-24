@@ -1,23 +1,3 @@
-<br />
-<p align="center">
-  <a href="">
-    <img src="./banner.svg" alt="Logo" width="600" height="auto">
-  </a>
-
-  <p align="center">
-    <i>A Flow wallet for effortless development, to be used with the Flow Emulator and FCL.</i>
-    <br />
-    <a href="https://docs.onflow.org/fcl/"><strong>FCL docs»</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/onflow/fcl-dev-wallet/issues">Report Bug</a>
-    ·
-    <a href="#getting-started">Getting Started</a>
-  </p>
-</p>
-<br />
-<br />
-
 ## Introduction
 
 The FCL dev wallet is a mock Flow wallet that simulates the protocols used by [FCL](https://docs.onflow.org/fcl/) to interact with the Flow blockchain on behalf of simulated user accounts.
