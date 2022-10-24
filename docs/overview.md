@@ -135,8 +135,6 @@ app to interact with the dev-wallet during development:
 
 Navigate to http://localhost:8701/harness
 
-🚀
-
 ## Contributing
 Releasing a new version of Dev Wallet is as simple as tagging and creating a release, a Github Action will then build a bundle of the Dev Wallet that can be used in other tools (such as CLI). If the update of the Dev Wallet is required in the CLI, a seperate update PR on the CLI should be created.
  
