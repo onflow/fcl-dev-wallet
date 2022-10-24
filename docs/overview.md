@@ -59,7 +59,7 @@ docker-compose up -d
 
 ## Startup options
 
-The following startup options can be configured (defaults shown). If you're using Docker Compose, these configuration values are defined in [`docker-compose.yml`](docker-compose.yml).
+The following startup options can be configured (defaults shown).
 
 ```sh
 docker run -it \
