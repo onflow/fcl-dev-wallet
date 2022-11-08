@@ -7,12 +7,13 @@ import (
 	"embed"
 	"encoding/json"
 	"fmt"
-	"github.com/joho/godotenv"
 	"net/http"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
+
+	"github.com/joho/godotenv"
 
 	"golang.org/x/exp/maps"
 )
@@ -116,6 +117,10 @@ func devWalletHandler() func(writer http.ResponseWriter, request *http.Request) 
 				path = fmt.Sprintf("%s.html", path)
 			}
 		}
+
+		writer.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+		writer.Header().Set("Pragma", "no-cache")
+		writer.Header().Set("Expires", "0")
 
 		request.URL.Path = path
 		http.FileServer(rootFS).ServeHTTP(writer, request)
