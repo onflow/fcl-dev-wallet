@@ -7,14 +7,13 @@ import (
 	"embed"
 	"encoding/json"
 	"fmt"
-	"github.com/joho/godotenv"
 	"net/http"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
 
-	"golang.org/x/exp/maps"
+	"github.com/joho/godotenv"
 )
 
 //go:embed bundle.zip
@@ -74,12 +73,13 @@ func configHandler(server *server) func(w http.ResponseWriter, r *http.Request) 
 
 // buildConfig from provided flow config and the env config
 func buildConfig(flowConfig *FlowConfig) (map[string]string, error) {
-	env, err := godotenv.Parse(bytes.NewReader(envConfig))
+	env, _ := godotenv.Parse(bytes.NewReader(envConfig))
 
 	flowConf, err := json.Marshal(flowConfig)
 	if err != nil {
 		return nil, err
 	}
+
 
 	var flow map[string]string
 	err = json.Unmarshal(flowConf, &flow)
@@ -87,20 +87,20 @@ func buildConfig(flowConfig *FlowConfig) (map[string]string, error) {
 		return nil, err
 	}
 
+	tempt := make(map[string]string)
+
 	for k, v := range env {
-		delete(env, k)
-		env[convertSnakeToCamel(k)] = v
+		tempt[convertSnakeToCamel(k)] = v
 	}
 
 	// don't overwrite empty values
 	for k, v := range flow {
-		if v == "" {
-			delete(flow, k)
+		if v != "" {
+			tempt[k] = v
 		}
 	}
 
-	maps.Copy(env, flow)
-	return env, nil
+	return tempt, nil
 }
 
 // devWalletHandler handles endpoints to exported static html files
