@@ -3,7 +3,7 @@ import fclConfig from "src/fclConfig"
 import {Spinner} from "../components/Spinner"
 
 interface RuntimeConfig {
-  avatarUrl: string
+  flowAvatarUrl: string
   baseUrl: string
   contractFungibleToken: string
   contractFlowToken: string
@@ -18,7 +18,7 @@ interface RuntimeConfig {
 }
 
 const defaultConfig = {
-  avatarUrl: process.env.avatarUrl || "",
+  flowAvatarUrl: process.env.flowAvatarUrl || "",
   baseUrl: process.env.baseUrl || "",
   contractFungibleToken: process.env.contractFungibleToken || "",
   contractFlowToken: process.env.contractFlowToken || "",

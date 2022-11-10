@@ -71,13 +71,13 @@ function AuthzContent({
 }
 
 function Authz() {
-  const {avatarUrl, flowAccountAddress, flowAccountPrivateKey} = useConfig()
+  const {flowAvatarUrl, flowAccountAddress, flowAccountPrivateKey} = useConfig()
   return (
     <AuthzContextProvider>
       <AuthzContent
         flowAccountAddress={flowAccountAddress}
         flowAccountPrivateKey={flowAccountPrivateKey}
-        avatarUrl={avatarUrl}
+        avatarUrl={flowAvatarUrl}
       />
     </AuthzContextProvider>
   )

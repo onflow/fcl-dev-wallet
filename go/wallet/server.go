@@ -29,6 +29,7 @@ type FlowConfig struct {
 	PrivateKey string `json:"flowAccountPrivateKey"`
 	PublicKey  string `json:"flowAccountPublicKey"`
 	AccessNode string `json:"flowAccessNode"`
+	AvatarUrl string `json:"flowAvatarUrl"`
 }
 
 type server struct {
