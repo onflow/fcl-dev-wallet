@@ -117,6 +117,10 @@ func devWalletHandler() func(writer http.ResponseWriter, request *http.Request) 
 			}
 		}
 
+		writer.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+		writer.Header().Set("Pragma", "no-cache")
+		writer.Header().Set("Expires", "0")
+
 		request.URL.Path = path
 		http.FileServer(rootFS).ServeHTTP(writer, request)
 	}
