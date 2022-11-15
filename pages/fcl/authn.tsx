@@ -79,14 +79,14 @@ function AuthnDialog({
 }
 
 function Authn() {
-  const {avatarUrl, flowAccountAddress, flowAccountPrivateKey} = useConfig()
+  const {flowAvatarUrl, flowAccountAddress, flowAccountPrivateKey} = useConfig()
 
   return (
     <AuthnContextProvider>
       <AuthnDialog
         flowAccountAddress={flowAccountAddress}
         flowAccountPrivateKey={flowAccountPrivateKey}
-        avatarUrl={avatarUrl}
+        avatarUrl={flowAvatarUrl}
       />
     </AuthnContextProvider>
   )
