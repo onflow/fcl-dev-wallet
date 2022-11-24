@@ -69,11 +69,17 @@ export async function newAccount(
     flowAccountAddress: string
     flowAccountKeyId: string
     flowAccountPrivateKey: string
+    flowInitAccountBalance: string
   },
   label: string,
   scopes: [string]
 ) {
-  const {flowAccountAddress, flowAccountKeyId, flowAccountPrivateKey} = config
+  const {
+    flowAccountAddress,
+    flowAccountKeyId,
+    flowAccountPrivateKey,
+    flowInitAccountBalance,
+  } = config
 
   const authorization = await authz(
     flowAccountAddress,
@@ -84,7 +90,12 @@ export async function newAccount(
   const txId = await fcl
     .send([
       fcl.transaction(newAccountTransaction),
-      fcl.args([fcl.arg(label, t.String), fcl.arg(scopes, t.Array(t.String))]),
+      fcl.args([
+        fcl.arg(label, t.String),
+        fcl.arg(scopes, t.Array(t.String)),
+        fcl.arg(flowInitAccountBalance, t.UFix64),
+      ]),
+      fcl.authorizations([authorization]),
       fcl.proposer(authorization),
       fcl.payer(authorization),
       fcl.limit(100),
