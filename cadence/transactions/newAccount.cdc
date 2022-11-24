@@ -14,21 +14,21 @@ transaction(label: String, scopes: [String], initialBalance: UFix64) {
     let account = FCL.new(label: label, scopes: scopes, address: nil)
   
     self.tokenAdmin = signer
-		  .borrow<&FlowToken.Administrator>(from: /storage/flowTokenAdmin)
+      .borrow<&FlowToken.Administrator>(from: /storage/flowTokenAdmin)
       ?? panic("Signer is not the token admin")
 
-		self.tokenReceiver = account
-		  .getCapability(/public/flowTokenReceiver)!
-		  .borrow<&{FungibleToken.Receiver}>()
+    self.tokenReceiver = account
+      .getCapability(/public/flowTokenReceiver)!
+      .borrow<&{FungibleToken.Receiver}>()
       ?? panic("Unable to borrow receiver reference")
   }
 
   execute {
-		let minter <- self.tokenAdmin.createNewMinter(allowedAmount: initialBalance)
-		let mintedVault <- minter.mintTokens(amount: initialBalance)
+    let minter <- self.tokenAdmin.createNewMinter(allowedAmount: initialBalance)
+    let mintedVault <- minter.mintTokens(amount: initialBalance)
 
-		self.tokenReceiver.deposit(from: <- mintedVault)
+    self.tokenReceiver.deposit(from: <- mintedVault)
 
-		destroy minter
-	}
+    destroy minter
+  }
 }
