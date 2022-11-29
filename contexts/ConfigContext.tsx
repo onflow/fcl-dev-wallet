@@ -15,6 +15,7 @@ interface RuntimeConfig {
   flowAccountKeyId: string
   flowAccessNode: string
   flowInitAccountsNo: number
+  flowInitAccountBalance: string
 }
 
 const defaultConfig = {
@@ -30,6 +31,7 @@ const defaultConfig = {
   flowAccountKeyId: process.env.flowAccountKeyId || "",
   flowAccessNode: process.env.flowAccessNode || "",
   flowInitAccountsNo: parseInt(process.env.flowInitAccountsNo || "0") || 0,
+  flowInitAccountBalance: process.env.flowInitAccountBalance || "1000.0",
 }
 
 export const ConfigContext = createContext<RuntimeConfig>(defaultConfig)
