@@ -23,8 +23,7 @@ jobs:
           cache: 'npm'
 
       - run: npm install
-      - run: npm run build
-      - run: npm run export
+      - run: npm run bundle
 
       - uses: papeloto/action-zip@v1
         with:
