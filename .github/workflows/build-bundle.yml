@@ -37,6 +37,6 @@ jobs:
           title: TEST PR
           body: This PR is automatically generated to update the build bundle of the dev-wallet which is then used by go library for integration in other tools.
           assignees: huyndo
-          team-reviewers: @onflow/fcl
+          team-reviewers: '@onflow/fcl'
           branch: update-bundle
           base: main
