@@ -37,6 +37,6 @@ jobs:
           title: Update Built Bundle
           body: This PR is automatically generated to update the build bundle of the dev-wallet which is then used by go library for integration in other tools.
           assignees: sideninja
-          reviewers: justinbarry
+          team-reviewers: onflow/fcl
           branch: update-bundle
           base: main
