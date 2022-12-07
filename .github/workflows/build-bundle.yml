@@ -36,7 +36,7 @@ jobs:
           commit-message: build a static bundle
           title: Update Built Bundle
           body: This PR is automatically generated to update the build bundle of the dev-wallet which is then used by go library for integration in other tools.
-          assignees: huyndo
-          reviewers: huyndo
+          assignees: sideninja
+          reviewers: justinbarry
           branch: update-bundle
           base: main
