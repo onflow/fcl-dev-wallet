@@ -12,14 +12,14 @@ jobs:
   buildBundle:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Build Bundle
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16'
           cache: 'npm'
 
       - run: npm install
@@ -38,6 +38,6 @@ jobs:
           title: Update Built Bundle
           body: This PR is automatically generated to update the build bundle of the dev-wallet which is then used by go library for integration in other tools.
           assignees: sideninja
-          reviewers: 10thfloor
+          reviewers: justinbarry
           branch: update-bundle
           base: main
