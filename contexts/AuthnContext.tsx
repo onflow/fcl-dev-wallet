@@ -37,7 +37,7 @@ export function AuthnContextProvider({children}: {children: React.ReactNode}) {
     }
 
     initialize()
-  })
+  }, [])
 
   if (error) return <Err title="Initialization Error" error={error} />
   if (isLoading) return <Spinner />
