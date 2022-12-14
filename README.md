@@ -24,17 +24,12 @@ The FCL dev wallet is a mock Flow wallet that simulates the protocols used by [F
 
 **IMPORTANT**
 
-```
-This project implements an FCL compatible
-interface, but should **not** be used as a reference for
-building a production grade wallet.
-
-This project should only be used in aid of local
-development against a locally run instance of the Flow
-blockchain like the Flow emulator, and should never be used in
-conjunction with Flow Mainnet, Testnet, Canarynet or any
-other instances of Flow.
-```
+> **Warning**
+>
+> This project implements an FCL compatible interface, but should **not** be used as a reference for building a production grade wallet.
+>
+> This project should only be used in aid of local development against a locally run instance of the Flow blockchain like the Flow emulator, 
+> and should never be used in conjunction with Flow Mainnet, Testnet, Canarynet or any other instances of Flow.
 
 ## Getting started
 
