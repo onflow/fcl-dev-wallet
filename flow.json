@@ -24,7 +24,7 @@
     "FCLCrypto": {
       "source": "./cadence/contracts/FCLCrypto.cdc",
       "aliases": {
-        "emulator": "0xf8d6e0586b0a20c7",
+        "emulator": "$FLOW_ACCOUNT_ADDRESS",
         "testnet": "0x74daa6f9c7ef24b1",
         "mainnet": "0xb4b82a1c9d21d284"
       }
@@ -37,8 +37,8 @@
   },
   "accounts": {
     "emulator-account": {
-      "address": "f8d6e0586b0a20c7",
-      "key": "f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5"
+      "address": "$FLOW_ACCOUNT_ADDRESS",
+      "key": "$FLOW_ACCOUNT_PRIVATE_KEY"
     }
   },
   "deployments": {
