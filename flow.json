@@ -37,15 +37,9 @@
   },
   "accounts": {
     "emulator-account": {
-			"address": "f8d6e0586b0a20c7",
-			"key": {
-				"type": "hex",
-				"index": 0,
-				"signatureAlgorithm": "ECDSA_P256",
-				"hashAlgorithm": "SHA3_256",
-				"privateKey": "f5ab5d57b5110aba6cd8f6d9f53afdd34ae3d4aa0a89b7d04a4b8953cf374071"
-			}
-		}
+      "address": "f8d6e0586b0a20c7",
+      "key": "f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5"
+    }
   },
   "deployments": {
     "emulator": {
