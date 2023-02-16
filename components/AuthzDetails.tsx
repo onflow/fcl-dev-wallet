@@ -64,12 +64,14 @@ function AuthzDetails() {
           <AuthzDetailsRow>
             <td>Authorizers</td>
             <td>
-              {authorizers.filter(a => a !== null).map(authorizer => (
-                <AuthzDetailsAccount
-                  account={authorizer}
-                  key={authorizer.address}
-                />
-              ))}
+              {authorizers
+                .filter(authz => authz !== null)
+                .map(authorizer => (
+                  <AuthzDetailsAccount
+                    account={authorizer}
+                    key={authorizer.address}
+                  />
+                ))}
             </td>
           </AuthzDetailsRow>
           <AuthzDetailsRow>

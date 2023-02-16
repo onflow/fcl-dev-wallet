@@ -116,19 +116,21 @@ export function AuthzContextProvider({children}: {children: React.ReactNode}) {
 
   const {addr: currentUserAddress, voucher, roles, message} = signable
   const savedConnectedAppConfig = localStorage.getItem("connectedAppConfig")
-  console.log("AH123", voucher, accounts);
+
   const value = {
     currentUser: accounts[fcl.withPrefix(currentUserAddress)],
     proposer: accounts[fcl.withPrefix(voucher.proposalKey.address)],
     payer: accounts[fcl.withPrefix(voucher.payer)],
-    authorizers: voucher.authorizers.map(
-      authorizer => accounts[fcl.withPrefix(authorizer)] ? accounts[fcl.withPrefix(authorizer)] : ({
-        address: authorizer,
-        keyId: "0",
-        label: "Outside Account",
-        scopes: [],
-        type: "ACCOUNT"
-      })
+    authorizers: voucher.authorizers.map(authorizer =>
+      accounts[fcl.withPrefix(authorizer)]
+        ? accounts[fcl.withPrefix(authorizer)]
+        : ({
+            address: authorizer,
+            keyId: 0,
+            label: "Outside Account",
+            scopes: [],
+            type: "ACCOUNT",
+          } as Account)
     ),
     roles,
     proposalKey: voucher.proposalKey,
