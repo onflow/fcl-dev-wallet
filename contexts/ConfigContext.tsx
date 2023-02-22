@@ -42,7 +42,8 @@ async function getConfig(): Promise<RuntimeConfig> {
   }
 
   const result = await fetch("http://localhost:8701/api/")
-    .then(res => res.json()).then((remoteConfig)=>{
+    .then(res => res.json())
+    .then(remoteConfig => {
       return Object.assign(defaultConfig, remoteConfig)
     })
     .catch(e => {
