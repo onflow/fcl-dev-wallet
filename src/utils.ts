@@ -3,13 +3,32 @@ export function isBackchannel() {
   return urlParams.get("channel") === "back"
 }
 
-export function getAuthId() {
+export function getPollingId() {
   const urlParams = new URLSearchParams(window.location.search)
-  const authId = urlParams.get("authId")
+  const pollingId = urlParams.get("pollingId")
 
-  if (!authId) {
-    throw new Error("Missing authId")
+  if (!pollingId) {
+    throw new Error("Missing pollingId")
   }
 
-  return authId
+  return pollingId
+}
+
+/*
+ * This function is used to update a polling session with data from the frontchannel.
+ * It is used to emulate a backchannel response from the frontchannel.
+ */
+export function updatePollingSession(baseUrl: string, data: any) {
+  const body = {
+    pollingId: getPollingId(),
+    data,
+  }
+
+  fetch(baseUrl + "/api/polling-session", {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
 }

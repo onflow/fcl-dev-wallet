@@ -1,3 +1,5 @@
+import {isBackchannel} from "./utils"
+
 const PROFILE_SCOPES = new Set(
   "name family_name given_name middle_name nickname preferred_username profile picture website gender birthday zoneinfo locale updated_at"
     .trim()
@@ -71,13 +73,16 @@ export const buildServices = ({
   keyId?: number
   includeRefresh?: boolean
 }) => {
+  const backchannel = isBackchannel()
+
   const services: AuthResponseService[] = [
     {
       f_type: "Service",
       f_vsn: "1.0.0",
       type: "authn",
       uid: "fcl-dev-wallet#authn",
-      endpoint: `${baseUrl}/fcl/authn`,
+      endpoint: backchannel ? `${baseUrl}/api/authn` : `${baseUrl}/fcl/authn`,
+      method: backchannel ? "HTTP/POST" : "IFRAME/RPC",
       id: address,
       identity: {
         address: address,
@@ -94,8 +99,8 @@ export const buildServices = ({
       f_vsn: "1.0.0",
       type: "authz",
       uid: "fcl-dev-wallet#authz",
-      endpoint: `${baseUrl}/fcl/authz`,
-      method: "IFRAME/RPC",
+      endpoint: backchannel ? `${baseUrl}/api/authz` : `${baseUrl}/fcl/authz`,
+      method: backchannel ? "HTTP/POST" : "IFRAME/RPC",
       identity: {
         address: address,
         keyId: Number(keyId),
@@ -106,8 +111,10 @@ export const buildServices = ({
       f_vsn: "1.0.0",
       type: "user-signature",
       uid: "fcl-dev-wallet#user-sig",
-      endpoint: `${baseUrl}/fcl/user-sig`,
-      method: "IFRAME/RPC",
+      endpoint: backchannel
+        ? `${baseUrl}/api/user-sig`
+        : `${baseUrl}/fcl/user-sig`,
+      method: backchannel ? "HTTP/POST" : "IFRAME/RPC",
       id: address,
       data: {addr: address, keyId: Number(keyId)},
       params: {},
@@ -139,8 +146,10 @@ export const buildServices = ({
       f_vsn: "1.0.0",
       type: "authn-refresh",
       uid: "fcl-dev-wallet#authn-refresh",
-      endpoint: `${baseUrl}/fcl/authn-refresh`,
-      method: "IFRAME/RPC",
+      endpoint: backchannel
+        ? `${baseUrl}/api/authn-refresh`
+        : `${baseUrl}/fcl/authn-refresh`,
+      method: backchannel ? "HTTP/POST" : "IFRAME/RPC",
       id: address,
       data: {
         f_type: "authn-refresh",

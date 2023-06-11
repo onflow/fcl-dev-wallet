@@ -1,15 +1,17 @@
 import {NextApiRequest, NextApiResponse} from "next"
-import authSessions from "src/authSessions"
+import pollingSessions from "src/pollingSessions"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "OPTIONS") {
     // Handle OPTIONS request
     return res.status(200).end()
   } else if (req.method === "POST") {
-    const {id, data} = req.body
+    const {pollingId, data} = req.body
 
-    if (!id) {
-      return res.status(400).json({error: "Missing required parameter: id"})
+    if (!pollingId) {
+      return res
+        .status(400)
+        .json({error: "Missing required parameter: pollingId"})
     }
 
     if (!data) {
@@ -19,21 +21,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Store the data in the global authSessions object
     // NOTE: This is not acceptable for a production environment and this method of
     // backchannel communication should be replaced with a more secure method.
-    authSessions[id] = data
+    pollingSessions[pollingId] = data
 
     return res.status(200).end()
   } else if (req.method === "GET") {
-    const {id} = req.query
+    const {pollingId} = req.query
 
-    if (!id) {
-      return res.status(400).json({error: "Missing required parameter: id"})
+    if (!pollingId) {
+      return res
+        .status(400)
+        .json({error: "Missing required parameter: pollingId"})
     }
 
-    if (typeof id !== "string") {
-      return res.status(400).json({error: "Invalid parameter: id"})
+    if (typeof pollingId !== "string") {
+      return res.status(400).json({error: "Invalid parameter: pollingId"})
     }
 
-    const data = authSessions[id]
+    const data = pollingSessions[pollingId]
 
     if (!data) {
       return res.status(404).json({error: "Not found"})

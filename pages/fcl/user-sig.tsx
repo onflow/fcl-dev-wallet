@@ -3,11 +3,11 @@ import {WalletUtils} from "@onflow/fcl"
 import AuthzActions from "components/AuthzActions"
 import AuthzDetailsTable, {AuthzDetailsRow} from "components/AuthzDetailsTable"
 import Dialog from "components/Dialog"
-import {useEffect, useState} from "react"
 import {sign} from "src/crypto"
 import {Box, Themed} from "theme-ui"
 import getWalletConfig from "hooks/useConfig"
 import {useFclData} from "hooks/useFclData"
+import {isBackchannel, updatePollingSession} from "src/utils"
 
 type AuthReadyResponseSignable = {
   data: {
@@ -49,9 +49,13 @@ function userSignature(
 }
 
 export default function UserSign() {
-  const {flowAccountPrivateKey} = getWalletConfig()
+  const {flowAccountPrivateKey, baseUrl} = getWalletConfig()
 
-  const signable = useFclData<AuthReadyResponseData>()?.body
+  const signable = useFclData<AuthReadyResponseSignable>({
+    transformFrontchannel: (data: AuthReadyResponseData) => {
+      return data.body
+    },
+  })
 
   function onApprove() {
     const {addr, keyId, signature} = userSignature(
@@ -59,9 +63,19 @@ export default function UserSign() {
       flowAccountPrivateKey
     )
 
-    WalletUtils.approve(
-      new WalletUtils.CompositeSignature(addr, keyId, signature)
-    )
+    const response = {
+      f_type: "PollingResponse",
+      f_vsn: "1.0.0",
+      status: "APPROVED",
+      reason: null,
+      data: new WalletUtils.CompositeSignature(addr, keyId, signature),
+    }
+
+    if (isBackchannel()) {
+      updatePollingSession(baseUrl, response)
+    } else {
+      WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", response)
+    }
   }
 
   const onDecline = () => {

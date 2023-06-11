@@ -92,7 +92,11 @@ export const AuthzContext = createContext<AuthzContextType>({
 })
 
 export function AuthzContextProvider({children}: {children: React.ReactNode}) {
-  const signable = useFclData<AuthzReadyData>()?.body
+  const signable = useFclData<AuthSignable>({
+    transformFrontchannel: (data: AuthzReadyData) => {
+      return data.body
+    },
+  })
   const [codePreview, setCodePreview] = useState<CodePreview | null>(null)
 
   const {data: accountsData} = useAccounts()

@@ -3,7 +3,7 @@ import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "src/accounts"
 import {sign} from "src/crypto"
 import {buildServices} from "./services"
-import {getAuthId, isBackchannel} from "./utils"
+import {isBackchannel, updatePollingSession} from "./utils"
 
 type AccountProofData = {
   address: string
@@ -107,24 +107,16 @@ export async function chooseAccount(
     services,
   }
 
+  const message = {
+    f_type: "PollingResponse",
+    f_vsn: "1.0.0",
+    status: "APPROVED",
+    data,
+  }
+
   if (isBackchannel()) {
-    const body = {
-      id: getAuthId(),
-      data: {
-        f_type: "PollingResponse",
-        f_vsn: "1.0.0",
-        status: "APPROVED",
-        data,
-      },
-    }
-    await fetch(baseUrl + "/api/auth-session", {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    updatePollingSession(baseUrl, message)
   } else {
-    WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", data)
+    WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", message)
   }
 }
