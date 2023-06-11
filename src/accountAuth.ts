@@ -3,6 +3,7 @@ import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "src/accounts"
 import {sign} from "src/crypto"
 import {buildServices} from "./services"
+import {getAuthId, isBackchannel} from "./utils"
 
 type AccountProofData = {
   address: string
@@ -75,7 +76,6 @@ export async function chooseAccount(
   connectedAppConfig: ConnectedAppConfig
 ) {
   const {address, keyId} = account
-
   const {nonce, appIdentifier} = connectedAppConfig.body
 
   let compSig
@@ -102,8 +102,29 @@ export async function chooseAccount(
 
   localStorage.setItem("connectedAppConfig", JSON.stringify(connectedAppConfig))
 
-  WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", {
+  const data = {
     addr: address,
     services,
-  })
+  }
+
+  if (isBackchannel()) {
+    const body = {
+      id: getAuthId(),
+      data: {
+        f_type: "PollingResponse",
+        f_vsn: "1.0.0",
+        status: "APPROVED",
+        data,
+      },
+    }
+    await fetch(baseUrl + "/api/auth-session", {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+  } else {
+    WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", data)
+  }
 }

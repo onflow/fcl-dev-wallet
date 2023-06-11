@@ -7,6 +7,7 @@ import {useEffect, useState} from "react"
 import {sign} from "src/crypto"
 import {Box, Themed} from "theme-ui"
 import getWalletConfig from "hooks/useConfig"
+import {useFclData} from "hooks/useFclData"
 
 type AuthReadyResponseSignable = {
   data: {
@@ -50,17 +51,7 @@ function userSignature(
 export default function UserSign() {
   const {flowAccountPrivateKey} = getWalletConfig()
 
-  const [signable, setSignable] = useState<AuthReadyResponseSignable | null>(
-    null
-  )
-
-  useEffect(() => {
-    function callback(data: AuthReadyResponseData) {
-      setSignable(data.body)
-    }
-
-    WalletUtils.ready(callback)
-  }, [])
+  const signable = useFclData<AuthReadyResponseData>()?.body
 
   function onApprove() {
     const {addr, keyId, signature} = userSignature(

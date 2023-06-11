@@ -2,8 +2,8 @@ import * as fcl from "@onflow/fcl"
 import useAccounts from "hooks/useAccounts"
 import {ConnectedAppConfig} from "hooks/useConnectedAppConfig"
 import {Account} from "src/accounts"
-import React, {createContext, useEffect, useMemo, useState} from "react"
-import {WalletUtils} from "@onflow/fcl"
+import React, {createContext, useMemo, useState} from "react"
+import {useFclData} from "hooks/useFclData"
 
 type AuthzReadyData = {
   type: string
@@ -92,18 +92,10 @@ export const AuthzContext = createContext<AuthzContextType>({
 })
 
 export function AuthzContextProvider({children}: {children: React.ReactNode}) {
-  const [signable, setSignable] = useState<AuthSignable | null>(null)
+  const signable = useFclData<AuthzReadyData>()?.body
   const [codePreview, setCodePreview] = useState<CodePreview | null>(null)
 
   const {data: accountsData} = useAccounts()
-
-  useEffect(() => {
-    function callback(data: AuthzReadyData) {
-      setSignable(data.body)
-    }
-
-    WalletUtils.ready(callback)
-  }, [])
 
   const accounts = useMemo(() => {
     if (!accountsData) return {}

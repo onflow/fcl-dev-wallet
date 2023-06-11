@@ -1,6 +1,6 @@
 import React, {createContext, useEffect, useState} from "react"
-import {WalletUtils} from "@onflow/fcl"
 import {parseScopes} from "src/scopes"
+import {useFclData} from "hooks/useFclData"
 
 type AuthnRefreshContextType = {
   address: string
@@ -17,13 +17,14 @@ export function AuthnRefreshContextProvider({
 }: {
   children: React.ReactNode
 }) {
+  const fclData: any = useFclData()
   const [value, setValue] = useState<any>(null)
 
   useEffect(() => {
-    function callback(data: any) {
-      const {timestamp, appDomainTag} = data.body
+    if (fclData) {
+      const {timestamp, appDomainTag} = fclData.body
 
-      const service = data.service
+      const service = fclData.service
       const address = service?.data?.address
       const keyId = service?.data?.keyId
       const scopes = new Set(parseScopes(service?.params?.scopes))
@@ -35,10 +36,10 @@ export function AuthnRefreshContextProvider({
         timestamp,
         appDomainTag,
       })
+    } else {
+      setValue(null)
     }
-
-    WalletUtils.ready(callback)
-  }, [])
+  }, [fclData])
 
   return (
     <AuthnRefreshContext.Provider value={value}>
