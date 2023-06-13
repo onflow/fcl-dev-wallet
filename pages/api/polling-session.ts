@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next"
-import pollingSessions from "src/pollingSessions"
+import PollingSessions from "src/pollingSessions"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "OPTIONS") {
@@ -21,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Store the data in the global authSessions object
     // NOTE: This is not acceptable for a production environment and this method of
     // backchannel communication should be replaced with a more secure method.
-    pollingSessions[pollingId] = data
+    PollingSessions.set(pollingId, data)
 
     return res.status(200).end()
   } else if (req.method === "GET") {
@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(400).json({error: "Invalid parameter: pollingId"})
     }
 
-    const data = pollingSessions[pollingId]
+    const data = PollingSessions.get(pollingId)
 
     if (!data) {
       return res.status(404).json({error: "Not found"})

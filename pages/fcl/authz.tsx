@@ -10,7 +10,7 @@ import useConfig from "hooks/useConfig"
 import useAuthzContext from "hooks/useAuthzContext"
 import {useState} from "react"
 import {sign} from "src/crypto"
-import {isBackchannel, updateAuthSession} from "src/utils"
+import {isBackchannel, updatePollingSession} from "src/utils"
 
 function AuthzContent({
   flowAccountAddress,
@@ -44,7 +44,7 @@ function AuthzContent({
     }
 
     if (isBackchannel()) {
-      updateAuthSession(baseUrl, response)
+      updatePollingSession(baseUrl, response)
     } else {
       WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", response)
     }

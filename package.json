@@ -4,7 +4,7 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "APP_ENV=local next dev --port 8701",
+    "dev": "rimraf ./.polling-sessions.tmp && APP_ENV=local next dev --port 8701",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -63,6 +63,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "prettier": "^2.3.2",
+    "rimraf": "^5.0.1",
     "typescript": "^4.3.4"
   }
 }

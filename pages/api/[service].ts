@@ -1,6 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next"
-import authSessions from "src/pollingSessions"
 import * as crypto from "crypto"
+import PollingSessions from "src/pollingSessions"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const service = req.query.service as string
@@ -29,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     }
 
-    authSessions[pollingId] = pendingResponse
+    PollingSessions.set(pollingId, pendingResponse)
 
     return res.status(200).json({
       ...pendingResponse,
