@@ -1,12 +1,12 @@
 import {WalletUtils} from "@onflow/fcl"
 import {useEffect, useState} from "react"
 
-export function useFclData<T, U = any, V = any>({
+export function useFclData<T>({
   transformFrontchannel,
   transformBackchannel,
 }: {
-  transformFrontchannel?: (data: U) => T
-  transformBackchannel?: (data: V) => T
+  transformFrontchannel?: (data: any) => T
+  transformBackchannel?: (data: any) => T
 } = {}) {
   const [data, setData] = useState<T | null>(null)
 
@@ -22,9 +22,9 @@ export function useFclData<T, U = any, V = any>({
       return
     }
 
-    function callback(data: U | T) {
+    function callback(data: any) {
       setData(
-        transformFrontchannel ? transformFrontchannel(data as U) : (data as T)
+        transformFrontchannel ? transformFrontchannel(data as any) : (data as T)
       )
     }
 
