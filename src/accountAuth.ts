@@ -97,7 +97,7 @@ export async function chooseAccount(
     scopes,
     compSig,
     keyId,
-    includeRefresh: true,
+    includeRefresh: false,
   })
 
   localStorage.setItem("connectedAppConfig", JSON.stringify(connectedAppConfig))
