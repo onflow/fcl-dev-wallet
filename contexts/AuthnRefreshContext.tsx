@@ -36,8 +36,6 @@ export function AuthnRefreshContextProvider({
         timestamp,
         appDomainTag,
       })
-    } else {
-      setValue(null)
     }
   }, [fclData])
 

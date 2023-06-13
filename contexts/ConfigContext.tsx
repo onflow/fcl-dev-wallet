@@ -67,8 +67,6 @@ export function ConfigContextProvider({children}: {children: React.ReactNode}) {
     async function fetchConfig() {
       const config = await getConfig()
 
-      console.log("config", config)
-
       const {
         flowAccessNode,
         flowAccountAddress,

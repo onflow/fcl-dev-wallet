@@ -61,7 +61,7 @@ export async function refreshAuthn(
   })
 
   WalletUtils.approve({
-    f_type: "AuthnResponse",
+    f_type: "PollingResponse",
     f_vsn: "1.0.0",
     addr: address,
     services,
@@ -97,7 +97,7 @@ export async function chooseAccount(
     scopes,
     compSig,
     keyId,
-    includeRefresh: false,
+    includeRefresh: true,
   })
 
   localStorage.setItem("connectedAppConfig", JSON.stringify(connectedAppConfig))
