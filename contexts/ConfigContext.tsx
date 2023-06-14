@@ -100,8 +100,6 @@ export function ConfigContextProvider({children}: {children: React.ReactNode}) {
       )
 
       setConfig(config)
-
-      console.log(config)
     }
 
     fetchConfig()
