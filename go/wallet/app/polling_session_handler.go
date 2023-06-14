@@ -8,7 +8,7 @@ import (
 
 type UpdatePollingSessionRequest struct {
 	PollingId string `json:"pollingId"`
-	Data string `json:"data"`
+	Data map[string]interface{} `json:"data"`
 }
 
 func (app *App) getPollingSessionHandler(w http.ResponseWriter, r *http.Request) {
@@ -24,18 +24,18 @@ func (app *App) getPollingSessionHandler(w http.ResponseWriter, r *http.Request)
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
 
-		src_json := []byte(app.pollingSessions[pollingId])
-    var obj map[string]interface{}
-    err := json.Unmarshal(src_json, &obj)
+		pollingSession := app.pollingSessions[pollingId]
+
+		obj, err := json.Marshal(pollingSession)
 
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
-		w.Write([]byte(app.pollingSessions[pollingId]))
+		w.Write(obj)
 
-		if obj["status"] == "APPROVED" || obj["status"] == "DECLINED" {
+		if pollingSession["status"] == "APPROVED" || pollingSession["status"] == "DECLINED" {
 			delete(app.pollingSessions, pollingId)
 		}
 	}

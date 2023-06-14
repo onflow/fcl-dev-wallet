@@ -13,7 +13,7 @@ type App struct {
 	bundle embed.FS
 	bundleZip string
 	envConfig []byte
-	pollingSessions map[int]string
+	pollingSessions map[int]map[string]interface{}
 	nextPollingId int
 }
 
@@ -32,7 +32,7 @@ func NewApp(config *FlowConfig, bundle embed.FS, bundleZip string, envConfig []b
 		bundle: bundle,
 		bundleZip: bundleZip,
 		envConfig: envConfig,
-		pollingSessions: make(map[int]string),
+		pollingSessions: make(map[int]map[string]interface{}),
 		nextPollingId: 0,
 	}
 

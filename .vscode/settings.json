@@ -1,7 +1,0 @@
-{
-  "editor.formatOnSave": true,
-  "go.toolsEnvVars": {
-    "GOOS": "js",
-    "GOARCH": "wasm"
-  }
-}

@@ -75,14 +75,21 @@ func (app *App) postServiceHandler(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	pendingResponseJson, err := json.Marshal(pendingResponse)
-	
+
+	// Use json to convert struct to map
+	tmp, err := json.Marshal(pendingResponse)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	pendingResponseMap := make(map[string]interface{})
+	err = json.Unmarshal(tmp, &pendingResponseMap)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	app.pollingSessions[pollingId] = string(pendingResponseJson)
+	app.pollingSessions[pollingId] = pendingResponseMap
 
 	responseJson, err := json.Marshal(ServicePostResponse{
 		FclResponse: pendingResponse,
