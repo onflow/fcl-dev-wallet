@@ -1,11 +1,12 @@
 import {NextApiRequest, NextApiResponse} from "next"
+import {cors} from "src/middleware"
 import PollingSessions from "src/pollingSessions"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "OPTIONS") {
-    // Handle OPTIONS request
-    return res.status(200).end()
-  } else if (req.method === "POST") {
+  // Run cors middleware
+  await cors(req, res)
+
+  if (req.method === "POST") {
     const {pollingId, data} = req.body
 
     if (!pollingId) {
@@ -45,6 +46,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(200).json(data)
   } else {
-    return res.status(405).end()
+    return res.status(405).json({error: "Method not allowed"})
   }
 }

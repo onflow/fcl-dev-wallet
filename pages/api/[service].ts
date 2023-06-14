@@ -1,15 +1,16 @@
 import {NextApiRequest, NextApiResponse} from "next"
 import * as crypto from "crypto"
 import PollingSessions from "src/pollingSessions"
+import {cors} from "src/middleware"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  // Run cors middleware
+  await cors(req, res)
+
   const service = req.query.service as string
   const l6n = req.query.l6n as string
 
-  if (req.method === "OPTIONS") {
-    // Handle OPTIONS request
-    return res.status(200).end()
-  } else if (req.method === "POST") {
+  if (req.method === "POST") {
     const fclMessageJson = JSON.stringify(req.body)
     const pollingId = crypto.randomUUID()
 
