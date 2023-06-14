@@ -21,7 +21,7 @@ function AuthzContent({
   flowAccountPrivateKey: string
   avatarUrl: string
 }) {
-  const {baseUrl} = useConfig()
+  const baseUrl = window.location.origin
   const {isExpanded, codePreview} = useAuthzContext()
   const {currentUser, proposalKey, message} = useAuthzContext()
   const [isLoading, setIsLoading] = useState(false)

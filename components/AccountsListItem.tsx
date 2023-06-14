@@ -107,7 +107,7 @@ export default function AccountsListItem({
       app: {title},
     },
   } = connectedAppConfig
-  const {baseUrl} = useConfig()
+  const baseUrl = window.location.origin
 
   const [scopes, setScopes] = useState<Set<string>>(new Set(account.scopes))
   const {data: accountData} = useAccount(account.address)

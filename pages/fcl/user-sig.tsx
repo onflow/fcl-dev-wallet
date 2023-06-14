@@ -49,7 +49,8 @@ function userSignature(
 }
 
 export default function UserSign() {
-  const {flowAccountPrivateKey, baseUrl} = getWalletConfig()
+  const baseUrl = window.location.origin
+  const {flowAccountPrivateKey} = getWalletConfig()
 
   const signable = useFclData<AuthReadyResponseSignable>({
     transformFrontchannel: (data: AuthReadyResponseData) => {

@@ -8,7 +8,8 @@ import useConfig from "hooks/useConfig"
 
 function AuthnRefreshDialog() {
   const data = useAuthnRefreshContext()
-  const {baseUrl, flowAccountPrivateKey} = useConfig()
+  const baseUrl = window.location.origin
+  const {flowAccountPrivateKey} = useConfig()
 
   if (data) {
     const {address, keyId, scopes, nonce, appIdentifier} = data

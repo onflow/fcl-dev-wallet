@@ -92,7 +92,7 @@ export default function Dialog({
   root?: boolean
   children: React.ReactNode
 }) {
-  const {baseUrl} = useConfig()
+  const baseUrl = window.location.origin
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const onClose = () => {
     const declineResponse = {

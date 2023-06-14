@@ -11,6 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const l6n = req.query.l6n as string
 
   if (req.method === "POST") {
+    const host = req.headers.host
     const fclMessageJson = JSON.stringify(req.body)
     const pollingId = crypto.randomUUID()
 
@@ -22,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         f_type: "PollingResponse",
         f_vsn: "1.0.0",
         type: "back-channel-rpc",
-        endpoint: "http://localhost:8701/api/polling-session",
+        endpoint: `http://${host}/api/polling-session`,
         method: "HTTP/GET",
         params: {
           pollingId,
@@ -38,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         f_type: "Service",
         f_vsn: "1.0.0",
         type: "local-view",
-        endpoint: `http://localhost:8701/fcl/${service}`,
+        endpoint: `http://${host}/fcl/${service}`,
         method: "VIEW/IFRAME",
         params: {
           channel: "back",
