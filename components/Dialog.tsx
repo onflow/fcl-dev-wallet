@@ -6,7 +6,7 @@ import {useRef} from "react"
 import {Box, Button} from "theme-ui"
 import {SXStyles} from "types"
 import ExpandCollapseButton from "./ExpandCollapseButton"
-import {isBackchannel, updatePollingSession} from "src/utils"
+import {getBaseUrl, isBackchannel, updatePollingSession} from "src/utils"
 
 export const styles: SXStyles = {
   dialog: {
@@ -91,7 +91,7 @@ export default function Dialog({
   root?: boolean
   children: React.ReactNode
 }) {
-  const baseUrl = window.location.origin
+  const baseUrl = getBaseUrl()
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const onClose = () => {
     const declineResponse = {

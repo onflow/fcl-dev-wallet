@@ -32,3 +32,7 @@ export function updatePollingSession(baseUrl: string, data: any) {
     },
   })
 }
+
+export function getBaseUrl() {
+  return window.location.origin
+}

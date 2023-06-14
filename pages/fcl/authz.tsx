@@ -10,7 +10,7 @@ import useConfig from "hooks/useConfig"
 import useAuthzContext from "hooks/useAuthzContext"
 import {useState} from "react"
 import {sign} from "src/crypto"
-import {isBackchannel, updatePollingSession} from "src/utils"
+import {getBaseUrl, isBackchannel, updatePollingSession} from "src/utils"
 
 function AuthzContent({
   flowAccountAddress,
@@ -21,7 +21,7 @@ function AuthzContent({
   flowAccountPrivateKey: string
   avatarUrl: string
 }) {
-  const baseUrl = window.location.origin
+  const baseUrl = getBaseUrl()
   const {isExpanded, codePreview} = useAuthzContext()
   const {currentUser, proposalKey, message} = useAuthzContext()
   const [isLoading, setIsLoading] = useState(false)

@@ -7,7 +7,7 @@ import {sign} from "src/crypto"
 import {Box, Themed} from "theme-ui"
 import getWalletConfig from "hooks/useConfig"
 import {useFclData} from "hooks/useFclData"
-import {isBackchannel, updatePollingSession} from "src/utils"
+import {getBaseUrl, isBackchannel, updatePollingSession} from "src/utils"
 
 type AuthReadyResponseSignable = {
   data: {
@@ -49,7 +49,7 @@ function userSignature(
 }
 
 export default function UserSign() {
-  const baseUrl = window.location.origin
+  const baseUrl = getBaseUrl()
   const {flowAccountPrivateKey} = getWalletConfig()
 
   const signable = useFclData<AuthReadyResponseSignable>({

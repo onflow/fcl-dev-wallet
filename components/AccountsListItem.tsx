@@ -9,6 +9,7 @@ import {chooseAccount} from "src/accountAuth"
 import {formattedBalance} from "src/balance"
 import {Flex, Themed} from "theme-ui"
 import {SXStyles} from "types"
+import {getBaseUrl} from "src/utils"
 
 const styles: SXStyles = {
   accountListItem: {
@@ -106,7 +107,7 @@ export default function AccountsListItem({
       app: {title},
     },
   } = connectedAppConfig
-  const baseUrl = window.location.origin
+  const baseUrl = getBaseUrl()
 
   const [scopes, setScopes] = useState<Set<string>>(new Set(account.scopes))
   const {data: accountData} = useAccount(account.address)

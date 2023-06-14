@@ -5,10 +5,11 @@ import useAuthnRefreshContext from "hooks/useAuthnRefreshContext"
 import {refreshAuthn} from "src/accountAuth"
 import Dialog from "components/Dialog"
 import useConfig from "hooks/useConfig"
+import {getBaseUrl} from "src/utils"
 
 function AuthnRefreshDialog() {
   const data = useAuthnRefreshContext()
-  const baseUrl = window.location.origin
+  const baseUrl = getBaseUrl()
   const {flowAccountPrivateKey} = useConfig()
 
   if (data) {
