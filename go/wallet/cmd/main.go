@@ -1,6 +1,3 @@
-//go:build !js && !wasm
-// +build !js,!wasm
-
 package main
 
 import (
@@ -11,9 +8,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-var port uint
-
 func main() {
+	var port uint
 	var rootCmd = &cobra.Command{
 		Use:   "wallet",
 		Short: "Flow Dev Wallet",

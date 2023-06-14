@@ -37,6 +37,3 @@ yarn-error.log*
 
 .idea
 /.env
-
-# backchannel polling session cache - used for development only
-.polling-sessions.tmp

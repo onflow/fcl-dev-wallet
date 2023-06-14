@@ -4,9 +4,9 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "concurrently \"APP_ENV=local next dev --port 8701\" \"go run ./go/wallet/cmd/main.go --port 8799\"",
+    "dev": "concurrently \"APP_ENV=local next dev --port 8701\" \"go run ./go/wallet/cmd/main.go --port 8799\" --raw",
     "build": "next build",
-    "start": "concurrently \"next start\" \"go run ./go/wallet/cmd/main.go --port 8799\"",
+    "start": "concurrently \"next start\" \"go run ./go/wallet/cmd/main.go --port 8799\" --raw",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "tsc": "./node_modules/typescript/bin/tsc",
