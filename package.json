@@ -16,7 +16,8 @@
     "bundle": "next build && next export",
     "zip": "cd ./out && zip -FSr ../go/wallet/bundle.zip . && cd ..",
     "config": "cp .env.development ./go/wallet",
-    "go-server": "npm run bundle && npm run zip && npm run config && go run ./go/wallet/cmd/main.go"
+    "go-server": "npm run bundle && npm run zip && npm run config && go run ./go/wallet/cmd/main.go",
+    "build-api-wasm": "GOOS=js GOARCH=wasm go build -o ./api.wasm ./go/wallet/cmd/main_wasm.go"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",

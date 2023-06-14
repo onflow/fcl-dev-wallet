@@ -9,7 +9,6 @@ import {chooseAccount} from "src/accountAuth"
 import {formattedBalance} from "src/balance"
 import {Flex, Themed} from "theme-ui"
 import {SXStyles} from "types"
-import useConfig from "hooks/useConfig"
 
 const styles: SXStyles = {
   accountListItem: {

@@ -7,7 +7,6 @@ import {Box, Button} from "theme-ui"
 import {SXStyles} from "types"
 import ExpandCollapseButton from "./ExpandCollapseButton"
 import {isBackchannel, updatePollingSession} from "src/utils"
-import useConfig from "hooks/useConfig"
 
 export const styles: SXStyles = {
   dialog: {

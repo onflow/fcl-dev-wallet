@@ -1,7 +1,11 @@
+//go:build !js && !wasm
+// +build !js,!wasm
+
 package main
 
 import (
 	"fmt"
+
 	"github.com/onflow/fcl-dev-wallet/go/wallet"
 )
 
