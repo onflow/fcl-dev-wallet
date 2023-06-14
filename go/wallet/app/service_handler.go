@@ -43,7 +43,8 @@ func (app *App) postServiceHandler(w http.ResponseWriter, r *http.Request) {
 			return
 	}
 
-	pollingId := len(app.pollingSessions)
+	pollingId := app.nextPollingId
+	app.nextPollingId++
 
 	// Resolve baseUrl
 	protocol := r.Header.Get("X-Forwarded-Proto")
@@ -81,8 +82,7 @@ func (app *App) postServiceHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	newPollingSessions := append(app.pollingSessions, string(pendingResponseJson))
-	app.pollingSessions = newPollingSessions
+	app.pollingSessions[pollingId] = string(pendingResponseJson)
 
 	responseJson, err := json.Marshal(ServicePostResponse{
 		FclResponse: pendingResponse,

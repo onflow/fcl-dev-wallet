@@ -13,7 +13,8 @@ type App struct {
 	bundle embed.FS
 	bundleZip string
 	envConfig []byte
-	pollingSessions []string
+	pollingSessions map[int]string
+	nextPollingId int
 }
 
 type FlowConfig struct {
@@ -31,7 +32,8 @@ func NewApp(config *FlowConfig, bundle embed.FS, bundleZip string, envConfig []b
 		bundle: bundle,
 		bundleZip: bundleZip,
 		envConfig: envConfig,
-		pollingSessions: make([]string, 0),
+		pollingSessions: make(map[int]string),
+		nextPollingId: 0,
 	}
 
 	r := mux.NewRouter()
