@@ -10,6 +10,7 @@ import useConfig from "hooks/useConfig"
 import useAuthzContext from "hooks/useAuthzContext"
 import {useState} from "react"
 import {sign} from "src/crypto"
+import {getBaseUrl, isBackchannel, updatePollingSession} from "src/utils"
 
 function AuthzContent({
   flowAccountAddress,
@@ -20,6 +21,7 @@ function AuthzContent({
   flowAccountPrivateKey: string
   avatarUrl: string
 }) {
+  const baseUrl = getBaseUrl()
   const {isExpanded, codePreview} = useAuthzContext()
   const {currentUser, proposalKey, message} = useAuthzContext()
   const [isLoading, setIsLoading] = useState(false)
@@ -29,16 +31,40 @@ function AuthzContent({
 
     const signature = sign(flowAccountPrivateKey, message)
 
-    WalletUtils.approve(
-      new WalletUtils.CompositeSignature(
+    const response = {
+      f_type: "PollingResponse",
+      f_vsn: "1.0.0",
+      status: "APPROVED",
+      reason: null,
+      data: new WalletUtils.CompositeSignature(
         currentUser.address,
         proposalKey.keyId,
         signature
-      )
-    )
+      ),
+    }
+
+    if (isBackchannel()) {
+      updatePollingSession(baseUrl, response)
+    } else {
+      WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", response)
+    }
   }
 
-  const onDecline = () => WalletUtils.close()
+  const onDecline = () => {
+    const declineResponse = {
+      f_type: "PollingResponse",
+      f_vsn: "1.0.0",
+      status: "DECLINED",
+      reason: "User declined",
+      data: null,
+    }
+
+    if (isBackchannel()) {
+      updatePollingSession(baseUrl, declineResponse)
+    } else {
+      WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", declineResponse)
+    }
+  }
 
   return (
     <Dialog

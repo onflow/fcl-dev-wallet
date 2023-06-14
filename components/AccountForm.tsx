@@ -72,6 +72,7 @@ export default function AccountForm({
             onSubmitComplete(address)
           }
         } catch (error) {
+          throw error
           // TODO: Fix error string
           // setErrors([error])
           setSubmitting(false)

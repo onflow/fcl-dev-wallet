@@ -9,9 +9,9 @@ import {encodeServiceKey} from "src/crypto"
 
 async function isInitialized(flowAccountAddress: string): Promise<boolean> {
   try {
-    const account = await fcl
-      .send([fcl.getAccount(flowAccountAddress)])
-      .then(fcl.decode)
+    const account = await fcl.decode(
+      await fcl.send([fcl.getAccount(flowAccountAddress)])
+    )
 
     if (account["contracts"]["FCL"]) {
       return true

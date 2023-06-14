@@ -6,6 +6,7 @@ import {useRef} from "react"
 import {Box, Button} from "theme-ui"
 import {SXStyles} from "types"
 import ExpandCollapseButton from "./ExpandCollapseButton"
+import {getBaseUrl, isBackchannel, updatePollingSession} from "src/utils"
 
 export const styles: SXStyles = {
   dialog: {
@@ -90,8 +91,23 @@ export default function Dialog({
   root?: boolean
   children: React.ReactNode
 }) {
+  const baseUrl = getBaseUrl()
   const closeButtonRef = useRef<HTMLButtonElement>(null)
-  const onClose = () => WalletUtils.close()
+  const onClose = () => {
+    const declineResponse = {
+      f_type: "PollingResponse",
+      f_vsn: "1.0.0",
+      status: "DECLINED",
+      reason: "User declined",
+      data: null,
+    }
+
+    if (isBackchannel()) {
+      updatePollingSession(baseUrl, declineResponse)
+    } else {
+      WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", declineResponse)
+    }
+  }
   const {isExpanded, setCodePreview} = useAuthzContext()
 
   return (

@@ -3,10 +3,11 @@ import {WalletUtils} from "@onflow/fcl"
 import AuthzActions from "components/AuthzActions"
 import AuthzDetailsTable, {AuthzDetailsRow} from "components/AuthzDetailsTable"
 import Dialog from "components/Dialog"
-import {useEffect, useState} from "react"
 import {sign} from "src/crypto"
 import {Box, Themed} from "theme-ui"
 import getWalletConfig from "hooks/useConfig"
+import {useFclData} from "hooks/useFclData"
+import {getBaseUrl, isBackchannel, updatePollingSession} from "src/utils"
 
 type AuthReadyResponseSignable = {
   data: {
@@ -48,19 +49,14 @@ function userSignature(
 }
 
 export default function UserSign() {
+  const baseUrl = getBaseUrl()
   const {flowAccountPrivateKey} = getWalletConfig()
 
-  const [signable, setSignable] = useState<AuthReadyResponseSignable | null>(
-    null
-  )
-
-  useEffect(() => {
-    function callback(data: AuthReadyResponseData) {
-      setSignable(data.body)
-    }
-
-    WalletUtils.ready(callback)
-  }, [])
+  const signable = useFclData<AuthReadyResponseSignable>({
+    transformFrontchannel: (data: AuthReadyResponseData) => {
+      return data.body
+    },
+  })
 
   function onApprove() {
     const {addr, keyId, signature} = userSignature(
@@ -68,13 +64,35 @@ export default function UserSign() {
       flowAccountPrivateKey
     )
 
-    WalletUtils.approve(
-      new WalletUtils.CompositeSignature(addr, keyId, signature)
-    )
+    const response = {
+      f_type: "PollingResponse",
+      f_vsn: "1.0.0",
+      status: "APPROVED",
+      reason: null,
+      data: new WalletUtils.CompositeSignature(addr, keyId, signature),
+    }
+
+    if (isBackchannel()) {
+      updatePollingSession(baseUrl, response)
+    } else {
+      WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", response)
+    }
   }
 
   const onDecline = () => {
-    WalletUtils.decline("User declined")
+    const declineResponse = {
+      f_type: "PollingResponse",
+      f_vsn: "1.0.0",
+      status: "DECLINED",
+      reason: "User declined",
+      data: null,
+    }
+
+    if (isBackchannel()) {
+      updatePollingSession(baseUrl, declineResponse)
+    } else {
+      WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", declineResponse)
+    }
   }
 
   return (

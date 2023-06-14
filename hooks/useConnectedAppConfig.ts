@@ -1,6 +1,5 @@
-import {WalletUtils} from "@onflow/fcl"
-import {useEffect, useState} from "react"
 import {parseScopes} from "src/scopes"
+import {useFclData} from "./useFclData"
 
 export type ConnectedAppConfig = {
   type: string
@@ -21,16 +20,18 @@ export type ConnectedAppConfig = {
 }
 
 export default function useConnectedAppConfig() {
-  const [connectedAppConfig, setConnectedAppConfig] =
-    useState<ConnectedAppConfig | null>(null)
-
-  useEffect(() => {
-    function callback(data: ConnectedAppConfig) {
-      setConnectedAppConfig(data)
-    }
-
-    WalletUtils.ready(callback)
-  }, [])
+  const connectedAppConfig = useFclData<ConnectedAppConfig | null>({
+    transformBackchannel: data => {
+      const {appIdentifier, nonce, ...restData} = data
+      return {
+        ...restData,
+        body: {
+          appIdentifier: appIdentifier,
+          nonce: nonce,
+        },
+      }
+    },
+  })
 
   const appScopes = parseScopes(
     connectedAppConfig?.config?.services?.["OpenID.scopes"]

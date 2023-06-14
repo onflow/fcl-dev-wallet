@@ -4,7 +4,6 @@ import {Spinner} from "../components/Spinner"
 
 interface RuntimeConfig {
   flowAvatarUrl: string
-  baseUrl: string
   contractFungibleToken: string
   contractFlowToken: string
   contractFUSD: string
@@ -20,7 +19,6 @@ interface RuntimeConfig {
 
 const defaultConfig = {
   flowAvatarUrl: process.env.flowAvatarUrl || "",
-  baseUrl: process.env.baseUrl || "",
   contractFungibleToken: process.env.contractFungibleToken || "",
   contractFlowToken: process.env.contractFlowToken || "",
   contractFUSD: process.env.contractFUSD || "",
