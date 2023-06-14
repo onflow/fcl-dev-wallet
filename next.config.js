@@ -1,5 +1,13 @@
 module.exports = {
   productionBrowserSourceMaps: true,
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "http://localhost:8799/api/:path*", // Proxy to Go API
+      },
+    ]
+  },
   async headers() {
     return [
       {
