@@ -79,7 +79,19 @@ export default function UserSign() {
   }
 
   const onDecline = () => {
-    WalletUtils.decline("User declined")
+    const declineResponse = {
+      f_type: "PollingResponse",
+      f_vsn: "1.0.0",
+      status: "DECLINED",
+      reason: "User declined",
+      data: null,
+    }
+
+    if (isBackchannel()) {
+      updatePollingSession(baseUrl, declineResponse)
+    } else {
+      WalletUtils.sendMsgToFCL("FCL:VIEW:RESPONSE", declineResponse)
+    }
   }
 
   return (
