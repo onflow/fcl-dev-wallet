@@ -45,6 +45,19 @@ func (app *App) postServiceHandler(w http.ResponseWriter, r *http.Request) {
 
 	pollingId := len(app.pollingSessions)
 
+	// Resolve baseUrl
+	protocol := r.Header.Get("X-Forwarded-Proto")
+	if(protocol == "") {
+		protocol = r.Proto
+	}
+
+	host := r.Header.Get("X-Forwarded-Host")
+	if(host == "") {
+		host = r.Host
+	}
+
+	baseUrl := protocol + "://" + host
+
 	pendingResponse := FclResponse{
 		FType: "PollingResponse",
 		FVsn: "1.0.0",
@@ -53,7 +66,7 @@ func (app *App) postServiceHandler(w http.ResponseWriter, r *http.Request) {
 			FType: "PollingResponse",
 			FVsn: "1.0.0",
 			Type: "back-channel-rpc",
-			Endpoint: "http://localhost:8701/api/polling-session",
+			Endpoint: baseUrl + "/api/polling-session",
 			Method: "HTTP/GET",
 			Params: map[string]string{
 				"pollingId": fmt.Sprint(pollingId),
@@ -77,7 +90,7 @@ func (app *App) postServiceHandler(w http.ResponseWriter, r *http.Request) {
 			FType: "Service",
 			FVsn: "1.0.0",
 			Type: "local-view",
-			Endpoint: "http://localhost:8701/fcl/" + service,
+			Endpoint: baseUrl + "/fcl/" + service,
 			Method: "VIEW/IFRAME",
 			Params: map[string]string{
 				"pollingId": fmt.Sprint(pollingId),
