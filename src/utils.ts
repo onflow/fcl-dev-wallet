@@ -21,7 +21,7 @@ export function getPollingId() {
 export function updatePollingSession(baseUrl: string, data: any) {
   const body = {
     pollingId: getPollingId(),
-    data,
+    data: JSON.stringify(data),
   }
 
   fetch(baseUrl + "/api/polling-session", {

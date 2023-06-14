@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+import * as crypto from "crypto"
 ;(() => {
   const enosys = () => {
     const err = new Error("not implemented")
@@ -140,7 +141,7 @@
     }
   }
 
-  if (!globalThis.crypto) {
+  if (!crypto) {
     throw new Error(
       "globalThis.crypto is not available, polyfill required (crypto.getRandomValues only)"
     )

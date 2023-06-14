@@ -8,14 +8,14 @@ const WASM_PATH = path.resolve("./api.wasm")
 const handlerPromise = new Promise(setHandler => {
   const global = globalThis as any
   global.wasmhttp = {
-    path,
+    path: "",
     setHandler,
   }
 })
 
 ;(async () => {
   const go = new ((globalThis as any).Go as any)()
-  go.argv = ["api.wasm", {base: "http://example.com/api"}]
+  go.argv = ["api.wasm"]
   WebAssembly.instantiate(
     await promisify(readFile)(WASM_PATH),
     go.importObject

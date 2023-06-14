@@ -3,7 +3,7 @@ module github.com/onflow/fcl-dev-wallet
 go 1.18
 
 require (
-	github.com/google/uuid v1.3.0
+	github.com/gorilla/mux v1.8.0
 	github.com/joho/godotenv v1.4.0
 	github.com/nlepage/go-wasm-http-server v1.1.0
 )

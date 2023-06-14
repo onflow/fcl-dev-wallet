@@ -4,7 +4,7 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "rimraf ./.polling-sessions.tmp && APP_ENV=local next dev --port 8701",
+    "dev": "rimraf ./.polling-sessions.tmp && npm run build-wasm && APP_ENV=local next dev --port 8701",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -17,7 +17,7 @@
     "zip": "cd ./out && zip -FSr ../go/wallet/bundle.zip . && cd ..",
     "config": "cp .env.development ./go/wallet",
     "go-server": "npm run bundle && npm run zip && npm run config && go run ./go/wallet/cmd/main.go",
-    "build-api-wasm": "GOOS=js GOARCH=wasm go build -o ./api.wasm ./go/wallet/cmd/main_wasm.go"
+    "build-wasm": "GOOS=js GOARCH=wasm go build -o ./api.wasm ./go/wallet/cmd/main_wasm.go"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
