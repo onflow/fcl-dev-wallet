@@ -37,7 +37,7 @@ export const ConfigContext = createContext<RuntimeConfig>(defaultConfig)
 
 async function getConfig(): Promise<RuntimeConfig> {
   if (process.env.isLocal) {
-    return replaceLocalhostWithBaseUrl(defaultConfig)
+    return repalceAccessUrlBaseUrl(defaultConfig)
   }
 
   const result = await fetch("http://localhost:8701/api/")
@@ -55,13 +55,13 @@ async function getConfig(): Promise<RuntimeConfig> {
       )
       return defaultConfig
     })
-    .then(config => replaceLocalhostWithBaseUrl(config))
+    .then(config => repalceAccessUrlBaseUrl(config))
 
   return result
 }
 
 // Replace localhost Flow Access Node with the base URL of the app
-function replaceLocalhostWithBaseUrl(config: RuntimeConfig): RuntimeConfig {
+function repalceAccessUrlBaseUrl(config: RuntimeConfig): RuntimeConfig {
   const accessNodeUrl = new URL(config.flowAccessNode)
   const {hostname} = accessNodeUrl
   const isLocalhost =
