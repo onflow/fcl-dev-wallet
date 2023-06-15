@@ -1,4 +1,4 @@
-package app
+package wallet
 
 import (
 	"encoding/json"
@@ -30,7 +30,7 @@ type ServicePostResponse struct {
 }
 
 
-func (app *App) postServiceHandler(w http.ResponseWriter, r *http.Request) {
+func (server *server) postServiceHandler(w http.ResponseWriter, r *http.Request) {
 	service := strings.TrimPrefix(r.URL.Path, "/api/")
 	if service == "" {
 		w.WriteHeader(http.StatusNotFound)
@@ -43,21 +43,11 @@ func (app *App) postServiceHandler(w http.ResponseWriter, r *http.Request) {
 			return
 	}
 
-	pollingId := app.nextPollingId
-	app.nextPollingId++
+	pollingId := server.nextPollingId
+	server.nextPollingId++
 
 	// Resolve baseUrl
-	protocol := r.Header.Get("X-Forwarded-Proto")
-	if(protocol == "") {
-		protocol = "http"
-	}
-
-	host := r.Header.Get("X-Forwarded-Host")
-	if(host == "") {
-		host = r.Host
-	}
-
-	baseUrl := protocol + "://" + host
+	baseUrl := getBaseUrl(r)
 
 	pendingResponse := FclResponse{
 		FType: "PollingResponse",
@@ -89,7 +79,7 @@ func (app *App) postServiceHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.pollingSessions[pollingId] = pendingResponseMap
+	server.pollingSessions[pollingId] = pendingResponseMap
 
 	responseJson, err := json.Marshal(ServicePostResponse{
 		FclResponse: pendingResponse,

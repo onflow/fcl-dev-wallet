@@ -1,4 +1,4 @@
-package app
+package wallet
 
 import (
 	"encoding/json"
@@ -11,20 +11,20 @@ type UpdatePollingSessionRequest struct {
 	Data map[string]interface{} `json:"data"`
 }
 
-func (app *App) getPollingSessionHandler(w http.ResponseWriter, r *http.Request) {
+func (srv *server) getPollingSessionHandler(w http.ResponseWriter, r *http.Request) {
 	pollingId, err := strconv.Atoi(r.URL.Query().Get("pollingId"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
-	if _, ok := app.pollingSessions[pollingId]; !ok {
+	if _, ok := srv.pollingSessions[pollingId]; !ok {
 		w.WriteHeader(http.StatusNotFound)
 	} else {
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
 
-		pollingSession := app.pollingSessions[pollingId]
+		pollingSession := srv.pollingSessions[pollingId]
 
 		obj, err := json.Marshal(pollingSession)
 
@@ -36,12 +36,12 @@ func (app *App) getPollingSessionHandler(w http.ResponseWriter, r *http.Request)
 		w.Write(obj)
 
 		if pollingSession["status"] == "APPROVED" || pollingSession["status"] == "DECLINED" {
-			delete(app.pollingSessions, pollingId)
+			delete(srv.pollingSessions, pollingId)
 		}
 	}
 }
 
-func (app *App) postPollingSessionHandler(w http.ResponseWriter, r *http.Request) {
+func (srv *server) postPollingSessionHandler(w http.ResponseWriter, r *http.Request) {
 	var req UpdatePollingSessionRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 
@@ -57,7 +57,7 @@ func (app *App) postPollingSessionHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	app.pollingSessions[pollingId] = req.Data
+	srv.pollingSessions[pollingId] = req.Data
 	
 	w.WriteHeader(http.StatusCreated)
 }
