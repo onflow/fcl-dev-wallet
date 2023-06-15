@@ -49,7 +49,7 @@ func (app *App) postServiceHandler(w http.ResponseWriter, r *http.Request) {
 	// Resolve baseUrl
 	protocol := r.Header.Get("X-Forwarded-Proto")
 	if(protocol == "") {
-		protocol = r.Proto
+		protocol = "http"
 	}
 
 	host := r.Header.Get("X-Forwarded-Host")
