@@ -15,6 +15,7 @@ func (srv *server) devWalletHandler(writer http.ResponseWriter, request *http.Re
 	rootFS := http.FS(zipFS)
 
 	path := strings.TrimPrefix(request.URL.Path, "/")
+	path = strings.TrimSuffix(path, "/")
 	if path != "" { // api requests don't include .html so that needs to be added
 		if _, err := zipFS.Open(path); err != nil {
 			path = fmt.Sprintf("%s.html", path)
