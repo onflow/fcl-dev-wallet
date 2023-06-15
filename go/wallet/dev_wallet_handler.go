@@ -1,4 +1,4 @@
-package app
+package wallet
 
 import (
 	"archive/zip"
@@ -9,8 +9,8 @@ import (
 )
 
 // devWalletHandler handles endpoints to exported static html files
-func (app *App) devWalletHandler(writer http.ResponseWriter, request *http.Request) {
-	zipContent, _ := app.bundle.ReadFile(app.bundleZip)
+func (srv *server) devWalletHandler(writer http.ResponseWriter, request *http.Request) {
+	zipContent, _ := srv.bundle.ReadFile(srv.bundleZip)
 	zipFS, _ := zip.NewReader(bytes.NewReader(zipContent), int64(len(zipContent)))
 	rootFS := http.FS(zipFS)
 
