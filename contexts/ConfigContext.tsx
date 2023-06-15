@@ -1,6 +1,7 @@
 import React, {createContext, useEffect, useState} from "react"
 import fclConfig from "src/fclConfig"
 import {Spinner} from "../components/Spinner"
+import {getBaseUrl} from "src/utils"
 
 interface RuntimeConfig {
   flowAvatarUrl: string
@@ -36,7 +37,7 @@ export const ConfigContext = createContext<RuntimeConfig>(defaultConfig)
 
 async function getConfig(): Promise<RuntimeConfig> {
   if (process.env.isLocal) {
-    return defaultConfig
+    return replaceAccessUrlBaseUrl(defaultConfig)
   }
 
   const result = await fetch("http://localhost:8701/api/")
@@ -54,8 +55,25 @@ async function getConfig(): Promise<RuntimeConfig> {
       )
       return defaultConfig
     })
+    .then(config => replaceAccessUrlBaseUrl(config))
 
   return result
+}
+
+// Replace localhost Flow Access Node with the base URL of the app
+function replaceAccessUrlBaseUrl(config: RuntimeConfig): RuntimeConfig {
+  const accessNodeUrl = new URL(config.flowAccessNode)
+  const {hostname} = accessNodeUrl
+  const isLocalhost =
+    hostname === "127.0.0.1" || hostname === "::1" || hostname === "localhost"
+
+  if (isLocalhost) {
+    accessNodeUrl.hostname = new URL(getBaseUrl()).hostname
+    // Must remove trailing slash to work
+    config.flowAccessNode = accessNodeUrl.href.replace(/\/$/, "")
+  }
+
+  return config
 }
 
 export function ConfigContextProvider({children}: {children: React.ReactNode}) {
