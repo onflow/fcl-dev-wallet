@@ -12,7 +12,7 @@ type DiscoveryService struct {
 	Endpoint string `json:"endpoint"`
 	Method string `json:"method"`
 	Uid string `json:"uid"`
-	Provider interface{} `json:"provider"`
+	Provider DiscoveryServiceProvider `json:"provider"`
 }
 
 type DiscoveryServiceProvider struct {
