@@ -59,6 +59,7 @@ func NewHTTPServer(port uint, config *FlowConfig) (*server, error) {
 	apiRouter.HandleFunc("/", srv.configHandler).Methods("GET")
 	apiRouter.HandleFunc("/polling-session", srv.getPollingSessionHandler).Methods("GET")
 	apiRouter.HandleFunc("/polling-session", srv.postPollingSessionHandler).Methods("POST")
+	apiRouter.HandleFunc("/discovery", srv.discoveryHandler)
 	apiRouter.HandleFunc("/{service}", srv.postServiceHandler).Methods("POST")
 
 	// Main route
