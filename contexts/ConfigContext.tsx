@@ -40,7 +40,7 @@ async function getConfig(): Promise<RuntimeConfig> {
     return replaceAccessUrlBaseUrl(defaultConfig)
   }
 
-  const result = await fetch(`http://${getBaseUrl()}/api/`)
+  const result = await fetch(`${getBaseUrl()}/api/`)
     .then(res => res.json())
     .then(remoteConfig => {
       return Object.assign(defaultConfig, remoteConfig)
@@ -68,7 +68,10 @@ function replaceAccessUrlBaseUrl(config: RuntimeConfig): RuntimeConfig {
     hostname === "127.0.0.1" || hostname === "::1" || hostname === "localhost"
 
   if (isLocalhost) {
-    accessNodeUrl.hostname = new URL(getBaseUrl()).hostname
+    const baseUrl = new URL(getBaseUrl())
+    accessNodeUrl.hostname = baseUrl.hostname
+    accessNodeUrl.port = baseUrl.port
+    accessNodeUrl.protocol = baseUrl.protocol
     // Must remove trailing slash to work
     config.flowAccessNode = accessNodeUrl.href.replace(/\/$/, "")
   }
