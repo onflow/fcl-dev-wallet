@@ -40,7 +40,7 @@ async function getConfig(): Promise<RuntimeConfig> {
     return replaceAccessUrlBaseUrl(defaultConfig)
   }
 
-  const result = await fetch("http://localhost:8701/api/")
+  const result = await fetch(`http://${getBaseUrl()}/api/`)
     .then(res => res.json())
     .then(remoteConfig => {
       return Object.assign(defaultConfig, remoteConfig)
