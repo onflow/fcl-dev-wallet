@@ -68,10 +68,7 @@ function replaceAccessUrlBaseUrl(config: RuntimeConfig): RuntimeConfig {
     hostname === "127.0.0.1" || hostname === "::1" || hostname === "localhost"
 
   if (isLocalhost) {
-    const baseUrl = new URL(getBaseUrl())
-    accessNodeUrl.hostname = baseUrl.hostname
-    accessNodeUrl.port = baseUrl.port
-    accessNodeUrl.protocol = baseUrl.protocol
+    accessNodeUrl.hostname = new URL(getBaseUrl()).hostname
     // Must remove trailing slash to work
     config.flowAccessNode = accessNodeUrl.href.replace(/\/$/, "")
   }
