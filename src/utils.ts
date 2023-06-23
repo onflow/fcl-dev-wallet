@@ -18,19 +18,25 @@ export function getPollingId() {
  * This function is used to update a polling session with data from the frontchannel.
  * It is used to emulate a backchannel response from the frontchannel.
  */
-export function updatePollingSession(baseUrl: string, data: any) {
+export async function updatePollingSession(baseUrl: string, data: any) {
   const body = {
     pollingId: getPollingId(),
     data,
   }
 
-  fetch(baseUrl + "/api/polling-session", {
+  const response = await fetch(baseUrl + "/api/polling-session", {
     method: "POST",
     body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
     },
   })
+
+  if (!response.ok) {
+    throw new Error("Failed to update polling session")
+  }
+
+  window.close()
 }
 
 export function getBaseUrl() {
