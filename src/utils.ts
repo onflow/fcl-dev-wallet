@@ -39,7 +39,9 @@ export async function updatePollingSession(baseUrl: string, data: any) {
   // window.close() needs to be called at the end of a backchannel flow
   // to support Android devices where the parent FCL instance is unable
   // to dismiss the child window.
-  window.close()
+  try {
+    window.close()
+  } catch (e) {}
 }
 
 export function getBaseUrl() {
