@@ -36,6 +36,9 @@ export async function updatePollingSession(baseUrl: string, data: any) {
     throw new Error("Failed to update polling session")
   }
 
+  // window.close() needs to be called at the end of a backchannel flow
+  // to support Android devices where the parent FCL instance is unable
+  // to dismiss the child window.
   window.close()
 }
 
