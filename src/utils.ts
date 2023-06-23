@@ -18,19 +18,41 @@ export function getPollingId() {
  * This function is used to update a polling session with data from the frontchannel.
  * It is used to emulate a backchannel response from the frontchannel.
  */
-export function updatePollingSession(baseUrl: string, data: any) {
+export async function updatePollingSession(baseUrl: string, data: any) {
   const body = {
     pollingId: getPollingId(),
     data,
   }
 
-  fetch(baseUrl + "/api/polling-session", {
+  const response = await fetch(baseUrl + "/api/polling-session", {
     method: "POST",
     body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
     },
   })
+
+  if (!response.ok) {
+    throw new Error("Failed to update polling session")
+  }
+
+  // window.close() needs to be called at the end of a backchannel flow
+  // to support Android devices where the parent FCL instance is unable
+  // to dismiss the child window.  We also have an extra safety check
+  // to make sure we don't close the window if we're in an iframe.
+  if (!inIframe()) {
+    try {
+      window.close()
+    } catch (e) {}
+  }
+}
+
+export function inIframe() {
+  try {
+    return window.self !== window.top
+  } catch (e) {
+    return true
+  }
 }
 
 export function getBaseUrl() {
