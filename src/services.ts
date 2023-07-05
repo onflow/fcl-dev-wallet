@@ -50,6 +50,14 @@ function entries<T>(arr: Array<T> = []) {
   return Object.fromEntries(arrEntries)
 }
 
+const getMethod = (backchannel: boolean, platform: string | null) => {
+  return backchannel
+    ? "HTTP/POST"
+    : platform === "react-native"
+    ? "MOBILE_BROWSER/DEEPLINK"
+    : "IFRAME/RPC"
+}
+
 const entry = (
   scopes: Set<string>,
   key: string,
@@ -64,6 +72,7 @@ export const buildServices = ({
   compSig,
   keyId,
   includeRefresh = false,
+  client,
 }: {
   baseUrl: string
   address: string
@@ -72,8 +81,10 @@ export const buildServices = ({
   compSig: string | undefined
   keyId?: number
   includeRefresh?: boolean
+  client?: {platform?: string}
 }) => {
   const backchannel = isBackchannel()
+  const platform = client?.platform || null
 
   const services: AuthResponseService[] = [
     {
@@ -82,7 +93,7 @@ export const buildServices = ({
       type: "authn",
       uid: "fcl-dev-wallet#authn",
       endpoint: backchannel ? `${baseUrl}/api/authn` : `${baseUrl}/fcl/authn`,
-      method: backchannel ? "HTTP/POST" : "IFRAME/RPC",
+      method: getMethod(backchannel, platform),
       id: address,
       identity: {
         address: address,
@@ -100,7 +111,7 @@ export const buildServices = ({
       type: "authz",
       uid: "fcl-dev-wallet#authz",
       endpoint: backchannel ? `${baseUrl}/api/authz` : `${baseUrl}/fcl/authz`,
-      method: backchannel ? "HTTP/POST" : "IFRAME/RPC",
+      method: getMethod(backchannel, platform),
       identity: {
         address: address,
         keyId: Number(keyId),
@@ -114,7 +125,7 @@ export const buildServices = ({
       endpoint: backchannel
         ? `${baseUrl}/api/user-sig`
         : `${baseUrl}/fcl/user-sig`,
-      method: backchannel ? "HTTP/POST" : "IFRAME/RPC",
+      method: getMethod(backchannel, platform),
       id: address,
       data: {addr: address, keyId: Number(keyId)},
       params: {},
@@ -149,7 +160,7 @@ export const buildServices = ({
       endpoint: backchannel
         ? `${baseUrl}/api/authn-refresh`
         : `${baseUrl}/fcl/authn-refresh`,
-      method: backchannel ? "HTTP/POST" : "IFRAME/RPC",
+      method: getMethod(backchannel, platform),
       id: address,
       data: {
         f_type: "authn-refresh",

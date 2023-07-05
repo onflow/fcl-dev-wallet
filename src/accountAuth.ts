@@ -77,6 +77,7 @@ export async function chooseAccount(
 ) {
   const {address, keyId} = account
   const {nonce, appIdentifier} = connectedAppConfig.body
+  const {client} = connectedAppConfig.config
 
   let compSig
   if (nonce) {
@@ -98,6 +99,7 @@ export async function chooseAccount(
     compSig,
     keyId,
     includeRefresh: false,
+    client,
   })
 
   localStorage.setItem("connectedAppConfig", JSON.stringify(connectedAppConfig))

@@ -12,7 +12,7 @@ export function useFclData<T>({
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
-    if (urlParams.has("channel") && urlParams.get("channel") === "back") {
+    if (urlParams.has("fclMessageJson")) {
       const fclMessageJson = urlParams.get("fclMessageJson")
       if (!fclMessageJson) {
         throw new Error("fclMessageJson is missing")

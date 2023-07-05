@@ -29,6 +29,34 @@ type ServicePostResponse struct {
 	Local Service `json:"local"`
 }
 
+type FCLClient struct {
+	Platform string `json:"platform"`
+}
+
+type FCLConfig struct {
+	Client FCLClient `json:"client"`
+}
+
+type FCLMessage struct {
+	Config FCLConfig `json:"config"`
+}
+
+func getMethod(fclMessageJson []byte) string {
+
+	var fclMessage FCLMessage
+	err := json.Unmarshal(fclMessageJson, &fclMessage)
+
+	if err != nil {
+		fmt.Println("Error:", err)
+		return "VIEW/IFRAME"
+	}
+
+	if fclMessage.Config.Client.Platform == "react-native" {
+		return "VIEW/MOBILE_BROWSER"
+	}
+
+	return "VIEW/IFRAME"
+}
 
 func (server *server) postServiceHandler(w http.ResponseWriter, r *http.Request) {
 	service := strings.TrimPrefix(r.URL.Path, "/api/")
@@ -38,6 +66,8 @@ func (server *server) postServiceHandler(w http.ResponseWriter, r *http.Request)
 	}
 
 	fclMessageJson, err := ioutil.ReadAll(r.Body)
+	method := getMethod(fclMessageJson)
+
 	if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
@@ -88,7 +118,7 @@ func (server *server) postServiceHandler(w http.ResponseWriter, r *http.Request)
 			FVsn: "1.0.0",
 			Type: "local-view",
 			Endpoint: baseUrl + "/fcl/" + service,
-			Method: "VIEW/IFRAME",
+			Method: method,
 			Params: map[string]string{
 				"pollingId": fmt.Sprint(pollingId),
 				"channel": "back",
