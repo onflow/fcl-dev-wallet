@@ -47,7 +47,7 @@ func (server *server) discoveryHandler(w http.ResponseWriter, r *http.Request) {
 			FVsn: "1.0.0",
 			Type: "authn",
 			Endpoint: getBaseUrl(r) + "/fcl/authn",
-			Method: "MOBILE_BROWSER/DEEPLINK",
+			Method: "DEEPLINK/RPC",
 			Uid: "devwallet_deeplink#authn",
 			Provider: DiscoveryServiceProvider{
 				Address: "0xDevWallet_1",

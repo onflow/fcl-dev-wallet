@@ -54,7 +54,7 @@ const getMethod = (backchannel: boolean, platform: string | null) => {
   return backchannel
     ? "HTTP/POST"
     : platform === "react-native"
-    ? "MOBILE_BROWSER/DEEPLINK"
+    ? "DEEPLINK/RPC"
     : "IFRAME/RPC"
 }
 
