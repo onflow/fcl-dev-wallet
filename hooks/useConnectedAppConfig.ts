@@ -16,6 +16,9 @@ export type ConnectedAppConfig = {
       icon: string
       title: string
     }
+    client?: {
+      platform?: string
+    }
   }
 }
 
