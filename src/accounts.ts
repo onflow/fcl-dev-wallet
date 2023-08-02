@@ -98,7 +98,6 @@ export async function newAccount(
       fcl.authorizations([authorization]),
       fcl.proposer(authorization),
       fcl.payer(authorization),
-      fcl.limit(100),
     ])
     .then(fcl.decode)
 
@@ -141,7 +140,7 @@ export async function updateAccount(
       ]),
       fcl.proposer(authorization),
       fcl.payer(authorization),
-      fcl.limit(100),
+      fcl.limit(9999),
     ])
     .then(fcl.decode)
 
