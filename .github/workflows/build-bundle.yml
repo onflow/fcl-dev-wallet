@@ -26,7 +26,7 @@ jobs:
       - run: npm run build
       - run: npm run export
 
-      - uses: papeloto/action-zip@v1
+      - uses: vimtor/action-zip
         with:
           files: out/
           dest: ./go/wallet/bundle.zip
