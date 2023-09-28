@@ -67,7 +67,7 @@ export async function initializeWallet(config: {
       fcl.proposer(authorization),
       fcl.payer(authorization),
       fcl.authorizations([authorization]),
-      fcl.limit(200),
+      fcl.limit(9999),
     ])
     .then(fcl.decode)
 
