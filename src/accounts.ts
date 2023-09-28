@@ -98,7 +98,7 @@ export async function newAccount(
       fcl.authorizations([authorization]),
       fcl.proposer(authorization),
       fcl.payer(authorization),
-      fcl.limit(100),
+      fcl.limit(1000),
     ])
     .then(fcl.decode)
 
