@@ -60,7 +60,7 @@ export async function initializeWallet(config: {
     .send([
       fcl.transaction(initTransaction),
       fcl.args([
-        fcl.arg(Buffer.from(FCLContract, "utf8").toString('utf8'), t.String),
+        fcl.arg(FCLContract, t.String),
         fcl.arg(encodeServiceKey(flowAccountPublicKey), t.String),
         fcl.arg(initAccountsLabels, t.Array(t.String)),
       ]),
