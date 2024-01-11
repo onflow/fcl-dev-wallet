@@ -7,7 +7,6 @@ export const SERVICE_ACCOUNT_LABEL = "Service Account"
 export const UNTITLED_APP_NAME = "Untitled Dapp"
 
 export const FLOW_TYPE = "FLOW"
-export const FUSD_TYPE = "FUSD"
 
-export type TokenTypes = typeof FLOW_TYPE | typeof FUSD_TYPE
-export type TokenType = "FLOW" | "FUSD"
+export type TokenTypes = typeof FLOW_TYPE
+export type TokenType = "FLOW"

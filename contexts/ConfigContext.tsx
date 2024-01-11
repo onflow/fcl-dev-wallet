@@ -7,7 +7,6 @@ interface RuntimeConfig {
   flowAvatarUrl: string
   contractFungibleToken: string
   contractFlowToken: string
-  contractFUSD: string
   contractFCLCrypto: string
   flowAccountAddress: string
   flowAccountPrivateKey: string
@@ -22,7 +21,6 @@ const defaultConfig = {
   flowAvatarUrl: process.env.flowAvatarUrl || "",
   contractFungibleToken: process.env.contractFungibleToken || "",
   contractFlowToken: process.env.contractFlowToken || "",
-  contractFUSD: process.env.contractFUSD || "",
   contractFCLCrypto: process.env.contractFCLCrypto || "",
   flowAccountAddress: process.env.flowAccountAddress || "",
   flowAccountPrivateKey: process.env.flowAccountPrivateKey || "",

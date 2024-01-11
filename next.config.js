@@ -47,7 +47,6 @@ module.exports = {
     flowAvatarUrl: process.env.FLOW_AVATAR_URL,
     contractFungibleToken: process.env.CONTRACT_FUNGIBLE_TOKEN,
     contractFlowToken: process.env.CONTRACT_FLOW_TOKEN,
-    contractFUSD: process.env.CONTRACT_FUSD,
     contractFCLCrypto: process.env.CONTRACT_FCL_CRYPTO,
   },
 }
