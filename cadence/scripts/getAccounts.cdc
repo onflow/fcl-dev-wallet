@@ -1,5 +1,5 @@
-import FCL from 0xSERVICE
+import "FCL"
 
-pub fun main(): [FCL.Account] {
+access(all) fun main(): &[FCL.FCLAccount] {
   return FCL.accounts().values
 }

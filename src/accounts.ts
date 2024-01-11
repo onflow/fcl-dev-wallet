@@ -47,6 +47,8 @@ export async function getAccount(address: string) {
 export async function getAccounts(config: {flowAccountAddress: string}) {
   const {flowAccountAddress} = config
 
+  fcl.config().all().then(console.log)
+
   const accounts = await fcl
     .send([fcl.script(getAccountsScript)])
     .then(fcl.decode)

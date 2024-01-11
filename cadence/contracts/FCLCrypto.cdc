@@ -1,6 +1,21 @@
-pub contract FCLCrypto {
+/*
+  FCLCrypto
 
-    pub fun verifyUserSignatures(
+  The FCLCrypto contract provides functions which allow to verify signatures and check for signing power.
+*/
+
+access(all) contract FCLCrypto {
+
+    /// verifyUserSignatures  allows to verify the user signatures for the given account.
+    /// 
+    /// @param address: The address of the account
+    /// @param message: The signed data
+    /// @param keyIndices: This integer array maps the signatures to the account keys by index
+    /// @param signatures: The signatures belonging to the account keys
+    ///
+    /// @return Whether all signatures are valid and the combined total key weight reaches signing power
+    ///
+    access(all) fun verifyUserSignatures(
         address: Address,
         message: String,
         keyIndices: [Int],
@@ -15,7 +30,16 @@ pub contract FCLCrypto {
         )
     }
 
-    pub fun verifyAccountProofSignatures(
+    /// verifyAccountProofSignatures allows to verify the account proof signatures for the given account.
+    /// 
+    /// @param address: The address of the account
+    /// @param message: The signed data
+    /// @param keyIndices: This integer array maps the signatures to the account keys by index
+    /// @param signatures: The signatures belonging to the account keys
+    ///
+    /// @return Whether all signatures are valid and the combined total key weight reaches signing power
+    ///
+    access(all) fun verifyAccountProofSignatures(
         address: Address,
         message: String,
         keyIndices: [Int],
@@ -37,7 +61,18 @@ pub contract FCLCrypto {
         )
     }
 
-    priv fun verifySignatures(
+    /// verifySignatures is a private function which provides the functionality to verify 
+    /// signatures for the public functions.
+    /// 
+    /// @param address: The address of the account
+    /// @param message: The signed data
+    /// @param keyIndices: This integer array maps the signatures to the account keys by index
+    /// @param signatures: The signatures belonging to the account keys
+    /// @param domainSeparationTag: The domain tag originally used for the signatures
+    ///
+    /// @return Whether all signatures are valid and the combined total key weight reaches signing power
+    ///
+    access(self) fun verifySignatures(
         address: Address,
         message: String,
         keyIndices: [Int],
@@ -96,9 +131,9 @@ pub contract FCLCrypto {
         return totalWeight >= 1000.0
     }
 
-    priv let domainSeparationTagFlowUser: String
-    priv let domainSeparationTagFCLUser: String
-    priv let domainSeparationTagAccountProof: String
+    access(self) let domainSeparationTagFlowUser: String
+    access(self) let domainSeparationTagFCLUser: String
+    access(self) let domainSeparationTagAccountProof: String
 
     init() {
         self.domainSeparationTagFlowUser = "FLOW-V0.0-user"

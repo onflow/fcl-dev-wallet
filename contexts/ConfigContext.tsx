@@ -81,22 +81,9 @@ export function ConfigContextProvider({children}: {children: React.ReactNode}) {
     async function fetchConfig() {
       const config = await getConfig()
 
-      const {
-        flowAccessNode,
-        flowAccountAddress,
-        contractFungibleToken,
-        contractFlowToken,
-        contractFUSD,
-      } = config
+      const {flowAccessNode} = config
 
-      fclConfig(
-        flowAccessNode,
-        flowAccountAddress,
-        contractFungibleToken,
-        contractFlowToken,
-        contractFUSD
-      )
-
+      fclConfig(flowAccessNode)
       setConfig(config)
     }
 

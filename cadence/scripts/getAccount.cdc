@@ -1,3 +1,3 @@
-pub fun main(address: Address): PublicAccount {
+access(all) fun main(address: Address): &Account {
   return getAccount(address)
 }

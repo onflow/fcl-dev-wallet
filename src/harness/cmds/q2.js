@@ -6,7 +6,7 @@ export const CMD = async () => {
   // prettier-ignore
   return query({
     cadence: `
-      pub fun main(a: Int, b: Int): Int {
+      access(all) fun main(a: Int, b: Int): Int {
         return a + b
       }
     `,
