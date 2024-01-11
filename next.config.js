@@ -45,8 +45,5 @@ module.exports = {
     flowAccountPublicKey: process.env.FLOW_ACCOUNT_PUBLIC_KEY,
     flowAccessNode: process.env.FLOW_ACCESS_NODE,
     flowAvatarUrl: process.env.FLOW_AVATAR_URL,
-    contractFungibleToken: process.env.CONTRACT_FUNGIBLE_TOKEN,
-    contractFlowToken: process.env.CONTRACT_FLOW_TOKEN,
-    contractFCLCrypto: process.env.CONTRACT_FCL_CRYPTO,
   },
 }

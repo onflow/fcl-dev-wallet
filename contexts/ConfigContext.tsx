@@ -5,9 +5,6 @@ import {getBaseUrl} from "src/utils"
 
 interface RuntimeConfig {
   flowAvatarUrl: string
-  contractFungibleToken: string
-  contractFlowToken: string
-  contractFCLCrypto: string
   flowAccountAddress: string
   flowAccountPrivateKey: string
   flowAccountPublicKey: string
@@ -19,9 +16,6 @@ interface RuntimeConfig {
 
 const defaultConfig = {
   flowAvatarUrl: process.env.flowAvatarUrl || "",
-  contractFungibleToken: process.env.contractFungibleToken || "",
-  contractFlowToken: process.env.contractFlowToken || "",
-  contractFCLCrypto: process.env.contractFCLCrypto || "",
   flowAccountAddress: process.env.flowAccountAddress || "",
   flowAccountPrivateKey: process.env.flowAccountPrivateKey || "",
   flowAccountPublicKey: process.env.flowAccountPublicKey || "",
