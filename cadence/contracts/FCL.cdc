@@ -1,6 +1,18 @@
 access(all) contract FCL {
   access(all) let storagePath: StoragePath
 
+  access(all) struct FCLKey {
+    access(all) let publicKey: [UInt8]
+    access(all) let signatureAlgorithm: UInt8
+    access(all) let hashAlgorithm: UInt8
+
+    init(publicKey: [UInt8], signatureAlgorithm: UInt8, hashAlgorithm: UInt8) {
+      self.publicKey = publicKey
+      self.signatureAlgorithm = signatureAlgorithm
+      self.hashAlgorithm = hashAlgorithm
+    }
+  }
+
   access(all) struct FCLAccount {
     access(all) let type: String
     access(all) let address: Address
@@ -23,11 +35,11 @@ access(all) contract FCL {
   }
 
   access(all) resource Root {
-    access(all) let key: [UInt8]
+    access(all) let key: FCLKey
     access(all) let accounts: {Address: FCLAccount}
 
-    init (_ key: String) {
-      self.key = key.decodeHex()
+    init (_ key: FCLKey) {
+      self.key = key
       self.accounts = {}
     }
 
@@ -46,25 +58,23 @@ access(all) contract FCL {
     return self.account.storage.borrow<&Root>(from: self.storagePath)!.accounts
   }
 
-  access(all) fun getServiceKey(): [UInt8] {
-    let keyRef = self.account.storage.borrow<&Root>(from: self.storagePath)!.key
-    return keyRef.map(fun (_ x: UInt8): UInt8 {
-        return x
-    })
+  access(all) fun getServiceKey(): &FCLKey {
+    return self.account.storage.borrow<&Root>(from: self.storagePath)!.key
   }
 
   access(all) fun new(label: String, scopes: [String], address: Address?): &Account {
     let acct = Account(payer: self.account)
-    let rawKey = self.getServiceKey()
-    let decodedKey = RLP.decodeList(rawKey)
+    let key = self.getServiceKey()
 
     acct.keys.add(
       publicKey: PublicKey(
-        publicKey: decodedKey[0].slice(from: 2, upTo: decodedKey[0].length),
-        signatureAlgorithm: SignatureAlgorithm.ECDSA_P256,
+        publicKey: key.publicKey.map(fun (_ byte: UInt8): UInt8 {
+          return byte
+        }),
+        signatureAlgorithm: SignatureAlgorithm(key.signatureAlgorithm)!,
       ),
-      hashAlgorithm: HashAlgorithm(decodedKey[2][0])!,
-      weight: UFix64.fromBigEndianBytes(decodedKey[3])!
+      hashAlgorithm: HashAlgorithm(key.hashAlgorithm)!,
+      weight: 1000.0
     )
 
     self.account
@@ -80,7 +90,10 @@ access(all) contract FCL {
       .update(address: address, label: label, scopes: scopes)
   }
 
-  init (key: String, initAccountsLabels: [String]) {
+  init (publicKey: String, hashAlgorithm: UInt8, signAlgorithm: UInt8, initAccountsLabels: [String]) {
+    let keyByteArray = publicKey.decodeHex()
+    let key = FCLKey(publicKey: keyByteArray, signatureAlgorithm: signAlgorithm, hashAlgorithm: hashAlgorithm)
+
     self.storagePath = /storage/FCL_DEV_WALLET
     self.account.storage.save(<- create Root(key), to: self.storagePath)
 
