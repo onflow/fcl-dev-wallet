@@ -1,10 +1,9 @@
 /** @jsxImportSource theme-ui */
 import * as fcl from "@onflow/fcl"
 import useAccount from "hooks/useAccount"
-import useFUSDBalance from "hooks/useFUSDBalance"
 import {fundAccount} from "src/accounts"
 import {formattedBalance} from "src/balance"
-import {FLOW_TYPE, FUSD_TYPE, TokenTypes} from "src/constants"
+import {FLOW_TYPE, TokenTypes} from "src/constants"
 import useConfig from "hooks/useConfig"
 import {Label, Themed} from "theme-ui"
 import {SXStyles} from "types"
@@ -42,7 +41,6 @@ export default function AccountBalances({
   address: string
   flowAccountAddress: string
 }) {
-  const {data: fusdBalance, refresh: refreshFUSD} = useFUSDBalance(address)
   const {data: account, refresh: refreshAccount} = useAccount(address)
   const config = useConfig()
 
@@ -52,7 +50,6 @@ export default function AccountBalances({
   const fund = async (token: TokenTypes) => {
     await fundAccount(config, address, token)
     refreshAccount()
-    refreshFUSD()
   }
 
   return (
@@ -69,23 +66,6 @@ export default function AccountBalances({
             variant="ghost"
             size="xs"
             onClick={() => fund(FLOW_TYPE)}
-            sx={styles.fundButton}
-            type="button"
-          >
-            Fund
-          </Button>
-        )}
-      </div>
-      <div sx={styles.accountSection}>
-        <Label sx={styles.label}>FUSD</Label>
-        <div sx={styles.balance}>
-          {fusdBalance && formattedBalance(fusdBalance.toString())}
-        </div>
-        {!isServiceAccount && (
-          <Button
-            variant="ghost"
-            size="xs"
-            onClick={() => fund(FUSD_TYPE)}
             sx={styles.fundButton}
             type="button"
           >

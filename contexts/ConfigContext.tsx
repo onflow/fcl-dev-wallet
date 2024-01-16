@@ -5,10 +5,6 @@ import {getBaseUrl} from "src/utils"
 
 interface RuntimeConfig {
   flowAvatarUrl: string
-  contractFungibleToken: string
-  contractFlowToken: string
-  contractFUSD: string
-  contractFCLCrypto: string
   flowAccountAddress: string
   flowAccountPrivateKey: string
   flowAccountPublicKey: string
@@ -20,10 +16,6 @@ interface RuntimeConfig {
 
 const defaultConfig = {
   flowAvatarUrl: process.env.flowAvatarUrl || "",
-  contractFungibleToken: process.env.contractFungibleToken || "",
-  contractFlowToken: process.env.contractFlowToken || "",
-  contractFUSD: process.env.contractFUSD || "",
-  contractFCLCrypto: process.env.contractFCLCrypto || "",
   flowAccountAddress: process.env.flowAccountAddress || "",
   flowAccountPrivateKey: process.env.flowAccountPrivateKey || "",
   flowAccountPublicKey: process.env.flowAccountPublicKey || "",
@@ -83,22 +75,9 @@ export function ConfigContextProvider({children}: {children: React.ReactNode}) {
     async function fetchConfig() {
       const config = await getConfig()
 
-      const {
-        flowAccessNode,
-        flowAccountAddress,
-        contractFungibleToken,
-        contractFlowToken,
-        contractFUSD,
-      } = config
+      const {flowAccessNode} = config
 
-      fclConfig(
-        flowAccessNode,
-        flowAccountAddress,
-        contractFungibleToken,
-        contractFlowToken,
-        contractFUSD
-      )
-
+      fclConfig(flowAccessNode)
       setConfig(config)
     }
 

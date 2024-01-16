@@ -5,7 +5,7 @@ import initTransaction from "cadence/transactions/init.cdc"
 import {accountLabelGenerator} from "src/accountGenerator"
 import {authz} from "src/authz"
 import {SERVICE_ACCOUNT_LABEL} from "src/constants"
-import {encodeServiceKey} from "src/crypto"
+import {HashAlgorithm, SignAlgorithm} from "src/crypto"
 
 async function isInitialized(flowAccountAddress: string): Promise<boolean> {
   try {
@@ -61,7 +61,9 @@ export async function initializeWallet(config: {
       fcl.transaction(initTransaction),
       fcl.args([
         fcl.arg(FCLContract, t.String),
-        fcl.arg(encodeServiceKey(flowAccountPublicKey), t.String),
+        fcl.arg(flowAccountPublicKey, t.String),
+        fcl.arg(HashAlgorithm.SHA3_256, t.UInt8),
+        fcl.arg(SignAlgorithm.ECDSA_P256, t.UInt8),
         fcl.arg(initAccountsLabels, t.Array(t.String)),
       ]),
       fcl.proposer(authorization),
