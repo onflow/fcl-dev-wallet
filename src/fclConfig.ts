@@ -1,16 +1,7 @@
 import {config} from "@onflow/fcl"
+import flowJSON from "../flow.json"
 
-export default function fclConfig(
-  flowAccessNode: string,
-  flowAccountAddress: string,
-  contractFungibleToken: string,
-  contractFlowToken: string,
-  contractFUSD: string
-) {
-  config()
-    .put("accessNode.api", flowAccessNode)
-    .put("0xSERVICE", flowAccountAddress)
-    .put("0xFUNGIBLETOKENADDRESS", contractFungibleToken)
-    .put("0xFLOWTOKENADDRESS", contractFlowToken)
-    .put("0xFUSDADDRESS", contractFUSD)
+export default function fclConfig(flowAccessNode: string) {
+  config().put("accessNode.api", flowAccessNode).put("flow.network", "local")
+  config().load({flowJSON})
 }

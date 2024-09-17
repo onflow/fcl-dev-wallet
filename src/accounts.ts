@@ -4,16 +4,14 @@ import {Optional} from "types"
 
 import getAccountsScript from "cadence/scripts/getAccounts.cdc"
 import getAccountScript from "cadence/scripts/getAccount.cdc"
-import getFUSDBalanceScript from "cadence/scripts/getFUSDBalance.cdc"
 import newAccountTransaction from "cadence/transactions/newAccount.cdc"
 import updateAccountTransaction from "cadence/transactions/updateAccount.cdc"
 import fundAccountFLOWTransaction from "cadence/transactions/fundFLOW.cdc"
-import fundAccountFUSDTransaction from "cadence/transactions/fundFUSD.cdc"
 
 import {authz} from "src/authz"
 import {FLOW_EVENT_TYPES} from "src/constants"
 
-import {FLOW_TYPE, FUSD_TYPE, TokenType, TokenTypes} from "src/constants"
+import {FLOW_TYPE, TokenType, TokenTypes} from "src/constants"
 
 export type Account = {
   type: "ACCOUNT"
@@ -48,6 +46,8 @@ export async function getAccount(address: string) {
 
 export async function getAccounts(config: {flowAccountAddress: string}) {
   const {flowAccountAddress} = config
+
+  fcl.config().all().then(console.log)
 
   const accounts = await fcl
     .send([fcl.script(getAccountsScript)])
@@ -157,17 +157,12 @@ type Tokens = Record<TokenType, Token>
 
 export const TOKEN_FUNDING_AMOUNTS: Record<TokenTypes, string> = {
   FLOW: "100.0",
-  FUSD: "100.0",
 }
 
 export const tokens: Tokens = {
   FLOW: {
     tx: fundAccountFLOWTransaction,
     amount: TOKEN_FUNDING_AMOUNTS[FLOW_TYPE],
-  },
-  FUSD: {
-    tx: fundAccountFUSDTransaction,
-    amount: TOKEN_FUNDING_AMOUNTS[FUSD_TYPE],
   },
 }
 
@@ -182,7 +177,7 @@ export async function fundAccount(
 ) {
   const {flowAccountAddress, flowAccountKeyId, flowAccountPrivateKey} = config
 
-  if (!["FUSD", "FLOW"].includes(token)) {
+  if (!["FLOW"].includes(token)) {
     throw "Incorrect TokenType"
   }
 
@@ -192,16 +187,9 @@ export async function fundAccount(
     flowAccountPrivateKey
   )
 
-  const acctAuthz = await authz(
-    address,
-    flowAccountKeyId,
-    flowAccountPrivateKey
-  )
-
   const {tx, amount} = tokens[token]
 
-  const authorizations =
-    token === FUSD_TYPE ? [minterAuthz, acctAuthz] : [minterAuthz]
+  const authorizations = [minterAuthz]
 
   const txId = await fcl
     .send([
@@ -215,15 +203,4 @@ export async function fundAccount(
     .then(fcl.decode)
 
   await fcl.tx(txId).onceSealed()
-}
-
-export async function getAccountFUSDBalance(address: string): Promise<number> {
-  const balance = await fcl
-    .send([
-      fcl.script(getFUSDBalanceScript),
-      fcl.args([fcl.arg(address, t.Address)]),
-    ])
-    .then(fcl.decode)
-
-  return balance
 }

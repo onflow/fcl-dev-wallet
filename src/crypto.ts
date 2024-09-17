@@ -1,12 +1,22 @@
-import {ECDSA_P256, encodeKey, SHA3_256} from "@onflow/util-encode-key"
 import {ec as EC} from "elliptic"
 import {SHA3} from "sha3"
 
-const ec = new EC("p256")
-
-export const encodeServiceKey = (flowAccountPublicKey: string) => {
-  return encodeKey(flowAccountPublicKey, ECDSA_P256, SHA3_256, 1000)
+export enum HashAlgorithm {
+  SHA2_256 = 1,
+  SHA2_384 = 2,
+  SHA3_256 = 3,
+  SHA3_384 = 4,
+  KMAC128_BLS_BLS12_381 = 5,
+  KECCAK_256 = 6,
 }
+
+export enum SignAlgorithm {
+  ECDSA_P256 = 1,
+  ECDSA_secp256k1 = 2,
+  BLS_BLS12_381 = 3,
+}
+
+const ec = new EC("p256")
 
 const hashMsgHex = (msgHex: string) => {
   const sha = new SHA3(256)

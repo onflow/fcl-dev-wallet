@@ -7,26 +7,49 @@
   },
   "contracts": {
     "FCL": {
-      "source": "./cadence/contracts/FCL.cdc"
-    },
-    "FUSD": {
-      "source": "./cadence/contracts/FUSD.cdc",
+      "source": "./cadence/contracts/FCL.cdc",
       "aliases": {
-        "testnet": "0xe223d8a629e49c68"
-      }
-    },
-    "FungibleToken": {
-      "source": "./cadence/contracts/FungibleToken.cdc",
-      "aliases": {
-        "emulator": "0xee82856bf20e2aa6"
+        "emulator": "0xf8d6e0586b0a20c7"
       }
     },
     "FCLCrypto": {
       "source": "./cadence/contracts/FCLCrypto.cdc",
+      "aliases": {}
+    },
+    "FlowToken": {
+      "source": "./cadence/contracts/utility/FlowToken.cdc",
       "aliases": {
-        "emulator": "0xf8d6e0586b0a20c7",
-        "testnet": "0x74daa6f9c7ef24b1",
-        "mainnet": "0xb4b82a1c9d21d284"
+        "emulator": "0x0ae53cb6e3f42a79"
+      }
+    },
+    "FungibleToken": {
+      "source": "./cadence/contracts/utility/FungibleToken.cdc",
+      "aliases": {
+        "emulator": "0xee82856bf20e2aa6"
+      }
+    },
+    "FungibleTokenMetadataViews": {
+      "source": "./cadence/contracts/utility/FungibleTokenMetadataViews.cdc",
+      "aliases": {
+        "emulator": "0xee82856bf20e2aa6"
+      }
+    },
+    "MetadataViews": {
+      "source": "./cadence/contracts/utility/MetadataViews.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7"
+      }
+    },
+    "NonFungibleToken": {
+      "source": "./cadence/contracts/utility/NonFungibleToken.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7"
+      }
+    },
+    "ViewResolver": {
+      "source": "./cadence/contracts/utility/ViewResolver.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7"
       }
     }
   },
@@ -39,11 +62,6 @@
     "emulator-account": {
       "address": "f8d6e0586b0a20c7",
       "key": "f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5"
-    }
-  },
-  "deployments": {
-    "emulator": {
-      "emulator-account": ["FUSD"]
     }
   }
 }
