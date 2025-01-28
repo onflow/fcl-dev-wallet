@@ -7,17 +7,17 @@ import (
 )
 
 type UpdatePollingSessionRequest struct {
-	PollingId string `json:"pollingId"`
-	Data map[string]interface{} `json:"data"`
+	PollingId string                 `json:"pollingId"`
+	Data      map[string]interface{} `json:"data"`
 }
 
-func (srv *server) getPollingSessionHandler(w http.ResponseWriter, r *http.Request) {
+func (srv *Server) getPollingSessionHandler(w http.ResponseWriter, r *http.Request) {
 	pollingId, err := strconv.Atoi(r.URL.Query().Get("pollingId"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	
+
 	if _, ok := srv.pollingSessions[pollingId]; !ok {
 		w.WriteHeader(http.StatusNotFound)
 	} else {
@@ -27,7 +27,6 @@ func (srv *server) getPollingSessionHandler(w http.ResponseWriter, r *http.Reque
 		pollingSession := srv.pollingSessions[pollingId]
 
 		obj, err := json.Marshal(pollingSession)
-
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
@@ -41,23 +40,22 @@ func (srv *server) getPollingSessionHandler(w http.ResponseWriter, r *http.Reque
 	}
 }
 
-func (srv *server) postPollingSessionHandler(w http.ResponseWriter, r *http.Request) {
+func (srv *Server) postPollingSessionHandler(w http.ResponseWriter, r *http.Request) {
 	var req UpdatePollingSessionRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
-
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	pollingId, err := strconv.Atoi(req.PollingId)
-
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	srv.pollingSessions[pollingId] = req.Data
-	
+
 	w.WriteHeader(http.StatusCreated)
 }
+

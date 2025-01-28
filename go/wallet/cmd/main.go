@@ -10,7 +10,7 @@ import (
 
 func main() {
 	var port uint
-	var rootCmd = &cobra.Command{
+	rootCmd := &cobra.Command{
 		Use:   "wallet",
 		Short: "Flow Dev Wallet",
 		Long:  `Flow Dev Wallet`,
@@ -21,12 +21,12 @@ func main() {
 			}
 
 			fmt.Printf("Development server started on port %d\n", port)
-			srv.Start()
+			srv.StartStandalone()
 		},
 	}
 
 	rootCmd.PersistentFlags().UintVar(&port, "port", 8701, "Port to run the server on")
-  viper.BindPFlag("port", rootCmd.PersistentFlags().Lookup("port"))
+	viper.BindPFlag("port", rootCmd.PersistentFlags().Lookup("port"))
 
 	if err := rootCmd.Execute(); err != nil {
 		panic(err)
