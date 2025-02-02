@@ -9,7 +9,7 @@ import (
 )
 
 // configHandler handles config endpoints
-func (server *server) configHandler(w http.ResponseWriter, r *http.Request) {
+func (server *Server) configHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
@@ -33,7 +33,6 @@ func buildConfig(flowConfig *FlowConfig, envConfig []byte) (map[string]string, e
 		return nil, err
 	}
 
-
 	var flow map[string]string
 	err = json.Unmarshal(flowConf, &flow)
 	if err != nil {
@@ -55,3 +54,4 @@ func buildConfig(flowConfig *FlowConfig, envConfig []byte) (map[string]string, e
 
 	return tempt, nil
 }
+

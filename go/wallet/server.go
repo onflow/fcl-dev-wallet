@@ -19,13 +19,14 @@ var bundle embed.FS
 var envConfig []byte
 
 const bundleZip = "bundle.zip"
-type server struct {
-	http *http.Server
-	config *FlowConfig
-	bundle embed.FS
-	bundleZip string
+
+type Server struct {
+	http            *http.Server
+	config          *FlowConfig
+	bundle          embed.FS
+	bundleZip       string
 	pollingSessions map[int]map[string]interface{}
-	nextPollingId int
+	nextPollingId   int
 }
 
 type FlowConfig struct {
@@ -33,23 +34,23 @@ type FlowConfig struct {
 	PrivateKey string `json:"flowAccountPrivateKey"`
 	PublicKey  string `json:"flowAccountPublicKey"`
 	AccessNode string `json:"flowAccessNode"`
-	AvatarUrl string `json:"flowAvatarUrl"`
+	AvatarUrl  string `json:"flowAvatarUrl"`
 }
 
 // NewHTTPServer returns a new wallet server listening on provided port number.
-func NewHTTPServer(port uint, config *FlowConfig) (*server, error) {
+func NewHTTPServer(port uint, config *FlowConfig) (*Server, error) {
 	http := http.Server{
-		Addr: fmt.Sprintf(":%d", port),
+		Addr:    fmt.Sprintf(":%d", port),
 		Handler: nil,
 	}
 
-	srv := &server{
-		http: &http,
-		config: config,
-		bundle: bundle,
-		bundleZip: bundleZip,
+	srv := &Server{
+		http:            &http,
+		config:          config,
+		bundle:          bundle,
+		bundleZip:       bundleZip,
 		pollingSessions: make(map[int]map[string]interface{}),
-		nextPollingId: 0,
+		nextPollingId:   0,
 	}
 
 	r := mux.NewRouter()
@@ -70,7 +71,11 @@ func NewHTTPServer(port uint, config *FlowConfig) (*server, error) {
 	return srv, nil
 }
 
-func (s *server) Start() {
+func (s *Server) Start() error {
+	return s.http.ListenAndServe()
+}
+
+func (s *Server) StartStandalone() {
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
@@ -86,8 +91,11 @@ func (s *server) Start() {
 	s.Stop()
 }
 
-func (s *server) Stop() {
-	_ = s.http.Shutdown(context.Background())
+func (s *Server) Stop() {
+	err := s.http.Shutdown(context.Background())
+	if err != nil {
+		panic(err)
+	}
 }
 
 func enableCors(handler http.Handler) http.Handler {

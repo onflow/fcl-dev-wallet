@@ -9,18 +9,18 @@ import (
 )
 
 type Service struct {
-	FType string `json:"f_type"`
-	FVsn string `json:"f_vsn"`
-	Type string `json:"type"`
-	Endpoint string `json:"endpoint"`
-	Method string `json:"method"`
-	Params map[string]string `json:"params"`
+	FType    string            `json:"f_type"`
+	FVsn     string            `json:"f_vsn"`
+	Type     string            `json:"type"`
+	Endpoint string            `json:"endpoint"`
+	Method   string            `json:"method"`
+	Params   map[string]string `json:"params"`
 }
 
 type FclResponse struct {
-	FType string `json:"f_type"`
-	FVsn string `json:"f_vsn"`
-	Status string `json:"status"`
+	FType   string  `json:"f_type"`
+	FVsn    string  `json:"f_vsn"`
+	Status  string  `json:"status"`
 	Updates Service `json:"updates"`
 }
 
@@ -42,10 +42,8 @@ type FCLMessage struct {
 }
 
 func getMethod(fclMessageJson []byte) string {
-
 	var fclMessage FCLMessage
 	err := json.Unmarshal(fclMessageJson, &fclMessage)
-
 	if err != nil {
 		fmt.Println("Error:", err)
 		return "VIEW/IFRAME"
@@ -58,7 +56,7 @@ func getMethod(fclMessageJson []byte) string {
 	return "VIEW/IFRAME"
 }
 
-func (server *server) postServiceHandler(w http.ResponseWriter, r *http.Request) {
+func (server *Server) postServiceHandler(w http.ResponseWriter, r *http.Request) {
 	service := strings.TrimPrefix(r.URL.Path, "/api/")
 	if service == "" {
 		w.WriteHeader(http.StatusNotFound)
@@ -69,8 +67,8 @@ func (server *server) postServiceHandler(w http.ResponseWriter, r *http.Request)
 	method := getMethod(fclMessageJson)
 
 	if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
-			return
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	pollingId := server.nextPollingId
@@ -80,21 +78,20 @@ func (server *server) postServiceHandler(w http.ResponseWriter, r *http.Request)
 	baseUrl := getBaseUrl(r)
 
 	pendingResponse := FclResponse{
-		FType: "PollingResponse",
-		FVsn: "1.0.0",
+		FType:  "PollingResponse",
+		FVsn:   "1.0.0",
 		Status: "PENDING",
-		Updates: Service {
-			FType: "PollingResponse",
-			FVsn: "1.0.0",
-			Type: "back-channel-rpc",
+		Updates: Service{
+			FType:    "PollingResponse",
+			FVsn:     "1.0.0",
+			Type:     "back-channel-rpc",
 			Endpoint: baseUrl + "/api/polling-session",
-			Method: "HTTP/GET",
+			Method:   "HTTP/GET",
 			Params: map[string]string{
 				"pollingId": fmt.Sprint(pollingId),
 			},
 		},
 	}
-
 
 	// Use json to convert struct to map
 	tmp, err := json.Marshal(pendingResponse)
@@ -114,19 +111,18 @@ func (server *server) postServiceHandler(w http.ResponseWriter, r *http.Request)
 	responseJson, err := json.Marshal(ServicePostResponse{
 		FclResponse: pendingResponse,
 		Local: Service{
-			FType: "Service",
-			FVsn: "1.0.0",
-			Type: "local-view",
+			FType:    "Service",
+			FVsn:     "1.0.0",
+			Type:     "local-view",
 			Endpoint: baseUrl + "/fcl/" + service,
-			Method: method,
+			Method:   method,
 			Params: map[string]string{
-				"pollingId": fmt.Sprint(pollingId),
-				"channel": "back",
+				"pollingId":      fmt.Sprint(pollingId),
+				"channel":        "back",
 				"fclMessageJson": string(fclMessageJson),
 			},
 		},
 	})
-
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
@@ -136,3 +132,4 @@ func (server *server) postServiceHandler(w http.ResponseWriter, r *http.Request)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(responseJson))
 }
+
