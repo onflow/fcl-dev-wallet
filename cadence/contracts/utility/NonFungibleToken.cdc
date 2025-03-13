@@ -113,7 +113,7 @@ access(all) contract NonFungibleToken {
     ///
     access(all) resource interface Provider {
 
-        // We emit withdraw events from the provider interface because conficting withdraw
+        // We emit withdraw events from the provider interface because conflicting withdraw
         // events aren't as confusing to event listeners as conflicting deposit events
 
         /// withdraw removes an NFT from the collection and moves it to the caller
