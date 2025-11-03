@@ -22,11 +22,13 @@ const styles: SXStyles = {
   plusButtonContainer: {
     display: "flex",
     alignItems: "center",
-    gap: 2,
+    gap: 3,
   },
   plusButtonContainerColumn: {
     flexDirection: "column",
     alignItems: "stretch",
+    gap: 2,
+    mt: 3,
   },
   footer: {
     lineHeight: 1.7,
@@ -96,8 +98,9 @@ export default function AccountsList({
               <PlusButton
                 onClick={onUseAnyAccount}
                 data-test="use-any-account-button"
+                icon="arrow"
               >
-                Use Existing Address (Fork Mode)
+                Use Existing Address
               </PlusButton>
             )}
             <PlusButton

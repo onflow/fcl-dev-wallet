@@ -124,10 +124,8 @@ export default function AnyAccountForm({
               <Box mb={4}>
                 <ConnectedAppHeader
                   info={false}
-                  title={"Use Existing Address (Fork Mode)"}
-                  description={
-                    "Authenticate as any address on the forked network."
-                  }
+                  title={"Use Existing Address"}
+                  description={"Authenticate as any address on the network."}
                   flowAccountAddress={flowAccountAddress}
                   avatarUrl={avatarUrl}
                 />

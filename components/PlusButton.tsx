@@ -23,17 +23,24 @@ const styles: SXStyles = {
     fontFamily: "inherit",
     fontWeight: "normal",
   },
+  iconSecondary: {
+    backgroundColor: "green",
+  },
 }
 
 export default function PlusButton({
   onClick,
   disabled,
   children,
+  icon,
 }: {
   onClick?: (event: React.MouseEvent<HTMLElement>) => void
   disabled?: boolean
   children: React.ReactNode
+  icon?: "plus" | "arrow"
 }) {
+  const isArrow = icon === "arrow"
+  
   return (
     <Button
       variant="unstyled"
@@ -44,8 +51,21 @@ export default function PlusButton({
       disabled={disabled}
       data-test="plus-button"
     >
-      <div sx={styles.icon}>
-        <img src="/plus-icon.svg" />
+      <div sx={{...styles.icon, ...(isArrow ? styles.iconSecondary : {})}}>
+        {isArrow ? (
+          <span
+            sx={{
+              fontSize: "30px",
+              lineHeight: 1,
+              fontWeight: "normal",
+              color: "white",
+            }}
+          >
+            ↪
+          </span>
+        ) : (
+          <img src="/plus-icon.svg" />
+        )}
       </div>
       {children}
     </Button>
