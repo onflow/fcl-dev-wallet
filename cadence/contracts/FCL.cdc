@@ -85,6 +85,11 @@ access(all) contract FCL {
     return acct
   }
 
+  access(all) fun add(address: Address, label: String, scopes: [String]) {
+    let acct = FCLAccount(address: address, label: label, scopes: scopes)
+    self.account.storage.borrow<&Root>(from: self.storagePath)!.add(acct)
+  }
+
   access(all) fun update(address: Address, label: String, scopes: [String]) {
     self.account.storage.borrow<&Root>(from: self.storagePath)!
       .update(address: address, label: label, scopes: scopes)

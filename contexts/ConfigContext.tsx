@@ -1,4 +1,10 @@
 import React, {createContext, useEffect, useState} from "react"
+import {
+  CHAIN_ID_MAINNET,
+  CHAIN_ID_TESTNET,
+  SERVICE_ACCOUNT_MAINNET,
+  SERVICE_ACCOUNT_TESTNET,
+} from "src/constants"
 import fclConfig from "src/fclConfig"
 import {Spinner} from "../components/Spinner"
 import {getBaseUrl} from "src/utils"
@@ -12,6 +18,7 @@ interface RuntimeConfig {
   flowAccessNode: string
   flowInitAccountsNo: number
   flowInitAccountBalance: string
+  forkMode: boolean
 }
 
 const defaultConfig = {
@@ -23,13 +30,42 @@ const defaultConfig = {
   flowAccessNode: process.env.flowAccessNode || "",
   flowInitAccountsNo: parseInt(process.env.flowInitAccountsNo || "0") || 0,
   flowInitAccountBalance: process.env.flowInitAccountBalance || "1000.0",
+  forkMode: false,
 }
 
-export const ConfigContext = createContext<RuntimeConfig>(defaultConfig)
+export const ConfigContext = createContext<RuntimeConfig>(
+  defaultConfig as RuntimeConfig
+)
+
+function detectForkAndOverride(
+  config: RuntimeConfig,
+  chainId: string | null
+): RuntimeConfig {
+  const isMainnet = chainId === CHAIN_ID_MAINNET
+  const isTestnet = chainId === CHAIN_ID_TESTNET
+  const forkMode = isMainnet || isTestnet
+
+  if (!forkMode) return {...config, forkMode: false}
+
+  const SERVICE_ACCOUNT_BY_CHAIN: Record<string, string> = {
+    [CHAIN_ID_MAINNET]: SERVICE_ACCOUNT_MAINNET,
+    [CHAIN_ID_TESTNET]: SERVICE_ACCOUNT_TESTNET,
+  }
+
+  const serviceAccount = chainId ? SERVICE_ACCOUNT_BY_CHAIN[chainId] : null
+
+  return {
+    ...config,
+    forkMode: true,
+    // Force service account to known network service account in fork mode
+    flowAccountAddress: serviceAccount || config.flowAccountAddress,
+  }
+}
 
 async function getConfig(): Promise<RuntimeConfig> {
   if (process.env.isLocal) {
-    return replaceAccessUrlBaseUrl(defaultConfig)
+    const cfg = replaceAccessUrlBaseUrl(defaultConfig as RuntimeConfig)
+    return cfg as RuntimeConfig
   }
 
   const result = await fetch(`${getBaseUrl()}/api/`)
@@ -74,11 +110,10 @@ export function ConfigContextProvider({children}: {children: React.ReactNode}) {
   useEffect(() => {
     async function fetchConfig() {
       const config = await getConfig()
-
       const {flowAccessNode} = config
-
-      fclConfig(flowAccessNode)
-      setConfig(config)
+      const chainId = await fclConfig(flowAccessNode)
+      const finalized = detectForkAndOverride(config, chainId)
+      setConfig(finalized)
     }
 
     fetchConfig()

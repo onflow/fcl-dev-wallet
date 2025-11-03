@@ -5,6 +5,7 @@ import {Optional} from "types"
 import getAccountsScript from "cadence/scripts/getAccounts.cdc"
 import getAccountScript from "cadence/scripts/getAccount.cdc"
 import newAccountTransaction from "cadence/transactions/newAccount.cdc"
+import addAccountTransaction from "cadence/transactions/addAccount.cdc"
 import updateAccountTransaction from "cadence/transactions/updateAccount.cdc"
 import fundAccountFLOWTransaction from "cadence/transactions/fundFLOW.cdc"
 
@@ -110,6 +111,44 @@ export async function newAccount(
   if (!createdAccountEvent?.data?.address) throw "Account address not created"
 
   return createdAccountEvent.data.address
+}
+
+export async function addExistingAccount(
+  config: {
+    flowAccountAddress: string
+    flowAccountKeyId: string
+    flowAccountPrivateKey: string
+  },
+  address: string,
+  label: string,
+  scopes: [string]
+) {
+  const {flowAccountAddress, flowAccountKeyId, flowAccountPrivateKey} = config
+
+  const authorization = await authz(
+    flowAccountAddress,
+    flowAccountKeyId,
+    flowAccountPrivateKey
+  )
+
+  const txId = await fcl
+    .send([
+      fcl.transaction(addAccountTransaction),
+      fcl.args([
+        fcl.arg(address, t.Address),
+        fcl.arg(label, t.String),
+        fcl.arg(scopes, t.Array(t.String)),
+      ]),
+      fcl.authorizations([authorization]),
+      fcl.proposer(authorization),
+      fcl.payer(authorization),
+      fcl.limit(9999),
+    ])
+    .then(fcl.decode)
+
+  await fcl.tx(txId).onceSealed()
+
+  return address
 }
 
 export async function updateAccount(

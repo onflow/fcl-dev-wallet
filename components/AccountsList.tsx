@@ -8,6 +8,7 @@ import accountGenerator from "src/accountGenerator"
 import {Box, Themed} from "theme-ui"
 import {SXStyles} from "types"
 import FormErrors from "./FormErrors"
+import useConfig from "hooks/useConfig"
 
 const styles: SXStyles = {
   accountCreated: {
@@ -19,9 +20,13 @@ const styles: SXStyles = {
     mb: 3,
   },
   plusButtonContainer: {
-    height: 90,
     display: "flex",
     alignItems: "center",
+    gap: 2,
+  },
+  plusButtonContainerColumn: {
+    flexDirection: "column",
+    alignItems: "stretch",
   },
   footer: {
     lineHeight: 1.7,
@@ -33,6 +38,7 @@ const styles: SXStyles = {
 export default function AccountsList({
   accounts,
   onEditAccount,
+  onUseAnyAccount,
   createdAccountAddress,
   flowAccountAddress,
   flowAccountPrivateKey,
@@ -40,12 +46,14 @@ export default function AccountsList({
 }: {
   accounts: Account[]
   onEditAccount: (account: Account | NewAccount) => void
+  onUseAnyAccount: () => void
   createdAccountAddress: string | null
   flowAccountAddress: string
   flowAccountPrivateKey: string
   avatarUrl: string
 }) {
   const {initError} = useAuthnContext()
+  const {forkMode} = useConfig()
 
   return (
     <div>
@@ -78,7 +86,20 @@ export default function AccountsList({
               />
             ))}
           </Box>
-          <Box sx={styles.plusButtonContainer}>
+          <Box
+            sx={{
+              ...styles.plusButtonContainer,
+              ...(forkMode ? styles.plusButtonContainerColumn : {}),
+            }}
+          >
+            {forkMode && (
+              <PlusButton
+                onClick={onUseAnyAccount}
+                data-test="use-any-account-button"
+              >
+                Use Existing Address (Fork Mode)
+              </PlusButton>
+            )}
             <PlusButton
               onClick={() =>
                 onEditAccount(accountGenerator(accounts.length - 1))

@@ -1,6 +1,6 @@
-import "FCL"
-import "FlowToken"
-import "FungibleToken"
+import FCL from 0xFCL
+import FlowToken from 0xFlowToken
+import FungibleToken from 0xFungibleToken
 
 /// This transaction creates a new account and funds it with
 /// an initial balance of FLOW tokens.

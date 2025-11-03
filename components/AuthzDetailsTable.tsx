@@ -60,9 +60,10 @@ const styles: SXStyles = {
   },
 }
 
-export function AuthzDetailsAccount({account}: {account: Account}) {
+export function AuthzDetailsAccount({account}: {account: Account | null}) {
   const {currentUser} = useAuthzContext()
-  const isCurrent = account.address === currentUser.address
+  if (!account) return null
+  const isCurrent = currentUser && account.address === currentUser.address
   return (
     <div sx={styles.accountDetail}>
       <div
@@ -71,7 +72,7 @@ export function AuthzDetailsAccount({account}: {account: Account}) {
           ...(isCurrent ? styles.accountDetailLabelCurrent : {}),
         }}
       >
-        {account.label}
+        {account.label || account.address}
       </div>
       <div sx={styles.accountAddress}>{account.address}</div>
     </div>
