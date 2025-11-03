@@ -40,7 +40,7 @@ export default function PlusButton({
   icon?: "plus" | "arrow"
 }) {
   const isArrow = icon === "arrow"
-  
+
   return (
     <Button
       variant="unstyled"
