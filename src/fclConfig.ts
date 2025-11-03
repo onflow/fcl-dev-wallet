@@ -26,20 +26,10 @@ export default async function fclConfig(
 
   let chainId: string | null = null
   try {
-    chainId = (await (fcl as any).getChainId()) || null
+    chainId = await (fcl as any).getChainId()
   } catch (e) {
-    // Fallback to emulator for localhost
-    const url = new URL(
-      flowAccessNode.startsWith("http")
-        ? flowAccessNode
-        : `http://${flowAccessNode}`
-    )
-    const isLocalhost =
-      url.hostname === "localhost" ||
-      url.hostname === "127.0.0.1" ||
-      url.port === "3569" ||
-      url.port === "8888"
-    chainId = isLocalhost ? "emulator" : null
+    // If getChainId fails, chainId remains null
+    console.warn("Failed to get chain ID from network", e)
   }
 
   if (chainId) {
