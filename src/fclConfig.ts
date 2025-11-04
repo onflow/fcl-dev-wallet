@@ -7,7 +7,7 @@ export default async function fclConfig(
   fcl.config().put("accessNode.api", flowAccessNode)
 
   const chainId = await fcl.getChainId()
-  
+
   if (!chainId) {
     throw new Error("Failed to get chain ID from network")
   }
