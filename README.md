@@ -97,8 +97,7 @@ When the dev wallet detects it's connected to a mainnet or testnet access node (
 - Users can authenticate with any existing account address on the network
 - This is useful for testing against forked mainnet/testnet environments where signatures are not validated
 
-Learn more about [testing with forked networks using the Flow Emulator](https://developers.flow.com/tools/flow-cli/emulator#forking-testnet-and-mainnet-state).
-
+Learn more about [forking mainnet/testnet with the Flow Emulator](https://developers.flow.com/build/tools/emulator).
 🚀
 
 ## Contributing
