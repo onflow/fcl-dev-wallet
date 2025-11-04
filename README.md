@@ -89,6 +89,16 @@ app to interact with the dev-wallet during development:
 
 Navigate to http://localhost:8701/harness
 
+### Fork Mode
+
+When the dev wallet detects it's connected to a mainnet or testnet access node (instead of the local emulator), it automatically enters "fork mode". In fork mode:
+
+- Transaction signature validation is assumed to be disabled on the network
+- Users can authenticate with any existing account address on the network
+- This is useful for testing against forked mainnet/testnet environments where signatures are not validated
+
+Learn more about [testing with forked networks using the Flow Emulator](https://developers.flow.com/tools/flow-cli/emulator#forking-testnet-and-mainnet-state).
+
 🚀
 
 ## Contributing

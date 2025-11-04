@@ -40,3 +40,6 @@ yarn-error.log*
 
 # private keys
 *.pkey
+
+# TypeScript incremental build cache
+tsconfig.tsbuildinfo
