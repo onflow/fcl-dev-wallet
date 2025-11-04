@@ -1,14 +1,13 @@
 {
 	"contracts": {
-		"FCL": {
-			"source": "./cadence/contracts/FCL.cdc",
+		"FCL": "./cadence/contracts/FCL.cdc",
+		"FCLCrypto": {
+			"source": "./cadence/contracts/FCLCrypto.cdc",
 			"aliases": {
-				"emulator": "f8d6e0586b0a20c7",
-				"mainnet": "e467b9dd11fa00df",
-				"testnet": "8c5303eaa26202d6"
+				"mainnet": "b4b82a1c9d21d284",
+				"testnet": "74daa6f9c7ef24b1"
 			}
-		},
-		"FCLCrypto": "./cadence/contracts/FCLCrypto.cdc"
+		}
 	},
 	"dependencies": {
 		"Burner": {
@@ -83,15 +82,35 @@
 	"accounts": {
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
-			"key": "f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5"
+			"key": {
+				"type": "file",
+				"location": "./emulator-account.pkey"
+			}
 		},
 		"mainnet-account": {
 			"address": "e467b9dd11fa00df",
-			"key": "0000000000000000000000000000000000000000000000000000000000000000"
+			"key": {
+				"type": "file",
+				"location": "./mainnet-account.pkey"
+			}
 		},
 		"testnet-account": {
 			"address": "8c5303eaa26202d6",
-			"key": "0000000000000000000000000000000000000000000000000000000000000000"
+			"key": {
+				"type": "file",
+				"location": "./testnet-account.pkey"
+			}
+		}
+	},
+	"deployments": {
+		"emulator": {
+			"emulator-account": ["FCL", "FCLCrypto"]
+		},
+		"mainnet": {
+			"mainnet-account": ["FCL"]
+		},
+		"testnet": {
+			"testnet-account": ["FCL"]
 		}
 	}
 }

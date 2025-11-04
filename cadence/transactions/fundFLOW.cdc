@@ -1,5 +1,5 @@
-import FlowToken from 0xFlowToken
-import FungibleToken from 0xFungibleToken
+import "FlowToken"
+import "FungibleToken"
 
 transaction(address: Address, amount: UFix64) {
   let tokenAdmin: &FlowToken.Administrator

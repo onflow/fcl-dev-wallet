@@ -1,4 +1,4 @@
-import FCL from 0xFCL
+import "FCL"
 
 transaction(address: Address, label: String, scopes: [String]) {
   prepare(acct: &Account) {
