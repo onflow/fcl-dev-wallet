@@ -30,5 +30,6 @@ export function sign(privateKey: string, msgHex: string) {
   const n = 32
   const r = sig.r.toArrayLike(Buffer, "be", n)
   const s = sig.s.toArrayLike(Buffer, "be", n)
+  // @ts-expect-error Buffer type compatibility issue with Node types
   return Buffer.concat([r, s]).toString("hex")
 }

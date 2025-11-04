@@ -46,7 +46,7 @@ export const CustomInputComponent = ({
         {...props}
         sx={showError ? {...sx, ...errorInputStyles} : sx}
       />
-      {showError && <FieldError>{errors[field.name]}</FieldError>}
+      {showError && <FieldError>{String(errors[field.name])}</FieldError>}
     </>
   )
 }

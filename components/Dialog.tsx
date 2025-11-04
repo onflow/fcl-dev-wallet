@@ -111,8 +111,6 @@ export default function Dialog({
   const {isExpanded, setCodePreview} = useAuthzContext()
 
   return (
-    // @ts-expect-error The headless-ui dialog raises a "Expression produces a union type that is too complex to represent" error when used with theme-ui sx props
-    // See https://github.com/tailwindlabs/headlessui/issues/233, https://github.com/tailwindlabs/headlessui/issues/330
     <HUIDialog
       open={true}
       onClose={onClose}
