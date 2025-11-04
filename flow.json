@@ -1,67 +1,116 @@
 {
-  "emulators": {
-    "default": {
-      "port": 3569,
-      "serviceAccount": "emulator-account"
-    }
-  },
-  "contracts": {
-    "FCL": {
-      "source": "./cadence/contracts/FCL.cdc",
-      "aliases": {
-        "emulator": "0xf8d6e0586b0a20c7"
-      }
-    },
-    "FCLCrypto": {
-      "source": "./cadence/contracts/FCLCrypto.cdc",
-      "aliases": {}
-    },
-    "FlowToken": {
-      "source": "./cadence/contracts/utility/FlowToken.cdc",
-      "aliases": {
-        "emulator": "0x0ae53cb6e3f42a79"
-      }
-    },
-    "FungibleToken": {
-      "source": "./cadence/contracts/utility/FungibleToken.cdc",
-      "aliases": {
-        "emulator": "0xee82856bf20e2aa6"
-      }
-    },
-    "FungibleTokenMetadataViews": {
-      "source": "./cadence/contracts/utility/FungibleTokenMetadataViews.cdc",
-      "aliases": {
-        "emulator": "0xee82856bf20e2aa6"
-      }
-    },
-    "MetadataViews": {
-      "source": "./cadence/contracts/utility/MetadataViews.cdc",
-      "aliases": {
-        "emulator": "0xf8d6e0586b0a20c7"
-      }
-    },
-    "NonFungibleToken": {
-      "source": "./cadence/contracts/utility/NonFungibleToken.cdc",
-      "aliases": {
-        "emulator": "0xf8d6e0586b0a20c7"
-      }
-    },
-    "ViewResolver": {
-      "source": "./cadence/contracts/utility/ViewResolver.cdc",
-      "aliases": {
-        "emulator": "0xf8d6e0586b0a20c7"
-      }
-    }
-  },
-  "networks": {
-    "emulator": "127.0.0.1:3569",
-    "mainnet": "access.mainnet.nodes.onflow.org:9000",
-    "testnet": "access.devnet.nodes.onflow.org:9000"
-  },
-  "accounts": {
-    "emulator-account": {
-      "address": "f8d6e0586b0a20c7",
-      "key": "f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5"
-    }
-  }
+	"contracts": {
+		"FCL": "./cadence/contracts/FCL.cdc",
+		"FCLCrypto": {
+			"source": "./cadence/contracts/FCLCrypto.cdc",
+			"aliases": {
+				"mainnet": "b4b82a1c9d21d284",
+				"testnet": "74daa6f9c7ef24b1"
+			}
+		}
+	},
+	"dependencies": {
+		"Burner": {
+			"source": "mainnet://f233dcee88fe0abe.Burner",
+			"hash": "71af18e227984cd434a3ad00bb2f3618b76482842bae920ee55662c37c8bf331",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"mainnet": "f233dcee88fe0abe",
+				"testnet": "9a0766d93b6608b7"
+			}
+		},
+		"FlowToken": {
+			"source": "mainnet://1654653399040a61.FlowToken",
+			"hash": "cefb25fd19d9fc80ce02896267eb6157a6b0df7b1935caa8641421fe34c0e67a",
+			"aliases": {
+				"emulator": "0ae53cb6e3f42a79",
+				"mainnet": "1654653399040a61",
+				"testnet": "7e60df042a9c0868"
+			}
+		},
+		"FungibleToken": {
+			"source": "mainnet://f233dcee88fe0abe.FungibleToken",
+			"hash": "23c1159cf99b2b039b6b868d782d57ae39b8d784045d81597f100a4782f0285b",
+			"aliases": {
+				"emulator": "ee82856bf20e2aa6",
+				"mainnet": "f233dcee88fe0abe",
+				"testnet": "9a0766d93b6608b7"
+			}
+		},
+		"FungibleTokenMetadataViews": {
+			"source": "mainnet://f233dcee88fe0abe.FungibleTokenMetadataViews",
+			"hash": "dff704a6e3da83997ed48bcd244aaa3eac0733156759a37c76a58ab08863016a",
+			"aliases": {
+				"emulator": "ee82856bf20e2aa6",
+				"mainnet": "f233dcee88fe0abe",
+				"testnet": "9a0766d93b6608b7"
+			}
+		},
+		"MetadataViews": {
+			"source": "mainnet://1d7e57aa55817448.MetadataViews",
+			"hash": "9032f46909e729d26722cbfcee87265e4f81cd2912e936669c0e6b510d007e81",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"mainnet": "1d7e57aa55817448",
+				"testnet": "1d7e57aa55817448"
+			}
+		},
+		"NonFungibleToken": {
+			"source": "mainnet://1d7e57aa55817448.NonFungibleToken",
+			"hash": "b63f10e00d1a814492822652dac7c0574428a200e4c26cb3c832c4829e2778f0",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"mainnet": "1d7e57aa55817448",
+				"testnet": "1d7e57aa55817448"
+			}
+		},
+		"ViewResolver": {
+			"source": "mainnet://1d7e57aa55817448.ViewResolver",
+			"hash": "374a1994046bac9f6228b4843cb32393ef40554df9bd9907a702d098a2987bde",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"mainnet": "1d7e57aa55817448",
+				"testnet": "1d7e57aa55817448"
+			}
+		}
+	},
+	"networks": {
+		"emulator": "127.0.0.1:3569",
+		"mainnet": "access.mainnet.nodes.onflow.org:9000",
+		"testnet": "access.devnet.nodes.onflow.org:9000"
+	},
+	"accounts": {
+		"emulator-account": {
+			"address": "f8d6e0586b0a20c7",
+			"key": {
+				"type": "file",
+				"location": "./emulator-account.pkey"
+			}
+		},
+		"mainnet-account": {
+			"address": "e467b9dd11fa00df",
+			"key": {
+				"type": "file",
+				"location": "./mainnet-account.pkey"
+			}
+		},
+		"testnet-account": {
+			"address": "8c5303eaa26202d6",
+			"key": {
+				"type": "file",
+				"location": "./testnet-account.pkey"
+			}
+		}
+	},
+	"deployments": {
+		"emulator": {
+			"emulator-account": ["FCL", "FCLCrypto"]
+		},
+		"mainnet": {
+			"mainnet-account": ["FCL"]
+		},
+		"testnet": {
+			"testnet-account": ["FCL"]
+		}
+	}
 }

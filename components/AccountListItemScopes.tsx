@@ -1,7 +1,8 @@
 /** @jsxImportSource theme-ui */
 import Switch from "components/Switch"
 import useAuthnContext from "hooks/useAuthnContext"
-import {Label, Themed} from "theme-ui"
+import {Label} from "theme-ui"
+import {Themed} from "@theme-ui/mdx"
 import {SXStyles} from "types"
 import AccountSectionHeading from "./AccountSectionHeading"
 

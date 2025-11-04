@@ -1,6 +1,5 @@
-/** @jsxImportSource theme-ui */
 import Dialog from "../../components/Dialog"
-import {Themed} from "theme-ui"
+import {Themed} from "@theme-ui/mdx"
 
 export type StackError = {
   stack: string

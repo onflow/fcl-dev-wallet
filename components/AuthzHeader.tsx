@@ -60,17 +60,23 @@ function AuthzHeader({
         <img src="/transaction.svg" />
       </div>
       <div sx={styles.headerSection}>
-        <AccountImage
-          address={currentUser.address}
-          seed={title}
-          lg={true}
-          flowAccountAddress={flowAccountAddress}
-          avatarUrl={avatarUrl}
-        />
-        <Label sx={styles.label}>
-          <div sx={styles.greenDot} />
-          {currentUser.label}
-        </Label>
+        {currentUser && (
+          <>
+            <AccountImage
+              address={currentUser.address}
+              seed={title}
+              lg={true}
+              flowAccountAddress={flowAccountAddress}
+              avatarUrl={avatarUrl}
+            />
+            <Label sx={styles.label}>
+              <div sx={styles.greenDot} />
+              {currentUser.label !== currentUser.address
+                ? currentUser.label
+                : `External (${currentUser.address.slice(0, 8)}...)`}
+            </Label>
+          </>
+        )}
       </div>
       <div sx={styles.headerSection}>
         <ConnectedAppIcon icon={icon} />

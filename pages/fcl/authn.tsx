@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import AccountForm from "components/AccountForm"
 import AccountsList from "components/AccountsList"
+import AnyAccountForm from "components/AnyAccountForm"
 import Dialog, {styles as dialogStyles} from "components/Dialog"
 import {AuthnContextProvider} from "contexts/AuthnContext"
 import useAccounts from "hooks/useAccounts"
@@ -22,6 +23,7 @@ function AuthnDialog({
   const [editingAccount, setEditingAccount] = useState<
     Account | NewAccount | null
   >(null)
+  const [anyAccountMode, setAnyAccountMode] = useState<boolean>(false)
 
   const {
     data: accounts,
@@ -48,6 +50,7 @@ function AuthnDialog({
   }
 
   const onCancel = () => setEditingAccount(null)
+  const onCancelAnyAccount = () => setAnyAccountMode(false)
 
   if (error) return <Err title="Authentication Error" error={error} />
   if (isLoading) return <Spinner />
@@ -62,11 +65,19 @@ function AuthnDialog({
           flowAccountAddress={flowAccountAddress}
           avatarUrl={avatarUrl}
         />
+      ) : anyAccountMode ? (
+        <AnyAccountForm
+          onCancel={onCancelAnyAccount}
+          flowAccountAddress={flowAccountAddress}
+          flowAccountPrivateKey={flowAccountPrivateKey}
+          avatarUrl={avatarUrl}
+        />
       ) : (
         <div sx={dialogStyles.body}>
           <AccountsList
             accounts={accounts}
             onEditAccount={onEditAccount}
+            onUseAnyAccount={() => setAnyAccountMode(true)}
             createdAccountAddress={createdAccountAddress}
             flowAccountAddress={flowAccountAddress}
             flowAccountPrivateKey={flowAccountPrivateKey}

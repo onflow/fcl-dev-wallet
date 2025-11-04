@@ -145,7 +145,7 @@ export const buildServices = ({
         f_vsn: "1.0.0",
         address: address,
         nonce: nonce,
-        signatures: [compSig] ?? null,
+        signatures: [compSig],
       },
     })
   }

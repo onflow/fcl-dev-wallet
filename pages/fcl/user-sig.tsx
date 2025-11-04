@@ -4,7 +4,8 @@ import AuthzActions from "components/AuthzActions"
 import AuthzDetailsTable, {AuthzDetailsRow} from "components/AuthzDetailsTable"
 import Dialog from "components/Dialog"
 import {sign} from "src/crypto"
-import {Box, Themed} from "theme-ui"
+import {Box} from "theme-ui"
+import {Themed} from "@theme-ui/mdx"
 import getWalletConfig from "hooks/useConfig"
 import {useFclData} from "hooks/useFclData"
 import {getBaseUrl, isBackchannel, updatePollingSession} from "src/utils"
@@ -109,7 +110,7 @@ export default function UserSign() {
       <Themed.p sx={{textAlign: "center", mb: 4}}>
         Please prove that you have access to this wallet.
         <br />
-        This won’t cost you any FLOW.
+        This won&apos;t cost you any FLOW.
       </Themed.p>
       <Box mb={20}>
         <AuthzDetailsTable>

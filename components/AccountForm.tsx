@@ -79,7 +79,13 @@ export default function AccountForm({
         }
       }}
     >
-      {({values, setFieldValue}) => (
+      {({
+        values,
+        setFieldValue,
+      }: {
+        values: {label: string | undefined; scopes: Set<string>}
+        setFieldValue: (field: string, value: any) => void
+      }) => (
         <>
           <div sx={dialogStyles.body}>
             <Form data-test="fund-account-form" sx={styles.form}>
