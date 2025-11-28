@@ -1,4 +1,5 @@
 module.exports = {
+  output: "export",
   productionBrowserSourceMaps: true,
   async rewrites() {
     return [
