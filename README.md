@@ -7,7 +7,7 @@
   <p align="center">
     <i>A Flow wallet for effortless development, to be used with the Flow Emulator and FCL.</i>
     <br />
-    <a href="https://docs.onflow.org/fcl/"><strong>FCL docs»</strong></a>
+    <a href="https://developers.flow.com/fcl/"><strong>FCL docs»</strong></a>
     <br />
     <br />
     <a href="https://github.com/onflow/fcl-dev-wallet/issues">Report Bug</a>
@@ -20,7 +20,7 @@
 
 ## Introduction
 
-The FCL dev wallet is a mock Flow wallet that simulates the protocols used by [FCL](https://docs.onflow.org/fcl/) to interact with the Flow blockchain on behalf of simulated user accounts.
+The FCL dev wallet is a mock Flow wallet that simulates the protocols used by [FCL](https://developers.flow.com/fcl/) to interact with the Flow network on behalf of simulated user accounts.
 
 **IMPORTANT**
 
@@ -28,7 +28,7 @@ The FCL dev wallet is a mock Flow wallet that simulates the protocols used by [F
 >
 > This project implements an FCL compatible interface, but should **not** be used as a reference for building a production grade wallet.
 >
-> This project should only be used in aid of local development against a locally run instance of the Flow blockchain like the Flow emulator, 
+> This project should only be used in aid of local development against a locally run instance of the Flow network like the Flow emulator, 
 > and should never be used in conjunction with Flow Mainnet, Testnet, Canarynet or any other instances of Flow.
 
 ## Getting started
@@ -37,7 +37,7 @@ Before using the dev wallet, you'll need to start the Flow emulator.
 
 ### Install the `flow-cli`
 
-The Flow emulator is bundles with the Flow CLI. Instructions for installing the CLI can be found here: [https://docs.onflow.org/flow-cli/install/](https://docs.onflow.org/flow-cli/install/)
+The Flow emulator is bundles with the Flow CLI. Instructions for installing the CLI can be found here: [https://developers.flow.com/flow-cli/install/](https://developers.flow.com/flow-cli/install/)
 
 ### Create a `flow.json` file
 
@@ -63,7 +63,7 @@ PORT=8701 npm run dev
 ```
 
 **Note:** The following variables should match the `emulator-account` defined in your project's `flow.json` file.
-For details about `flow.json` visit the `flow-cli` [configuration reference](https://docs.onflow.org/flow-cli/configuration/).
+For details about `flow.json` visit the `flow-cli` [configuration reference](https://developers.flow.com/flow-cli/configuration/).
 
 ## Configuring your JavaScript application
 
@@ -102,4 +102,12 @@ Learn more about [forking mainnet/testnet with the Flow Emulator](https://develo
 
 ## Contributing
 Releasing a new version of Dev Wallet is as simple as tagging and creating a release, a Github Action will then build a bundle of the Dev Wallet that can be used in other tools (such as CLI). If the update of the Dev Wallet is required in the CLI, a separate update PR on the CLI should be created.
- 
+
+## About Flow
+
+This repo is part of the [Flow network](https://flow.com), a Layer 1 blockchain built for consumer applications, AI agents, and DeFi at scale.
+
+- Developer docs: https://developers.flow.com
+- Cadence language: https://cadence-lang.org
+- Community: [Flow Discord](https://discord.gg/flow) · [Flow Forum](https://forum.flow.com)
+- Governance: [Flow Improvement Proposals](https://github.com/onflow/flips)
